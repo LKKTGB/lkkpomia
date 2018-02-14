@@ -3,6 +3,11 @@ import os
 import sys
 
 if __name__ == "__main__":
+    try:
+        import dotenv
+        dotenv.read_dotenv()
+    except ImportError:
+        pass
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'website.settings.development')
     try:
         from django.core.management import execute_from_command_line
