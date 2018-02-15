@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-16 02:29+0800\n"
+"POT-Creation-Date: 2018-02-16 06:18+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,47 @@ msgstr ""
 #: website/apps.py
 msgid "app_website"
 msgstr "李江却台語文教基金會"
+
+#: website/models/announcement.py
+msgid "announcement_title"
+msgstr "標題"
+
+#: website/models/announcement.py
+msgid "announcement_body"
+msgstr "內文"
+
+#: website/models/announcement.py website/models/event.py
+#: website/models/registration.py
+msgid "event"
+msgstr "活動"
+
+#: website/models/announcement.py
+msgid "announcement_create_time"
+msgstr "刊登時間"
+
+#: website/models/announcement.py
+msgid "announcement_update_time"
+msgstr "更新時間"
+
+#: website/models/announcement.py
+msgid "announcement"
+msgstr "活動公告"
+
+#: website/models/announcement.py
+msgid "announcements"
+msgstr "活動公告列表"
+
+#: website/models/event.py
+msgid "event_start_time"
+msgstr "開始時間"
+
+#: website/models/event.py
+msgid "event_end_time"
+msgstr "結束時間"
+
+#: website/models/event.py
+msgid "events"
+msgstr "活動列表"
 
 #: website/models/post.py
 msgid "post_title"
@@ -53,3 +94,124 @@ msgstr "文章"
 #: website/models/post.py
 msgid "posts"
 msgstr "文章列表"
+
+#: website/models/registration.py
+msgid "registration_submitter"
+msgstr "報名者"
+
+#: website/models/registration.py
+msgid "registration_submit_time"
+msgstr "報名時間"
+
+#: website/models/registration.py
+msgid "registration"
+msgstr "報名表"
+
+#: website/models/registration.py
+msgid "registrations"
+msgstr "報名表列表"
+
+#: website/models/salon.py
+msgid "salon_venue"
+msgstr "地點"
+
+#: website/models/salon.py
+msgid "salon_address"
+msgstr "地址"
+
+#: website/models/salon.py
+msgid "salon_door_time"
+msgstr "入場時間"
+
+#: website/models/salon.py
+msgid "salon"
+msgstr "講座"
+
+#: website/models/salon.py
+msgid "salons"
+msgstr "講座列表"
+
+#: website/models/salon_registration.py
+msgid "salon_registration"
+msgstr "講座報名表"
+
+#: website/models/salon_registration.py
+msgid "salon_registrations"
+msgstr "講座報名表列表"
+
+#: website/models/video_contest.py website/models/video_contest_group.py
+#: website/models/video_contest_winner.py
+msgid "video_contest"
+msgstr "影片比賽"
+
+#: website/models/video_contest.py
+msgid "video_contests"
+msgstr "影片比賽列表"
+
+#: website/models/video_contest_group.py
+msgid "video_contest_group_name"
+msgstr "名稱"
+
+#: website/models/video_contest_group.py
+msgid "video_contest_group"
+msgstr "分組"
+
+#: website/models/video_contest_group.py
+msgid "video_contest_groups"
+msgstr "分組列表"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_youtube_url"
+msgstr "Youtube 影片連結"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_introduction"
+msgstr "影片簡介"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_phone_number"
+msgstr "參賽者電話號碼"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_address"
+msgstr "參賽者地址"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_email"
+msgstr "參賽者 Email"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_questions"
+msgstr "參賽者其他問題"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_qualified"
+msgstr "審核通過"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration"
+msgstr "影片比賽報名表"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registrations"
+msgstr "影片比賽報名表列表"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_submitter"
+msgstr "參賽者"
+
+#: website/models/video_contest_winner.py
+msgid "video_contest_winner_registration"
+msgstr "參賽者"
+
+#: website/models/video_contest_winner.py
+msgid "video_contest_winner_prize"
+msgstr "獎項"
+
+#: website/models/video_contest_winner.py
+msgid "video_contest_winner"
+msgstr "影片比賽得獎者"
+
+#: website/models/video_contest_winner.py
+msgid "video_contest_winners"
+msgstr "影片比賽得獎者列表"
