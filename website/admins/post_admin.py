@@ -2,4 +2,9 @@ from django.contrib import admin
 
 
 class PostAdmin(admin.ModelAdmin):
-    pass
+
+    class Media:
+        js = [
+            'js/tinymce/tinymce.min.js',
+            'js/tinymce_settings.js',
+        ]
