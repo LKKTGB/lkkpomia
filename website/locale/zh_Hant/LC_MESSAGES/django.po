@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-16 04:20+0800\n"
+"POT-Creation-Date: 2018-02-16 05:18+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,6 +115,7 @@ msgid "salon_registrations"
 msgstr "講座報名表列表"
 
 #: website/models/video_contest.py website/models/video_contest_group.py
+#: website/models/video_contest_winner.py
 msgid "video_contest"
 msgstr "影片比賽"
 
@@ -173,3 +174,19 @@ msgstr "影片比賽報名表列表"
 #: website/models/video_contest_registration.py
 msgid "video_contest_registration_submitter"
 msgstr "參賽者"
+
+#: website/models/video_contest_winner.py
+msgid "video_contest_winner_registration"
+msgstr "參賽者"
+
+#: website/models/video_contest_winner.py
+msgid "video_contest_winner_prize"
+msgstr "獎項"
+
+#: website/models/video_contest_winner.py
+msgid "video_contest_winner"
+msgstr "影片比賽得獎者"
+
+#: website/models/video_contest_winner.py
+msgid "video_contest_winners"
+msgstr "影片比賽得獎者列表"
