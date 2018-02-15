@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-16 03:31+0800\n"
+"POT-Creation-Date: 2018-02-16 03:47+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr "開始時間"
 msgid "event_end_time"
 msgstr "結束時間"
 
-#: website/models/event.py
+#: website/models/event.py website/models/registration.py
 msgid "event"
 msgstr "活動"
 
@@ -70,6 +70,22 @@ msgstr "文章"
 msgid "posts"
 msgstr "文章列表"
 
+#: website/models/registration.py
+msgid "registration_submitter"
+msgstr "報名者"
+
+#: website/models/registration.py
+msgid "registration_submit_time"
+msgstr "報名時間"
+
+#: website/models/registration.py
+msgid "registration"
+msgstr "報名表"
+
+#: website/models/registration.py
+msgid "registrations"
+msgstr "報名表列表"
+
 #: website/models/salon.py
 msgid "salon_venue"
 msgstr "地點"
@@ -89,6 +105,14 @@ msgstr "講座"
 #: website/models/salon.py
 msgid "salons"
 msgstr "講座列表"
+
+#: website/models/salon_registration.py
+msgid "salon_registration"
+msgstr "講座報名表"
+
+#: website/models/salon_registration.py
+msgid "salon_registrations"
+msgstr "講座報名表列表"
 
 #: website/models/video_contest.py website/models/video_contest_group.py
 msgid "video_contest"
