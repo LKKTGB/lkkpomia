@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-16 03:05+0800\n"
+"POT-Creation-Date: 2018-02-16 03:31+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,10 +90,22 @@ msgstr "講座"
 msgid "salons"
 msgstr "講座列表"
 
-#: website/models/video_contest.py
+#: website/models/video_contest.py website/models/video_contest_group.py
 msgid "video_contest"
 msgstr "影片比賽"
 
 #: website/models/video_contest.py
 msgid "video_contests"
 msgstr "影片比賽列表"
+
+#: website/models/video_contest_group.py
+msgid "video_contest_group_name"
+msgstr "名稱"
+
+#: website/models/video_contest_group.py
+msgid "video_contest_group"
+msgstr "分組"
+
+#: website/models/video_contest_group.py
+msgid "video_contest_groups"
+msgstr "分組列表"
