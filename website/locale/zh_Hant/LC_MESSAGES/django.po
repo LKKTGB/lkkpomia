@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-14 21:43+0800\n"
+"POT-Creation-Date: 2018-02-16 01:24+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,5 +18,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: website/apps.py:7
 msgid "app_website"
 msgstr "李江却台語文教基金會"
+
+#: website/models/post.py:6
+msgid "post_title"
+msgstr "標題"
+
+#: website/models/post.py:7
+msgid "post_body"
+msgstr "內文"
+
+#: website/models/post.py:8
+msgid "post_create_time"
+msgstr "新增時間"
+
+#: website/models/post.py:9
+msgid "post_update_time"
+msgstr "更新時間"
+
+#: website/models/post.py:12
+msgid "post"
+msgstr "文章"
+
+#: website/models/post.py:13
+msgid "posts"
+msgstr "文章列表"
