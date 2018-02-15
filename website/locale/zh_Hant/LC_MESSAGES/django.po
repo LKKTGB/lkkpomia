@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-16 05:18+0800\n"
+"POT-Creation-Date: 2018-02-16 06:18+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +22,35 @@ msgstr ""
 msgid "app_website"
 msgstr "李江却台語文教基金會"
 
+#: website/models/announcement.py
+msgid "announcement_title"
+msgstr "標題"
+
+#: website/models/announcement.py
+msgid "announcement_body"
+msgstr "內文"
+
+#: website/models/announcement.py website/models/event.py
+#: website/models/registration.py
+msgid "event"
+msgstr "活動"
+
+#: website/models/announcement.py
+msgid "announcement_create_time"
+msgstr "刊登時間"
+
+#: website/models/announcement.py
+msgid "announcement_update_time"
+msgstr "更新時間"
+
+#: website/models/announcement.py
+msgid "announcement"
+msgstr "活動公告"
+
+#: website/models/announcement.py
+msgid "announcements"
+msgstr "活動公告列表"
+
 #: website/models/event.py
 msgid "event_start_time"
 msgstr "開始時間"
@@ -29,10 +58,6 @@ msgstr "開始時間"
 #: website/models/event.py
 msgid "event_end_time"
 msgstr "結束時間"
-
-#: website/models/event.py website/models/registration.py
-msgid "event"
-msgstr "活動"
 
 #: website/models/event.py
 msgid "events"
