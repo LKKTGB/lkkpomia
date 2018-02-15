@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-16 02:29+0800\n"
+"POT-Creation-Date: 2018-02-16 03:05+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,22 @@ msgstr ""
 #: website/apps.py
 msgid "app_website"
 msgstr "李江却台語文教基金會"
+
+#: website/models/event.py
+msgid "event_start_time"
+msgstr "開始時間"
+
+#: website/models/event.py
+msgid "event_end_time"
+msgstr "結束時間"
+
+#: website/models/event.py
+msgid "event"
+msgstr "活動"
+
+#: website/models/event.py
+msgid "events"
+msgstr "活動列表"
 
 #: website/models/post.py
 msgid "post_title"
@@ -53,3 +69,31 @@ msgstr "文章"
 #: website/models/post.py
 msgid "posts"
 msgstr "文章列表"
+
+#: website/models/salon.py
+msgid "salon_venue"
+msgstr "地點"
+
+#: website/models/salon.py
+msgid "salon_address"
+msgstr "地址"
+
+#: website/models/salon.py
+msgid "salon_door_time"
+msgstr "入場時間"
+
+#: website/models/salon.py
+msgid "salon"
+msgstr "講座"
+
+#: website/models/salon.py
+msgid "salons"
+msgstr "講座列表"
+
+#: website/models/video_contest.py
+msgid "video_contest"
+msgstr "影片比賽"
+
+#: website/models/video_contest.py
+msgid "video_contests"
+msgstr "影片比賽列表"
