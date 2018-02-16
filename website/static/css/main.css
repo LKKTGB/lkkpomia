@@ -1,0 +1,52 @@
+@media (min-width: 768px) {
+    .container-small {
+        width: 500px;
+    }
+}
+@media (min-width: 992px) {
+    .container-small {
+        width: 800px;
+    }
+}
+@media (min-width: 1200px) {
+    .container-small {
+        width: 1032px;
+    }
+}
+
+.container-small {
+    max-width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.post-title {
+    font-size: 60px;
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+
+.post-body img {
+    width: 100%;
+    height: auto;
+}
+
+.post-body h1 {
+    font-size: 42px;
+    margin-top: 40px;
+}
+
+.post-body h2 {
+    font-size: 34px;
+    margin-top: 50px;
+    text-decoration: underline;
+}
+
+.event-attendee-avatar {
+    display: block;
+    max-width: 24px;
+    max-height: 24px;
+    margin-left: 4px;
+    width: auto;
+    height: auto;
+}
