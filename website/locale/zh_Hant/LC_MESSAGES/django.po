@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-17 04:35+0800\n"
+"POT-Creation-Date: 2018-02-17 05:21+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,56 +32,24 @@ msgstr ""
 "兩人(含)以上之團體，需填寫一人為代表人。例：有影二人組(代表人：胡宇穎)。"
 
 #: website/forms.py
-msgid "video_contest_registration_form_phone_number_label"
-msgstr "聯絡電話"
-
-#: website/forms.py
-msgid "video_contest_registration_form_address_label"
-msgstr "聯絡地址"
-
-#: website/forms.py
 msgid "video_contest_registration_form_address_help_text"
 msgstr "影片通過審查者，大會將寄送參加禮物一份。"
-
-#: website/forms.py
-msgid "video_contest_registration_form_email_label"
-msgstr "聯絡人 Email"
 
 #: website/forms.py
 msgid "video_contest_registration_form_email_help_text"
 msgstr "請避免 Yahoo 或 PChome 等免費信箱以免收不到比賽相關通知及資訊。"
 
 #: website/forms.py
-msgid "video_contest_registration_form_video_title_label"
-msgstr "影片名稱"
-
-#: website/forms.py
 msgid "video_contest_registration_form_video_title_help_text"
 msgstr "20 字以內。"
-
-#: website/forms.py
-msgid "video_contest_registration_form_introduction_label"
-msgstr "影片簡介"
 
 #: website/forms.py
 msgid "video_contest_registration_form_introduction_help_text"
 msgstr "50 字以內。"
 
 #: website/forms.py
-msgid "video_contest_registration_form_youtube_url_label"
-msgstr "Youtube 影片連結"
-
-#: website/forms.py
 msgid "video_contest_registration_form_youtube_url_help_text"
 msgstr "影片請設為「公開」。"
-
-#: website/forms.py
-msgid "video_contest_registration_form_group_label"
-msgstr "參賽組別"
-
-#: website/forms.py
-msgid "video_contest_registration_form_questions_label"
-msgstr "其他問題"
 
 #: website/forms.py
 msgid "video_contest_registration_form_questions_help_text"
@@ -226,14 +194,6 @@ msgid "video_contest_groups"
 msgstr "分組列表"
 
 #: website/models/video_contest_registration.py
-msgid "video_contest_registration_youtube_url"
-msgstr "Youtube 影片連結"
-
-#: website/models/video_contest_registration.py
-msgid "video_contest_registration_introduction"
-msgstr "影片簡介"
-
-#: website/models/video_contest_registration.py
 msgid "video_contest_registration_contestant_name"
 msgstr "參賽者姓名"
 
@@ -252,6 +212,14 @@ msgstr "聯絡人 Email"
 #: website/models/video_contest_registration.py
 msgid "video_contest_registration_video_title"
 msgstr "影片名稱"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_introduction"
+msgstr "影片簡介"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_youtube_url"
+msgstr "Youtube 影片連結"
 
 #: website/models/video_contest_registration.py
 msgid "video_contest_registration_group"
