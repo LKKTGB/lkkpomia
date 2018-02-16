@@ -1,6 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from website.forms import VideoContestRegistrationForm
 from website.models.video_contest import VideoContest
 
 
@@ -48,8 +50,15 @@ def announcements(request, video_contest_id):
     return redirect('video_contest_info', video_contest_id=1)
 
 
+@login_required
 def form(request, video_contest_id):
-    return redirect('video_contest_info', video_contest_id=1)
+    video_contest = VideoContest.objects.get(id=video_contest_id)
+
+    return render(request, 'video_contest/form.html', {
+        'video_contest': video_contest,
+        'form': VideoContestRegistrationForm(video_contest),
+        'nav_items': nav_items(request, video_contest_id),
+    })
 
 
 def winners(request, video_contest_id):
