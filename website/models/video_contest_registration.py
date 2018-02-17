@@ -14,7 +14,7 @@ class VideoContestRegistration(Registration):
     email = models.EmailField(_('video_contest_registration_email'))
     video_title = models.CharField(_('video_contest_registration_video_title'), max_length=100)
     introduction = models.TextField(_('video_contest_registration_introduction'))
-    youtube_url = EmbedVideoField(_('video_contest_registration_youtube_url'))
+    youtube_url = EmbedVideoField(_('video_contest_registration_youtube_url'), unique=True)
     group = models.ForeignKey(VideoContestGroup, on_delete=models.CASCADE,
                               verbose_name=_('video_contest_registration_group'))
     questions = models.TextField(_('video_contest_registration_questions'), blank=True)
