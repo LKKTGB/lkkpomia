@@ -4,6 +4,7 @@ from embed_video.fields import EmbedVideoField
 
 from website.models.registration import Registration
 from website.models.video_contest_group import VideoContestGroup
+from website.utils import get_youtube_id_from_url
 
 
 class VideoContestRegistration(Registration):
@@ -23,6 +24,16 @@ class VideoContestRegistration(Registration):
     class Meta:
         verbose_name = _('video_contest_registration')
         verbose_name_plural = _('video_contest_registrations')
+
+    @property
+    def youtube_id(self):
+        return get_youtube_id_from_url(self.youtube_url)
+
+    @property
+    def cover_url(self):
+        return 'https://img.youtube.com/vi/{id}/hqdefault.jpg'.format(
+            id=self.youtube_id
+        )
 
 
 VideoContestRegistration._meta.get_field('submitter').verbose_name = _('video_contest_registration_submitter')

@@ -4,6 +4,8 @@ from django.urls import reverse
 
 from website.forms import VideoContestRegistrationForm
 from website.models.video_contest import VideoContest
+from website.models.video_contest_group import VideoContestGroup
+from website.models.video_contest_registration import VideoContestRegistration
 
 
 def nav_items(request, video_contest_id):
@@ -66,7 +68,15 @@ def winners(request, video_contest_id):
 
 
 def gallery(request, video_contest_id):
-    return redirect('video_contest_info', video_contest_id=1)
+    video_contest = VideoContest.objects.get(id=video_contest_id)
+    groups = VideoContestGroup.objects.filter(video_contest=video_contest).order_by('name')
+
+    return render(request, 'video_contest/gallery.html', {
+        'video_contest': video_contest,
+        'groups': groups,
+        'registrations': {g.id: VideoContestRegistration.objects.filter(event=video_contest, group=g, qualified=True) for g in groups},
+        'nav_items': nav_items(request, video_contest_id),
+    })
 
 
 def video(request, video_contest_id, video_id):
