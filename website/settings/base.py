@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'embed_video',
     'social_django',
     'taggit',
+    'widget_tweaks',
     'website.apps.WebsiteConfig',
 ]
 

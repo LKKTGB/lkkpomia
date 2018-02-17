@@ -1,0 +1,8 @@
+{% for choice in field.field.choices %}
+    <div class="form-check">
+        <label class="form-check-label">
+            <input type="radio" name="{{ field.name }}" value="{{ choice.0 }}" class="{{ class }}"" id="{{ field.auto_id }}_{{ forloop.counter0 }}" {% if field.field.required %}required{% endif %}>
+            {{ choice.1 }}
+        </label>
+    </div>
+{% endfor %}

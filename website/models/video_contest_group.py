@@ -13,3 +13,6 @@ class VideoContestGroup(models.Model):
         verbose_name_plural = _('video_contest_groups')
 
         unique_together = ('video_contest', 'name')
+
+    def __str__(self):
+        return '%s - %s' % (self.video_contest.title, self.name)
