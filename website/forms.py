@@ -26,6 +26,11 @@ class VideoContestRegistrationForm(forms.ModelForm):
             'youtube_url': _('video_contest_registration_form_youtube_url_help_text'),
             'questions': _('video_contest_registration_form_questions_help_text'),
         }
+        error_messages = {
+            'youtube_url': {
+                'unique': _('video_contest_registration_form_youtube_url_error_messages_unique')
+            }
+        }
 
     def __init__(self, video_contest, *args, **kwargs):
         super().__init__(*args, **kwargs)

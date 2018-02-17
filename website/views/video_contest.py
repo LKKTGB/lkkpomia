@@ -54,9 +54,41 @@ def announcements(request, video_contest_id):
 
 
 @login_required
+def form_post(request, video_contest_id):
+    try:
+        video_contest = VideoContest.objects.get(id=video_contest_id)
+    except ObjectDoesNotExist:
+        return redirect('home')
+
+    form = VideoContestRegistrationForm(data=request.POST, video_contest=video_contest)
+    if form.is_valid():
+        registration = VideoContestRegistration(
+            submitter=request.user,
+            event=video_contest,
+            contestant_name=form.cleaned_data['contestant_name'],
+            phone_number=form.cleaned_data['phone_number'],
+            address=form.cleaned_data['address'],
+            email=form.cleaned_data['email'],
+            video_title=form.cleaned_data['video_title'],
+            introduction=form.cleaned_data['introduction'],
+            youtube_url=form.cleaned_data['youtube_url'],
+            group=form.cleaned_data['group'],
+            questions=form.cleaned_data['questions'],
+        )
+        registration.save()
+        return redirect('video_contest_info', video_contest_id=video_contest_id)
+    else:
+        return render(request, 'video_contest/form.html', {
+            'video_contest': video_contest,
+            'form': form,
+            'nav_items': nav_items(request, video_contest_id),
+        })
+
+
+@login_required
 def form(request, video_contest_id):
     if request.method == 'POST':
-        return redirect('video_contest_info', video_contest_id=video_contest_id)
+        return form_post(request, video_contest_id)
     try:
         video_contest = VideoContest.objects.get(id=video_contest_id)
     except ObjectDoesNotExist:

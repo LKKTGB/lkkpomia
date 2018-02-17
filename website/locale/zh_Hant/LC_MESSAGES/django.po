@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-17 05:21+0800\n"
+"POT-Creation-Date: 2018-02-18 04:08+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,6 +54,10 @@ msgstr "影片請設為「公開」。"
 #: website/forms.py
 msgid "video_contest_registration_form_questions_help_text"
 msgstr "任何問題或提醒可於此提出。"
+
+#: website/forms.py
+msgid "video_contest_registration_form_youtube_url_error_messages_unique"
+msgstr "這個 Youtube 影片已經報名過了！"
 
 #: website/models/announcement.py
 msgid "announcement_title"
