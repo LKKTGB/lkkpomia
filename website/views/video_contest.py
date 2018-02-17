@@ -71,6 +71,7 @@ def form_post(request, video_contest_id):
             email=form.cleaned_data['email'],
             video_title=form.cleaned_data['video_title'],
             introduction=form.cleaned_data['introduction'],
+            # FIXME: check youtube_id, not url
             youtube_url=form.cleaned_data['youtube_url'],
             group=form.cleaned_data['group'],
             questions=form.cleaned_data['questions'],
