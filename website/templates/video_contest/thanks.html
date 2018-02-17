@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <h1 class="text-center">感謝你的報名</h1>
+    <h1 class="text-center">我們會盡快審核你的報名表</h1>
+    <p class="text-center">
+        <span id="countdown">{{ countdown }}</span> 秒後將導回 <a href="{% url 'video_contest_info' video_contest_id=video_contest_id %}">活動頁面</a>
+    </p>
+</div>
+
+<script>
+    var seconds = {{ countdown }};
+
+    function countdown() {
+        seconds = seconds - 1;
+        if (seconds < 0) {
+            window.location.href = "{% url 'video_contest_info' video_contest_id=video_contest_id %}";
+        } else {
+            document.getElementById("countdown").innerHTML = seconds;
+            setTimeout(countdown, 1000);
+        }
+    }
+    countdown()
+</script>
+
+{% endblock %}

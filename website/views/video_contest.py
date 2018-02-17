@@ -77,7 +77,7 @@ def form_post(request, video_contest_id):
             questions=form.cleaned_data['questions'],
         )
         registration.save()
-        return redirect('video_contest_info', video_contest_id=video_contest_id)
+        return redirect('video_contest_thanks', video_contest_id=video_contest_id)
     else:
         return render(request, 'video_contest/form.html', {
             'video_contest': video_contest,
@@ -127,4 +127,11 @@ def video(request, video_contest_id, video_id):
         'video': registration,
         'other_videos': VideoContestRegistration.objects.filter(event=video_contest, group=registration.group, qualified=True),
         'nav_items': nav_items(request, video_contest_id),
+    })
+
+
+def thanks(request, video_contest_id):
+    return render(request, 'video_contest/thanks.html', {
+        'video_contest_id': video_contest_id,
+        'countdown': 10
     })
