@@ -81,3 +81,49 @@
 .video-meta a {
     text-decoration: none !important;
 }
+
+.video-play h1 {
+    font-size: 18px;
+}
+
+.video-play h2 {
+    font-size: 16px;
+}
+
+.video-play .video-title {
+    padding-top: 20px;
+}
+
+.video-play .video-meta {
+    margin-bottom: 12px;
+}
+
+.video-meta .contestant-avatar {
+    padding-right: 0px;
+}
+
+.video-meta .contestant-name {
+    font-size: 14px;
+    margin-bottom: 0px;
+}
+
+.video-meta .submit-time {
+    font-size: 13px;
+}
+
+.video-intro {
+    font-size: 14px;
+}
+
+.video-aside {
+    padding-bottom: 8px;
+}
+
+.video-aside .video-cover {
+    padding-left: 0px;
+    padding-right: 8px;
+}
+
+.video-aside .video-meta {
+    padding: 0px;
+}

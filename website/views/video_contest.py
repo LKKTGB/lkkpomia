@@ -80,4 +80,12 @@ def gallery(request, video_contest_id):
 
 
 def video(request, video_contest_id, video_id):
-    return redirect('video_contest_info', video_contest_id=1)
+    video_contest = VideoContest.objects.get(id=video_contest_id)
+    registration = VideoContestRegistration.objects.get(id=video_id)
+
+    return render(request, 'video_contest/video.html', {
+        'video_contest': video_contest,
+        'video': registration,
+        'other_videos': VideoContestRegistration.objects.filter(event=video_contest, group=registration.group, qualified=True),
+        'nav_items': nav_items(request, video_contest_id),
+    })
