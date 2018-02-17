@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
@@ -54,7 +55,12 @@ def announcements(request, video_contest_id):
 
 @login_required
 def form(request, video_contest_id):
-    video_contest = VideoContest.objects.get(id=video_contest_id)
+    if request.method == 'POST':
+        return redirect('video_contest_info', video_contest_id=video_contest_id)
+    try:
+        video_contest = VideoContest.objects.get(id=video_contest_id)
+    except ObjectDoesNotExist:
+        return redirect('home')
 
     return render(request, 'video_contest/form.html', {
         'video_contest': video_contest,

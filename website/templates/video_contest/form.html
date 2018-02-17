@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="col-md-8 video_contest">
-        <form action="{% url 'api_video_contest_registration' video_contest_id=video_contest.id %}" method="POST">
+        <form action="{% url 'video_contest_form' video_contest_id=video_contest.id %}" method="POST">
             {% csrf_token %}
 
             {% include 'bootstrap4/form.html' with form=form %}
