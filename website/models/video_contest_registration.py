@@ -25,6 +25,9 @@ class VideoContestRegistration(Registration):
         verbose_name = _('video_contest_registration')
         verbose_name_plural = _('video_contest_registrations')
 
+    def __str__(self):
+        return '%s - %s' % (self.event.title, self.video_title)
+
     @property
     def youtube_id(self):
         return get_youtube_id_from_url(self.youtube_url)
