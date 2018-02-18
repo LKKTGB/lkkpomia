@@ -4,15 +4,15 @@
 
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/header.css' %}">
-    <link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+    <link rel="stylesheet" href="{% static 'css/video_contest/gallery.css' %}">
 {% endblock %}
 
 {% block header %}
     {% include 'header.html' with user=user search=search nav_items=nav_items %}
 {% endblock %}
 
-{% block content %}
-
+{% block body %}
 <h1 class="post-title">{{ video_contest.title }}</h1>
 
 <ul class="nav gallery-nav">
@@ -37,7 +37,7 @@
                         </a>
                         <div class="video-meta">
                             <a href="{{ video_url }}">
-                                <h3 class="video-title">{{ registration.video_title }}</h3>
+                                <h3 class="video-title">{{ registration.video_title|truncatechars:40 }}</h3>
                             </a>
                             <a href="{{ video_url }}">
                                 <small class="text-muted">
@@ -51,5 +51,4 @@
         </div>
     {% endfor %}
 </div>
-
 {% endblock %}
