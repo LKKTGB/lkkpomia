@@ -14,9 +14,15 @@
 <body>
     <div class="container">
         {% block header %}{% endblock %}
-
-        <div class="content">
-            {% block content %}{% endblock %}
+    </div>
+    <div class="container body">
+        <div class="row">
+            <div class="col-md-8 content">
+                {% block content %}{% endblock %}
+            </div>
+            <aside class="col-md-4 sidebar">
+                {% block sidebar %}{% endblock %}
+            </aside>
         </div>
     </div>
 
@@ -27,7 +33,10 @@
     <script>
         $(document).ready(function () {
             var navbar = $('.header-home .navbar');
-            var content = $('.content');
+            if (navbar.offset() === undefined) {
+                return;
+            }
+            var container = $('body > .container');
             var origOffsetY = navbar.offset().top;
 
             function scroll() {
@@ -35,12 +44,12 @@
                     navbar.addClass('fixed-top');
                     // navbar.addClass('container');
                     // navbar.addClass('px-0');
-                    content.addClass('header-home-padding');
+                    container.addClass('header-padding');
                 } else {
                     navbar.removeClass('fixed-top');
                     // navbar.removeClass('container');
                     // navbar.removeClass('mx-0');
-                    content.removeClass('header-home-padding');
+                    container.removeClass('header-padding');
                 }
             }
             document.onscroll = scroll;
