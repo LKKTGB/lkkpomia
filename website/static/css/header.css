@@ -2,14 +2,18 @@
     text-decoration: none !important;;
 }
 
-.header .header-brand {
+h1.header-title {
+    margin-top: 24px;
+}
+
+img.header-brand {
     display: block;
     width: 38px;
     height: 38px;
     margin: 10px;
 }
 
-.header-post .header-title {
+.header .header-title {
     font-size: 20px;
 }
 
@@ -29,19 +33,15 @@
     margin-top: 45px;
 }
 
-.header-post .navbar {
+.header .navbar {
     background-color: #ffffff;
     padding-top: 16px;
     padding-bottom: 16px;
 }
 
-.header-post .fixed-top {
+.header .fixed-top {
     border: 0px;
     border-style: solid;
     border-color: rgba(0,0,0,.1);
     border-bottom-width: 1px;
-}
-
-.header-home-padding {
-    padding-top: 57px;
 }

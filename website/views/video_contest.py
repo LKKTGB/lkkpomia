@@ -33,6 +33,7 @@ def info(request, video_contest_id):
     video_contest = VideoContest.objects.get(id=video_contest_id)
 
     return render(request, 'video_contest/info.html', {
+        'home': False,
         'user': request.user,
         'video_contest': video_contest,
         'nav_items': nav_items(request, video_contest_id),
@@ -81,6 +82,7 @@ def form_post(request, video_contest_id):
         return redirect('video_contest_thanks', video_contest_id=video_contest_id)
     else:
         return render(request, 'video_contest/form.html', {
+            'home': False,
             'video_contest': video_contest,
             'form': form,
             'nav_items': nav_items(request, video_contest_id),
@@ -97,6 +99,7 @@ def form(request, video_contest_id):
         return redirect('home')
 
     return render(request, 'video_contest/form.html', {
+        'home': False,
         'video_contest': video_contest,
         'form': VideoContestRegistrationForm(video_contest),
         'nav_items': nav_items(request, video_contest_id),
@@ -112,6 +115,7 @@ def gallery(request, video_contest_id):
     groups = VideoContestGroup.objects.filter(video_contest=video_contest).order_by('name')
 
     return render(request, 'video_contest/gallery.html', {
+        'home': False,
         'video_contest': video_contest,
         'groups': groups,
         'registrations': {g.id: VideoContestRegistration.objects.filter(event=video_contest, group=g, qualified=True) for g in groups},
@@ -124,6 +128,7 @@ def video(request, video_contest_id, video_id):
     registration = VideoContestRegistration.objects.get(id=video_id)
 
     return render(request, 'video_contest/video.html', {
+        'home': False,
         'video_contest': video_contest,
         'video': registration,
         'other_videos': VideoContestRegistration.objects.filter(event=video_contest, group=registration.group, qualified=True),
@@ -133,6 +138,7 @@ def video(request, video_contest_id, video_id):
 
 def thanks(request, video_contest_id):
     return render(request, 'video_contest/thanks.html', {
+        'home': False,
         'video_contest_id': video_contest_id,
         'countdown': 10
     })

@@ -2,7 +2,16 @@
     text-decoration: none !important;;
 }
 
-.header-home .header-title {
+h1.header-title {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.header .header-brand {
+    display: none;
+}
+
+.header .header-title {
     font-size: 28px;
 }
 
@@ -22,19 +31,19 @@
     margin-top: 45px;
 }
 
-.header-home .navbar {
+.header .navbar {
     background-color: #ffffff;
     padding-top: 16px;
     padding-bottom: 16px;
 }
 
-.header-home .fixed-top {
+.header .fixed-top {
     border: 0px;
     border-style: solid;
     border-color: rgba(0,0,0,.1);
     border-bottom-width: 1px;
 }
 
-.header-home-padding {
+.header-padding {
     padding-top: 57px;
 }
