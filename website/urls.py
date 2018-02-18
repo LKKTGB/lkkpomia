@@ -19,7 +19,6 @@ from django.urls import include, path
 
 from website import views as website_views
 from website.views import video_contest as video_contest_views
-from website import apis
 
 urlpatterns = [
     path('', website_views.profile, name='home'),
@@ -35,8 +34,8 @@ urlpatterns = [
          video_contest_views.gallery, name='video_contest_gallery'),
     path('video_contests/<video_contest_id>/videos/<video_id>',
          video_contest_views.video, name='video_contest_video'),
-    path('api/video_contests/<video_contest_id>/registrations/',
-         apis.video_contest_registration, name='api_video_contest_registration'),
+    path('video_contests/<video_contest_id>/thanks/',
+         video_contest_views.thanks, name='video_contest_thanks'),
     path('admin/', admin.site.urls),
     path('login/', auth_views.login, {'template_name': 'login.html'}, name='login'),
     path('logout/', auth_views.logout, name='logout'),
