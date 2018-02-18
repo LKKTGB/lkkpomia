@@ -1,0 +1,47 @@
+.header a {
+    text-decoration: none !important;;
+}
+
+.header .header-brand {
+    display: block;
+    width: 38px;
+    height: 38px;
+    margin: 10px;
+}
+
+.header-post .header-title {
+    font-size: 20px;
+}
+
+.header .avatar {
+    display: block;
+    max-width: 38px;
+    max-height: 38px;
+    width: auto;
+    height: auto;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.header .dropdown-menu {
+    margin-top: 45px;
+}
+
+.header-post .navbar {
+    background-color: #ffffff;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.header-post .fixed-top {
+    border: 0px;
+    border-style: solid;
+    border-color: rgba(0,0,0,.1);
+    border-bottom-width: 1px;
+}
+
+.header-home-padding {
+    padding-top: 57px;
+}

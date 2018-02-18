@@ -26,16 +26,20 @@
 
     <script>
         $(document).ready(function () {
-            var navbar = $('.navbar');
+            var navbar = $('.header-home .navbar');
             var content = $('.content');
             var origOffsetY = navbar.offset().top;
 
             function scroll() {
                 if ($(window).scrollTop() >= origOffsetY) {
                     navbar.addClass('fixed-top');
+                    // navbar.addClass('container');
+                    // navbar.addClass('px-0');
                     content.addClass('header-home-padding');
                 } else {
                     navbar.removeClass('fixed-top');
+                    // navbar.removeClass('container');
+                    // navbar.removeClass('mx-0');
                     content.removeClass('header-home-padding');
                 }
             }

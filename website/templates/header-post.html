@@ -1,0 +1,57 @@
+<header class="header header-post">
+    <div class="row nav ml-0">
+        <div class="col-12 col-xl-6">
+            <div class="row ml-0">
+                <a href="{% url 'home' %}">
+                    <img class="header-brand mt-3 mr-3 mb-0" src="https://pbs.twimg.com/profile_images/1871492523/logo_400x400.jpg" alt="">
+                </a>
+                <a href="{% url 'home' %}">
+                    <h1 class="header-title text-dark mt-4">李江却台語文教基金會</h1>
+                </a>
+            </div>
+        </div>
+        <div class="col mt-3">
+            <div class="row
+                justify-content-start
+                justify-content-xl-end">
+                {% if search %}
+                    <form class="form-inline">
+                        <input class="form-control mx-2 col-8" type="search" placeholder="{{ search.placeholder }}" aria-label="Search">
+                        <button class="btn btn-outline-dark" type="submit">搜尋</button>
+                    </form>
+                {% endif %}
+                {% if user %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-dark px-0 py-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            <img class="rounded-circle float-right avatar" src={{ user.profile.avatar_url }}>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#">登出</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <button class="btn btn-outline-dark" type="submit">登入／註冊</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-sm navbar-light pl-0">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                {% for nav_item in nav_items  %}
+                    {% if nav_item.current %}
+                        <li class="nav-item active">
+                    {% else %}
+                        <li class="nav-item">
+                    {% endif %}
+                        <a class="nav-link px-3 py-0" href="{{ nav_item.link }}">{{ nav_item.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </nav>
+</header>
