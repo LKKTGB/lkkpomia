@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% load filters %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/video.css' %}">
+{% endblock %}
 
 {% block content %}
 
-<div class="row video-play">
-    <div class="col-12 col-lg-8">
+<div class="row">
+    <div class="col-12 col-lg-8 video-play">
         <div class="embed-responsive embed-responsive-16by9">
             <iframe class="embed-responsive-item"
                 src="https://www.youtube.com/embed/{{ video.youtube_id }}"
