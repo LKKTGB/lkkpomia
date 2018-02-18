@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
-
 {% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' with user=user search=search nav_items=nav_items %}
+{% endblock %}
 
 {% block content %}
 

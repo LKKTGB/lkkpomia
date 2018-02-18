@@ -9,7 +9,7 @@ tinymce.init({
   toolbar: 'formatselect bold italic | numlist bullist | alignleft aligncenter | link image media',
 
   // formatselect
-  block_formats: 'Paragraph=p;Header 1=h1;Header 2=h2',
+  block_formats: '內文=p;大標題=h3;小標題=h4',
   // link
   link_title: false,
   // media
