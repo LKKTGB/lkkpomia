@@ -2,16 +2,19 @@
     font-size: 18px;
 }
 
-.video-play h2 {
-    font-size: 16px;
-}
-
 .video-play .video-title {
     padding-top: 20px;
 }
 
 .video-play .video-meta {
     margin-bottom: 12px;
+}
+
+.video-meta .video-title {
+    font-size: 14px;
+    color: #000000;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 .video-meta .contestant-avatar {
@@ -21,6 +24,10 @@
 .video-meta .contestant-name {
     font-size: 14px;
     margin-bottom: 0px;
+}
+
+.video-meta a {
+    text-decoration: none !important;
 }
 
 .video-meta .submit-time {
@@ -35,6 +42,10 @@
     padding-bottom: 8px;
 }
 
+aside h2 {
+    font-size: 16px;
+}
+
 .video-aside .video-cover {
     padding-left: 0px;
     padding-right: 8px;
@@ -42,4 +53,8 @@
 
 .video-aside .video-meta {
     padding: 0px;
+}
+
+.video-aside .video-title {
+    margin-top: 0px;
 }
