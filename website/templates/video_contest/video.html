@@ -3,7 +3,12 @@
 {% load filters %}
 
 {% block styles %}
+    <link rel="stylesheet" href="{% static 'css/header-home.css' %}">
     <link rel="stylesheet" href="{% static 'css/video.css' %}">
+{% endblock %}
+
+{% block header %}
+    {% include 'header-home.html' with user=user search=search nav_items=nav_items %}
 {% endblock %}
 
 {% block content %}

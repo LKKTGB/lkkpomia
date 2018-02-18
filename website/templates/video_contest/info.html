@@ -1,4 +1,13 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/header-home.css' %}">
+{% endblock %}
+
+{% block header %}
+    {% include 'header-home.html' with user=user search=search nav_items=nav_items %}
+{% endblock %}
 
 {% block content %}
 

@@ -1,0 +1,40 @@
+.header a {
+    text-decoration: none !important;;
+}
+
+.header-home .header-title {
+    font-size: 28px;
+}
+
+.header .avatar {
+    display: block;
+    max-width: 38px;
+    max-height: 38px;
+    width: auto;
+    height: auto;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.header .dropdown-menu {
+    margin-top: 45px;
+}
+
+.header-home .navbar {
+    background-color: #ffffff;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.header-home .fixed-top {
+    border: 0px;
+    border-style: solid;
+    border-color: rgba(0,0,0,.1);
+    border-bottom-width: 1px;
+}
+
+.header-home-padding {
+    padding-top: 57px;
+}
