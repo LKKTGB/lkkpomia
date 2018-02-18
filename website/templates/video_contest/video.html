@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% load filters %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/video.css' %}">
+{% endblock %}
 
 {% block content %}
 
