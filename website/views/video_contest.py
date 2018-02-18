@@ -33,6 +33,7 @@ def info(request, video_contest_id):
     video_contest = VideoContest.objects.get(id=video_contest_id)
 
     return render(request, 'video_contest/info.html', {
+        'user': request.user,
         'video_contest': video_contest,
         'nav_items': nav_items(request, video_contest_id),
         'registrations': [{
