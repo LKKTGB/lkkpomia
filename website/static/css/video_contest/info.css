@@ -1,0 +1,12 @@
+.meta {
+    top: 170px;
+    position: sticky;
+}
+
+.meta h5 {
+    font-size: 18px;
+}
+
+.meta p {
+    font-size: 16px;
+}

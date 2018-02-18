@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% load filters %}
+
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+    <link rel="stylesheet" href="{% static 'css/video_contest/info.css' %}">
 {% endblock %}
 
 {% block header %}
@@ -10,27 +14,38 @@
 {% endblock %}
 
 {% block content %}
-
-<h1 class="post-title">{{ video_contest.title }}</h1>
-
-<div class="row">
-    <div class="col-md-8 post-body">
-        {{ video_contest.body|safe }}
-    </div>
-
-    <aside class="col-md-3 offset-sm-1">
-        <div class="sidebar-module sidebar-module-inset">
-            <div class="row">
-                <a href="{% url 'video_contest_form' video_contest_id=video_contest.id %}" class="btn btn-primary">我要報名</a>
-            </div>
-            <div class="row">
-                {% for registration in registrations  %}
-                <img class="rounded-circle float-right event-attendee-avatar" src="{{ registration.submitter.profile.avatar_url }}">
-                {% endfor %}
-            </div>
-            <p>{% if rest_submitters > 0 %}和其他 {{ rest_submitters }} 個人{% endif %}已報名</p>
-        </div>
-    </aside>
+<h1 class="post-title">
+    {{ video_contest.title }}
+</h1>
+<div class="post-body">
+    {{ video_contest.body|safe }}
 </div>
+{% endblock %}
 
+{% block sidebar %}
+<div class="card meta">
+    <div class="card-body p-2">
+        <h5 class="card-title">活動資訊</h5>
+        <div class="row mx-0 my-2">
+            <div class="px-2">
+                {{ 'calendar'|svg:'20 20' }}
+            </div>
+            <div class="col px-2 border border-dark border-top-0 border-bottom-0 border-right-0 float-right">
+                <p class="card-text my-0">
+                    {{ video_contest.start_time|date:'Y/m/d' }} ~ {{ video_contest.end_time|date:'Y/m/d' }}
+                </p>
+            </div>
+        </div>
+        <div class="row mx-0 my-2">
+            <div class="px-2">
+                {{ 'people'|svg:'20 20' }}
+            </div>
+            <div class="col px-2 border border-dark border-top-0 border-bottom-0 border-right-0 float-right">
+                <p class="card-text my-0">
+                    已有 {{ count_qualified }} 人報名成功
+                </p>
+            </div>
+        </div>
+        <a href="{% url 'video_contest_form' video_contest_id=video_contest.id %}" class="btn btn-outline-dark w-100">我要報名</a>
+</div>
 {% endblock %}

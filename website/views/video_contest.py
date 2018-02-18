@@ -32,17 +32,10 @@ def info(request, video_contest_id):
         'user': request.user,
         'video_contest': video_contest,
         'nav_items': nav_items(request, video_contest_id, current='info'),
-        'registrations': [{
-            'submitter': {
-                'profile': {
-                    'avatar_url': 'https://scontent.cdninstagram.com/hphotos-xfa1/t51.2885-15/e15/11352284_1704356839787218_67514963_n.jpg'
-                }
-            }
-        } for _ in range(20)],
-        'rest_submitters': 10,
         'search': {
             'placeholder': '搜尋參賽影片'
-        }
+        },
+        'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
     })
 
 

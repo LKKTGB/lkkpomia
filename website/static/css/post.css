@@ -1,0 +1,35 @@
+.content {
+    color: rgba(0, 0, 0, 0.84);
+    font-size: 21px;
+}
+
+.content h1 {
+    font-size: 42px;
+}
+
+.content h3 {
+    font-size: 34px;
+    margin-top: 50px;
+}
+
+.content h4 {
+    font-size: 26px;
+    margin-top: 40px;
+}
+
+.content p {
+    margin-top: 8px;
+}
+
+.content .post-body img {
+    width: 100%;
+    height: auto;
+}
+
+.sidebar h5 {
+    font-size: 18px;
+}
+
+.sidebar p {
+    font-size: 16px;
+}
