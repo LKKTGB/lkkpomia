@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="container">
-        <header class="header header-center">
+        <header class="header header-home">
             <div class="row nav">
                 <div class="col-12 col-xl-4 offset-xl-4 text-center">
                     <a href="{% url 'home' %}">
@@ -85,10 +85,10 @@
             function scroll() {
                 if ($(window).scrollTop() >= origOffsetY) {
                     navbar.addClass('fixed-top');
-                    content.addClass('header-center-padding');
+                    content.addClass('header-home-padding');
                 } else {
                     navbar.removeClass('fixed-top');
-                    content.removeClass('header-center-padding');
+                    content.removeClass('header-home-padding');
                 }
             }
             document.onscroll = scroll;

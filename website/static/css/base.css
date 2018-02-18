@@ -2,7 +2,7 @@
     text-decoration: none !important;;
 }
 
-.header-center .header-title {
+.header-home .header-title {
     font-size: 28px;
 }
 
@@ -22,20 +22,20 @@
     margin-top: 45px;
 }
 
-.header-center .navbar {
+.header-home .navbar {
     background-color: #ffffff;
     padding-top: 16px;
     padding-bottom: 16px;
 }
 
-.header-center .fixed-top {
+.header-home .fixed-top {
     border: 0px;
     border-style: solid;
     border-color: rgba(0,0,0,.1);
     border-bottom-width: 1px;
 }
 
-.header-center-padding {
+.header-home-padding {
     padding-top: 57px;
 }
 
