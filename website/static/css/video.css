@@ -4,6 +4,7 @@
 
 h1.video-title  {
     font-size: 18px;
+    margin-bottom: 0px;
 }
 
 aside h2 {
@@ -18,7 +19,7 @@ h3.video-title {
     text-decoration: none !important;
 }
 
-.content .video-meta {
+.video-meta {
     line-height: 0.8;
 }
 
@@ -29,4 +30,8 @@ h3.video-title {
     /*color: #900;*/
     fill: currentColor;
     /*background-color: currentColor;*/
+}
+
+.sidebar p {
+    font-size: 12px;
 }

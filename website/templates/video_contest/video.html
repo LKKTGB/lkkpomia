@@ -21,9 +21,10 @@
 <div class="row pt-4 pb-2 my-0">
     <div class="col-10">
         <h1 class="text-dark video-title">{{ video.video_title }}</h1>
+        <p class="text-muted">{{ video.group.name }}／共得到 {{ video.votes }} 票</p>
     </div>
     <div class="col">
-        <form class="float-right" action="{% url 'video_contest_video_vote' video_contest_id=video_contest.id video_id=video.id %}" method='post'>
+        <form class="float-right" action="{% url 'video_contest_video_votes' video_contest_id=video_contest.id video_id=video.id %}" method='post'>
             {% csrf_token %}
             {{ vote_form }}
 
@@ -33,7 +34,12 @@
                 {% else %}
                     btn-outline-success
                 {% endif %}
-                    ">
+                    " data-toggle="tooltip" data-placement="bottom" title="
+                    {% if not is_voted %}
+                        投票
+                    {% else %}
+                        收回
+                    {% endif %}">
                 {{ 'thumb-up'|svg:'24 24' }}
             </button>
         </form>
@@ -61,7 +67,6 @@
 </div>
 {% for video in other_videos %}
     {% url 'video_contest_video' video_contest_id=video_contest.id video_id=video.id as video_url %}
-    {% for i in "12345" %}
     <div class="row video-aside pb-2">
         <div class="col-3 col-lg-4 pl-0 pr-2">
             <a href="{{ video_url }}">
@@ -73,12 +78,16 @@
                 <h3 class="text-dark mt-0 video-title">{{ video.video_title }}</h3>
             </a>
             <a href="{{ video_url }}">
-                <small class="text-muted">
+                <p class="my-2 text-muted">
                     {{ video.contestant_name }}
-                </small>
+                </p>
+            </a>
+            <a href="{{ video_url }}">
+                <p class="my-0 text-muted">
+                    {{ video.group.name }}／共得到 {{ video.votes }} 票
+                </p>
             </a>
         </div>
     </div>
-    {% endfor %}
 {% endfor %}
 {% endblock %}

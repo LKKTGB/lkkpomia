@@ -1,3 +1,5 @@
+from random import sample
+
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
@@ -113,11 +115,20 @@ def gallery(request, video_contest_id):
     })
 
 
+def get_random_qualified_videos(count):
+    total_count = VideoContestRegistration.objects.count()
+    ids = sample(list(range(total_count)), count if count < total_count else total_count)
+    videos = [v for v in VideoContestRegistration.objects.filter(id__in=ids[:count], qualified=True).all()]
+    return sample(videos, len(videos))
+
+
 def video(request, video_contest_id, video_id):
     video_contest = VideoContest.objects.get(id=video_contest_id)
     registration = VideoContestRegistration.objects.get(id=video_id)
 
     is_voted = request.user.is_authenticated and request.user.profile.voted_videos.filter(id=registration.id).exists()
+    videos = get_random_qualified_videos(count=10)
+    other_videos = [v for v in videos if v.id != video_id]
 
     return render(request, 'video_contest/video.html', {
         'home': False,
@@ -128,7 +139,7 @@ def video(request, video_contest_id, video_id):
         'page_title': video_contest.title,
         'video_contest': video_contest,
         'video': registration,
-        'other_videos': VideoContestRegistration.objects.filter(event=video_contest, group=registration.group, qualified=True),
+        'other_videos': other_videos,
         'is_voted': is_voted,
         'vote_form': VideoContestVoteForm(initial={
             'method': 'DELETE' if is_voted else 'POST',
@@ -153,6 +164,9 @@ def vote(request, video_contest_id, video_id):
         request.user.profile.voted_videos.add(video_contest_registration_id)
     elif method == 'DELETE':
         request.user.profile.voted_videos.remove(video_contest_registration_id)
+    registration = VideoContestRegistration.objects.get(id=video_contest_registration_id)
+    registration.votes = registration.voters.count()
+    registration.save()
     return redirect('video_contest_video', video_contest_id=video_contest_id, video_id=video_id)
 
 
