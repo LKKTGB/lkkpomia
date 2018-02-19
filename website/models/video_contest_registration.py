@@ -20,6 +20,7 @@ class VideoContestRegistration(Registration):
     questions = models.TextField(_('video_contest_registration_questions'), blank=True)
 
     qualified = models.BooleanField(_('video_contest_registration_qualified'), default=False)
+    votes = models.PositiveIntegerField(_('video_contest_registration_votes'), default=0)
 
     class Meta:
         verbose_name = _('video_contest_registration')
