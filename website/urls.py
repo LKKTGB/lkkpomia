@@ -40,7 +40,7 @@ urlpatterns = [
          video_contest_views.thanks, name='video_contest_thanks'),
     path('admin/', admin.site.urls),
     path('login/', auth_views.login, {'template_name': 'login.html'}, name='login'),
-    path('logout/', auth_views.logout, name='logout'),
+    path('logout/', auth_views.logout, {'next_page': 'home'}, name='logout'),
     path('', include('social_django.urls', namespace='social')),
     path('grappelli/', include('grappelli.urls')),
 ]
