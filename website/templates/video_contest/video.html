@@ -24,7 +24,7 @@
         <p class="text-muted">共得到 {{ video.voters.count }} 票</p>
     </div>
     <div class="col">
-        <form class="float-right" action="{% url 'video_contest_video_vote' video_contest_id=video_contest.id video_id=video.id %}" method='post'>
+        <form class="float-right" action="{% url 'video_contest_video_votes' video_contest_id=video_contest.id video_id=video.id %}" method='post'>
             {% csrf_token %}
             {{ vote_form }}
 
