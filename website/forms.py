@@ -14,6 +14,7 @@ class VideoContestRegistrationForm(forms.ModelForm):
             'submitter',
             'event',
             'qualified',
+            'votes',
         )
         labels = {
             'contestant_name': _('video_contest_registration_form_contestant_name_label'),

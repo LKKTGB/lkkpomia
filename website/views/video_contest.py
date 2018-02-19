@@ -74,6 +74,7 @@ def form_post(request, video_contest_id):
             'video_contest': video_contest,
             'form': form,
             'nav_items': nav_items(request, video_contest_id, current='form'),
+            'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
         })
 
 
@@ -91,6 +92,7 @@ def form(request, video_contest_id):
         'video_contest': video_contest,
         'form': VideoContestRegistrationForm(video_contest),
         'nav_items': nav_items(request, video_contest_id, current='form'),
+        'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
     })
 
 
@@ -119,6 +121,11 @@ def video(request, video_contest_id, video_id):
 
     return render(request, 'video_contest/video.html', {
         'home': False,
+        'layout': {
+            'content': 'col-lg-8',
+            'sidebar': 'col-lg-4',
+        },
+        'page_title': video_contest.title,
         'video_contest': video_contest,
         'video': registration,
         'other_videos': VideoContestRegistration.objects.filter(event=video_contest, group=registration.group, qualified=True),
