@@ -121,6 +121,10 @@ def video(request, video_contest_id, video_id):
 
     return render(request, 'video_contest/video.html', {
         'home': False,
+        'layout': {
+            'content': 'col-lg-8',
+            'sidebar': 'col-lg-4',
+        },
         'page_title': video_contest.title,
         'video_contest': video_contest,
         'video': registration,

@@ -18,10 +18,20 @@
     <div class="container body">
         {% block body %}{% endblock %}
         <div class="row">
-            <div class="col-lg-9 content">
+            <div class="content
+                {% if layout %}
+                    {{ layout.content }}
+                {% else %}
+                    col-lg-9
+                {% endif %}">
                 {% block content %}{% endblock %}
             </div>
-            <aside class="col-lg-3 sidebar">
+            <aside class="sidebar
+                {% if layout %}
+                    {{ layout.sidebar }}
+                {% else %}
+                    col-lg-3
+                {% endif %}">
                 {% block sidebar %}{% endblock %}
             </aside>
         </div>
