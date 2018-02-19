@@ -153,6 +153,9 @@ def vote(request, video_contest_id, video_id):
         request.user.profile.voted_videos.add(video_contest_registration_id)
     elif method == 'DELETE':
         request.user.profile.voted_videos.remove(video_contest_registration_id)
+    registration = VideoContestRegistration.objects.get(id=video_contest_registration_id)
+    registration.votes = registration.voters.count()
+    registration.save()
     return redirect('video_contest_video', video_contest_id=video_contest_id, video_id=video_id)
 
 
