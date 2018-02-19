@@ -1,60 +1,32 @@
-.video-play h1 {
+.content {
+    font-size: 14px;
+}
+
+h1.video-title  {
     font-size: 18px;
-}
-
-.video-play .video-title {
-    padding-top: 20px;
-}
-
-.video-play .video-meta {
-    margin-bottom: 12px;
-}
-
-.video-meta .video-title {
-    font-size: 14px;
-    color: #000000;
-    margin-top: 8px;
-    margin-bottom: 8px;
-}
-
-.video-meta .contestant-avatar {
-    padding-right: 0px;
-}
-
-.video-meta .contestant-name {
-    font-size: 14px;
-    margin-bottom: 0px;
-}
-
-.video-meta a {
-    text-decoration: none !important;
-}
-
-.video-meta .submit-time {
-    font-size: 13px;
-}
-
-.video-intro {
-    font-size: 14px;
-}
-
-.video-aside {
-    padding-bottom: 8px;
 }
 
 aside h2 {
     font-size: 16px;
 }
 
-.video-aside .video-cover {
-    padding-left: 0px;
-    padding-right: 8px;
+h3.video-title {
+    font-size: 14px;
 }
 
-.video-aside .video-meta {
-    padding: 0px;
+.video-meta a {
+    text-decoration: none !important;
 }
 
-.video-aside .video-title {
-    margin-top: 0px;
+.content .video-meta {
+    line-height: 0.8;
+}
+
+.vote svg {
+
+    /*padding: 0px;*/
+    margin-top: 6px;
+    /*color: #900;*/
+    fill: currentColor;
+    /*background-color: currentColor;*/
 }

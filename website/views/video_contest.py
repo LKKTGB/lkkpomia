@@ -120,6 +120,7 @@ def video(request, video_contest_id, video_id):
         'video_contest': video_contest,
         'video': registration,
         'other_videos': VideoContestRegistration.objects.filter(event=video_contest, group=registration.group, qualified=True),
+        'is_voted': True,
         'nav_items': nav_items(request, video_contest_id, current='video'),
     })
 

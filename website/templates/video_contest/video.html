@@ -4,6 +4,7 @@
 
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
     <link rel="stylesheet" href="{% static 'css/video.css' %}">
 {% endblock %}
 
@@ -12,69 +13,72 @@
 {% endblock %}
 
 {% block content %}
+<div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item"
+        src="https://www.youtube.com/embed/{{ video.youtube_id }}"
+        frameborder="0" allowfullscreen></iframe>
+</div>
+<div class="row pt-4 pb-2 my-0">
+    <div class="col-10">
+        <h1 class="text-dark video-title">{{ video.video_title }}</h1>
+    </div>
+    <div class="col">
+        <form class="float-right" method='post'>
+            {% csrf_token %}
+            {{ vote_form }}
 
+            <button type="submit" class="btn vote
+                {% if not is_voted %}
+                    btn-outline-secondary
+                {% else %}
+                    btn-outline-success
+                {% endif %}
+                    ">
+                {{ 'thumb-up'|svg:'24 24' }}
+            </button>
+        </form>
+    </div>
+</div>
+<div class="row video-meta">
+    <div class="col-1 pr-0">
+        <img class="img-fluid rounded-circle" src="{{ video.submitter.profile.avatar_url }}">
+    </div>
+    <div class="col-11">
+        <p class="mb-0">{{ video.contestant_name }}</p>
+        <p class="text-muted">{{ video.submit_time|date:"Y 年 n 月 j 日參賽" }}</p>
+    </div>
+</div>
 <div class="row">
-    <div class="col-12 col-lg-8 video-play">
-        <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item"
-                src="https://www.youtube.com/embed/{{ video.youtube_id }}"
-                frameborder="0" allowfullscreen></iframe>
+    <div class="col-11 offset-1 video-intro">
+        {{ video.introduction|linebreaks }}
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div class="row">
+    <h2>更多影片</h2>
+</div>
+{% for video in other_videos %}
+    {% url 'video_contest_video' video_contest_id=video_contest.id video_id=video.id as video_url %}
+    {% for i in "12345" %}
+    <div class="row video-aside pb-2">
+        <div class="col-3 col-lg-4 pl-0 pr-2">
+            <a href="{{ video_url }}">
+                <img class="img-fluid" src="{{ video.cover_url }}">
+            </a>
         </div>
-        <div class="row video-title">
-            <div class="col-10">
-                <h1>{{ video.video_title }}</h1>
-            </div>
-            <div class="col-2">
-                <form method='post'>
-                    {% csrf_token %}
-                    {{ video_like_form }}
-                    <button class="btn btn-favorite" type="submit">按讚</button>
-                </form>
-            </div>
-        </div>
-        <div class="row video-meta">
-            <div class="col-1 contestant-avatar">
-                <img class="img-fluid rounded-circle" src="{{ video.submitter.profile.avatar_url }}">
-            </div>
-            <div class="col-11">
-                <p class="contestant-name">{{ video.contestant_name }}</p>
-                <small class="text-muted submit-time">{{ video.submit_time|date:"Y 年 n 月 j 日報名" }}</small>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-11 offset-1">
-                <p class="video-intro">{{ video.introduction }}</p>
-            </div>
+        <div class="col-9 col-lg-8 p-0 video-meta">
+            <a href="{{ video_url }}">
+                <h3 class="text-dark mt-0 video-title">{{ video.video_title }}</h3>
+            </a>
+            <a href="{{ video_url }}">
+                <small class="text-muted">
+                    {{ video.contestant_name }}
+                </small>
+            </a>
         </div>
     </div>
-
-    <aside class="col-12 col-lg-4">
-        <div class="row">
-            <h2>更多影片</h2>
-        </div>
-        {% for video in other_videos %}
-            {% url 'video_contest_video' video_contest_id=video_contest.id video_id=video.id as video_url %}
-            {% for i in "12345" %}
-            <div class="row video-aside">
-                <div class="col-3 col-lg-4 video-cover">
-                    <a href="{{ video_url }}">
-                        <img class="img-fluid" src="{{ video.cover_url }}">
-                    </a>
-                </div>
-                <div class="col-9 col-lg-8 video-meta">
-                    <a href="{{ video_url }}">
-                        <h3 class="video-title">{{ video.video_title }}</h3>
-                    </a>
-                    <a href="{{ video_url }}">
-                        <small class="text-muted">
-                            {{ video.contestant_name }}
-                        </small>
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-        {% endfor %}
-    </aside>
-</div>
-
+    {% endfor %}
+{% endfor %}
 {% endblock %}
