@@ -23,29 +23,5 @@
 {% endblock %}
 
 {% block sidebar %}
-<div class="card meta">
-    <div class="card-body p-2">
-        <h5 class="card-title">活動資訊</h5>
-        <div class="row mx-0 my-2">
-            <div class="px-2">
-                {{ 'calendar'|svg:'20 20' }}
-            </div>
-            <div class="col px-2 border border-dark border-top-0 border-bottom-0 border-right-0 float-right">
-                <p class="card-text my-0">
-                    {{ video_contest.start_time|date:'Y/m/d' }} ~ {{ video_contest.end_time|date:'Y/m/d' }}
-                </p>
-            </div>
-        </div>
-        <div class="row mx-0 my-2">
-            <div class="px-2">
-                {{ 'people'|svg:'20 20' }}
-            </div>
-            <div class="col px-2 border border-dark border-top-0 border-bottom-0 border-right-0 float-right">
-                <p class="card-text my-0">
-                    已有 {{ count_qualified }} 人報名成功
-                </p>
-            </div>
-        </div>
-        <a href="{% url 'video_contest_form' video_contest_id=video_contest.id %}" class="btn btn-outline-dark w-100">我要報名</a>
-</div>
+    {% include 'video_contest/info_sidebar.html' with video_contest=video_contest count_qualified=count_qualified %}
 {% endblock %}
