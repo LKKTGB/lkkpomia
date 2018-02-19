@@ -33,7 +33,12 @@
                 {% else %}
                     btn-outline-success
                 {% endif %}
-                    ">
+                    " data-toggle="tooltip" data-placement="bottom" title="
+                    {% if not is_voted %}
+                        投票
+                    {% else %}
+                        收回
+                    {% endif %}">
                 {{ 'thumb-up'|svg:'24 24' }}
             </button>
         </form>
