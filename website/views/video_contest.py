@@ -91,6 +91,7 @@ def form(request, video_contest_id):
 
     return render(request, 'video_contest/form.html', {
         'home': False,
+        'user': request.user,
         'video_contest': video_contest,
         'form': VideoContestRegistrationForm(video_contest),
         'nav_items': nav_items(request, video_contest_id, current='form'),
@@ -108,6 +109,7 @@ def gallery(request, video_contest_id):
 
     return render(request, 'video_contest/gallery.html', {
         'home': False,
+        'user': request.user,
         'video_contest': video_contest,
         'groups': groups,
         'registrations': {g.id: VideoContestRegistration.objects.filter(event=video_contest, group=g, qualified=True) for g in groups},
@@ -132,6 +134,7 @@ def video(request, video_contest_id, video_id):
 
     return render(request, 'video_contest/video.html', {
         'home': False,
+        'user': request.user,
         'layout': {
             'content': 'col-lg-8',
             'sidebar': 'col-lg-4',
@@ -173,6 +176,7 @@ def vote(request, video_contest_id, video_id):
 def thanks(request, video_contest_id):
     return render(request, 'video_contest/thanks.html', {
         'home': False,
+        'user': request.user,
         'video_contest_id': video_contest_id,
         'countdown': 10,
         'nav_items': nav_items(request, video_contest_id, current='thanks'),
