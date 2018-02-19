@@ -18,7 +18,13 @@
                         text-center
                     {% endif %}">
                     <a href="{% url 'home' %}">
-                        <h1 class="header-title text-dark">李江却台語文教基金會</h1>
+                        <h1 class="header-title text-dark">
+                            {% if page_title %}
+                                {{ page_title }}
+                            {% else %}
+                                李江却台語文教基金會
+                            {% endif %}
+                        </h1>
                     </a>
                 </div>
             </div>
