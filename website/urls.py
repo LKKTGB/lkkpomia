@@ -21,7 +21,7 @@ from website import views as website_views
 from website.views import video_contest as video_contest_views
 
 urlpatterns = [
-    path('', website_views.profile, name='home'),
+    path('', website_views.home, name='home'),
     path('video_contests/<video_contest_id>/info/',
          video_contest_views.info, name='video_contest_info'),
     path('video_contests/<video_contest_id>/announcements/',
