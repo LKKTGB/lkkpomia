@@ -74,6 +74,7 @@ def form_post(request, video_contest_id):
             'video_contest': video_contest,
             'form': form,
             'nav_items': nav_items(request, video_contest_id, current='form'),
+            'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
         })
 
 
@@ -91,6 +92,7 @@ def form(request, video_contest_id):
         'video_contest': video_contest,
         'form': VideoContestRegistrationForm(video_contest),
         'nav_items': nav_items(request, video_contest_id, current='form'),
+        'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
     })
 
 
