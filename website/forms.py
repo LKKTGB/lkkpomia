@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.widgets import HiddenInput
 from django.utils.translation import ugettext_lazy as _
 
 from website.models.video_contest_group import VideoContestGroup
@@ -37,3 +38,13 @@ class VideoContestRegistrationForm(forms.ModelForm):
         self.fields['group'].widget = forms.RadioSelect()
         self.fields['group'].choices = [(g.id, g.name)
                                         for g in VideoContestGroup.objects.filter(video_contest=video_contest)]
+
+
+class VideoContestVoteForm(forms.Form):
+    method = forms.ChoiceField(choices=[(m, m) for m in ('POST', 'DELETE')])
+    video_contest_registration_id = forms.IntegerField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['method'].widget = HiddenInput()
+        self.fields['video_contest_registration_id'].widget = HiddenInput()

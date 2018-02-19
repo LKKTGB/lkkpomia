@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from website.forms import VideoContestRegistrationForm
+from website.forms import VideoContestRegistrationForm, VideoContestVoteForm
 from website.models.video_contest import VideoContest
 from website.models.video_contest_group import VideoContestGroup
 from website.models.video_contest_registration import VideoContestRegistration
@@ -115,14 +115,38 @@ def video(request, video_contest_id, video_id):
     video_contest = VideoContest.objects.get(id=video_contest_id)
     registration = VideoContestRegistration.objects.get(id=video_id)
 
+    is_voted = request.user.is_authenticated and request.user.profile.voted_videos.filter(id=registration.id).exists()
+
     return render(request, 'video_contest/video.html', {
         'home': False,
         'video_contest': video_contest,
         'video': registration,
         'other_videos': VideoContestRegistration.objects.filter(event=video_contest, group=registration.group, qualified=True),
-        'is_voted': True,
+        'is_voted': is_voted,
+        'vote_form': VideoContestVoteForm(initial={
+            'method': 'DELETE' if is_voted else 'POST',
+            'video_contest_registration_id': registration.id
+        }),
         'nav_items': nav_items(request, video_contest_id, current='video'),
     })
+
+
+def vote(request, video_contest_id, video_id):
+    if request.method != 'POST':
+        return redirect('home')
+
+    vote_form = VideoContestVoteForm(data=request.POST)
+
+    if not vote_form.is_valid():
+        return redirect('home')
+
+    method = vote_form.cleaned_data['method']
+    video_contest_registration_id = vote_form.cleaned_data['video_contest_registration_id']
+    if method == 'POST':
+        request.user.profile.voted_videos.add(video_contest_registration_id)
+    elif method == 'DELETE':
+        request.user.profile.voted_videos.remove(video_contest_registration_id)
+    return redirect('video_contest_video', video_contest_id=video_contest_id, video_id=video_id)
 
 
 def thanks(request, video_contest_id):

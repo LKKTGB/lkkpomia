@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-18 04:08+0800\n"
+"POT-Creation-Date: 2018-02-19 11:43+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -236,6 +236,10 @@ msgstr "其他問題"
 #: website/models/video_contest_registration.py
 msgid "video_contest_registration_qualified"
 msgstr "審核通過"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_votes"
+msgstr "票數"
 
 #: website/models/video_contest_registration.py
 msgid "video_contest_registration"
