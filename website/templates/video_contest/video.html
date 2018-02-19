@@ -21,6 +21,7 @@
 <div class="row pt-4 pb-2 my-0">
     <div class="col-10">
         <h1 class="text-dark video-title">{{ video.video_title }}</h1>
+        <p class="text-muted">共得到 {{ video.voters.count }} 票</p>
     </div>
     <div class="col">
         <form class="float-right" action="{% url 'video_contest_video_vote' video_contest_id=video_contest.id video_id=video.id %}" method='post'>
@@ -78,9 +79,14 @@
                 <h3 class="text-dark mt-0 video-title">{{ video.video_title }}</h3>
             </a>
             <a href="{{ video_url }}">
-                <small class="text-muted">
+                <p class="my-2 text-muted">
                     {{ video.contestant_name }}
-                </small>
+                </p>
+            </a>
+            <a href="{{ video_url }}">
+                <p class="my-0 text-muted">
+                    共得到 {{ video.voters.count }} 票
+                </p>
             </a>
         </div>
     </div>
