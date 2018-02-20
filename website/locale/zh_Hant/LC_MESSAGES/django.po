@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-19 11:43+0800\n"
+"POT-Creation-Date: 2018-02-20 16:41+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -242,12 +242,20 @@ msgid "video_contest_registration_votes"
 msgstr "票數"
 
 #: website/models/video_contest_registration.py
+msgid "video_contest_registration_video_number"
+msgstr "影片編號"
+
+#: website/models/video_contest_registration.py
 msgid "video_contest_registration"
 msgstr "影片比賽報名表"
 
 #: website/models/video_contest_registration.py
 msgid "video_contest_registrations"
 msgstr "影片比賽報名表列表"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_video_number_validate_unique_error"
+msgstr "每個比賽的影片編號不能重複"
 
 #: website/models/video_contest_registration.py
 msgid "video_contest_registration_submitter"

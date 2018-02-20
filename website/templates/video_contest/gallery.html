@@ -30,14 +30,14 @@
         <div class="tab-pane {% if forloop.counter0 == 0 %}active{% endif %}" id="group_{{ group.id }}" role="tabpanel">
             <div class="row">
                 {% for registration in registrations|hash:group.id %}
-                    {% url 'video_contest_video' video_contest_id=video_contest.id video_id=registration.id as video_url %}
+                    {% url 'video_contest_video' video_contest_id=video_contest.id video_number=registration.video_number as video_url %}
                     <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 video-grid">
                         <a href="{{ video_url }}">
                             <img class="img-fluid" src="{{ registration.cover_url }}">
                         </a>
                         <div class="video-meta">
                             <a href="{{ video_url }}">
-                                <h3 class="video-title">{{ registration.video_title|truncatechars:40 }}</h3>
+                                <h3 class="video-title">#{{ registration.video_number }} {{ registration.video_title|truncatechars:40 }}</h3>
                             </a>
                             <a href="{{ video_url }}">
                                 <small class="text-muted">

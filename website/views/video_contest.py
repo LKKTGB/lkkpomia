@@ -138,13 +138,13 @@ def get_random_qualified_videos(count):
     return sample(videos, len(videos))
 
 
-def video(request, video_contest_id, video_id):
+def video(request, video_contest_id, video_number):
     video_contest = VideoContest.objects.get(id=video_contest_id)
-    registration = VideoContestRegistration.objects.get(id=video_id)
+    registration = VideoContestRegistration.objects.get(event=video_contest, video_number=video_number)
 
     is_voted = request.user.is_authenticated and request.user.profile.voted_videos.filter(id=registration.id).exists()
     videos = get_random_qualified_videos(count=10)
-    other_videos = [v for v in videos if v.id != video_id]
+    other_videos = [v for v in videos if v.id != registration.id]
 
     return render(request, 'video_contest/video.html', {
         'home': False,
@@ -180,7 +180,7 @@ def video(request, video_contest_id, video_id):
 
 
 @login_required
-def vote(request, video_contest_id, video_id):
+def vote(request, video_contest_id, video_number):
     if request.method != 'POST':
         return redirect('home')
 
@@ -198,7 +198,7 @@ def vote(request, video_contest_id, video_id):
     registration = VideoContestRegistration.objects.get(id=video_contest_registration_id)
     registration.votes = registration.voters.count()
     registration.save()
-    return redirect('video_contest_video', video_contest_id=video_contest_id, video_id=video_id)
+    return redirect('video_contest_video', video_contest_id=video_contest_id, video_number=video_number)
 
 
 def thanks(request, video_contest_id):

@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from embed_video.fields import EmbedVideoField
@@ -21,6 +22,7 @@ class VideoContestRegistration(Registration):
 
     qualified = models.BooleanField(_('video_contest_registration_qualified'), default=False)
     votes = models.PositiveIntegerField(_('video_contest_registration_votes'), default=0)
+    video_number = models.PositiveIntegerField(_('video_contest_registration_video_number'), null=True, blank=True)
 
     class Meta:
         verbose_name = _('video_contest_registration')
@@ -28,6 +30,11 @@ class VideoContestRegistration(Registration):
 
     def __str__(self):
         return '%s - %s' % (self.event.title, self.video_title)
+
+    def validate_unique(self, exclude=None):
+        qs = VideoContestRegistration.objects.filter(event=self.event)
+        if self.video_number and qs.filter(video_number=self.video_number).exists():
+            raise ValidationError(_('video_contest_registration_video_number_validate_unique_error'))
 
     @property
     def youtube_id(self):
