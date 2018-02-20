@@ -49,6 +49,10 @@
                             <img class="rounded-circle float-right avatar" src={{ user.profile.avatar_url }}>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
+                            {%  if user.is_staff or user.is_superuser %}
+                                <a class="dropdown-item" href="{% url 'admin:index' %}">管理後台</a>
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
                             <a class="dropdown-item" href="{% url 'logout' %}?next={{ request.path }}">登出</a>
                         </div>
                     </li>
