@@ -15,8 +15,8 @@ def nav_items(request, video_contest_id, current):
     items = []
     for name, view in {
             '活動內容': 'info',
-            '最新公告': 'announcements',
-            '得獎影片': 'winners',
+            # '最新公告': 'announcements',
+            # '得獎影片': 'winners',
             '參賽影片': 'gallery'}.items():
         items.append({
             'name': name,
@@ -34,9 +34,9 @@ def info(request, video_contest_id):
         'user': request.user,
         'video_contest': video_contest,
         'nav_items': nav_items(request, video_contest_id, current='info'),
-        'search': {
-            'placeholder': '搜尋參賽影片'
-        },
+        # 'search': {
+        #     'placeholder': '搜尋參賽影片'
+        # },
         'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
         'modal': {
             'target': {
