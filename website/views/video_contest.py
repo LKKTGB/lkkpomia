@@ -38,6 +38,17 @@ def info(request, video_contest_id):
             'placeholder': '搜尋參賽影片'
         },
         'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
+        'modal': {
+            'target': {
+                'id': 'login_for_registration',
+            },
+            'title': '李江却台語文教基金會',
+            'body': '要先登入才可報名喔！',
+            'action': {
+                'name': '使用 Facebook 註冊／登入',
+                'url': reverse('social:begin', args=('facebook',)),
+            }
+        }
     })
 
 
