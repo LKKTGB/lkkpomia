@@ -14,6 +14,7 @@ class VideoContestRegistrationForm(forms.ModelForm):
             'submitter',
             'qualified',
             'votes',
+            'video_number',
         )
         widgets = {
             'event': forms.HiddenInput()
