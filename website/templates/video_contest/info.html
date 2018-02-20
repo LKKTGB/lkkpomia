@@ -25,3 +25,9 @@
 {% block sidebar %}
     {% include 'video_contest/info_sidebar.html' with video_contest=video_contest count_qualified=count_qualified %}
 {% endblock %}
+
+{% block footer %}
+    {% if modal %}
+        {% include 'video_contest/modal.html' with modal=modal %}
+    {% endif %}
+{% endblock %}

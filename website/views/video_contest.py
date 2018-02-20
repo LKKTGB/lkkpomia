@@ -38,6 +38,19 @@ def info(request, video_contest_id):
             'placeholder': '搜尋參賽影片'
         },
         'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
+        'modal': {
+            'target': {
+                'id': 'login_for_registration',
+            },
+            'title': '李江却台語文教基金會',
+            'body': '要先登入才可報名喔！',
+            'action': {
+                'name': '使用 Facebook 註冊／登入',
+                'url': '{url}?next={next}'.format(
+                    url=reverse('social:begin', args=('facebook',)),
+                    next=reverse('video_contest_form', args=(video_contest_id))),
+            }
+        }
     })
 
 
@@ -80,8 +93,9 @@ def form_post(request, video_contest_id):
         })
 
 
-@login_required
 def form(request, video_contest_id):
+    if not request.user.is_authenticated:
+        return redirect('video_contest_info', video_contest_id=video_contest_id)
     if request.method == 'POST':
         return form_post(request, video_contest_id)
     try:
@@ -91,6 +105,7 @@ def form(request, video_contest_id):
 
     return render(request, 'video_contest/form.html', {
         'home': False,
+        'user': request.user,
         'video_contest': video_contest,
         'form': VideoContestRegistrationForm(video_contest),
         'nav_items': nav_items(request, video_contest_id, current='form'),
@@ -108,6 +123,7 @@ def gallery(request, video_contest_id):
 
     return render(request, 'video_contest/gallery.html', {
         'home': False,
+        'user': request.user,
         'video_contest': video_contest,
         'groups': groups,
         'registrations': {g.id: VideoContestRegistration.objects.filter(event=video_contest, group=g, qualified=True) for g in groups},
@@ -132,6 +148,7 @@ def video(request, video_contest_id, video_id):
 
     return render(request, 'video_contest/video.html', {
         'home': False,
+        'user': request.user,
         'layout': {
             'content': 'col-lg-8',
             'sidebar': 'col-lg-4',
@@ -146,9 +163,23 @@ def video(request, video_contest_id, video_id):
             'video_contest_registration_id': registration.id
         }),
         'nav_items': nav_items(request, video_contest_id, current='video'),
+        'modal': {
+            'target': {
+                'id': 'login_for_voting',
+            },
+            'title': '李江却台語文教基金會',
+            'body': '要先登入才可投票喔！',
+            'action': {
+                'name': '使用 Facebook 註冊／登入',
+                'url': '{url}?next={next}'.format(
+                    url=reverse('social:begin', args=('facebook',)),
+                    next=request.path),
+            }
+        }
     })
 
 
+@login_required
 def vote(request, video_contest_id, video_id):
     if request.method != 'POST':
         return redirect('home')
@@ -173,6 +204,7 @@ def vote(request, video_contest_id, video_id):
 def thanks(request, video_contest_id):
     return render(request, 'video_contest/thanks.html', {
         'home': False,
+        'user': request.user,
         'video_contest_id': video_contest_id,
         'countdown': 10,
         'nav_items': nav_items(request, video_contest_id, current='thanks'),

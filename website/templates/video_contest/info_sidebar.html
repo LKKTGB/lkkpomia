@@ -21,6 +21,14 @@
                 </p>
             </div>
         </div>
-        <a href="{% url 'video_contest_form' video_contest_id=video_contest.id %}" class="btn btn-outline-dark w-100">我要報名</a>
+
+        <a class="btn btn-outline-dark w-100"
+            {% if user.is_authenticated %}
+                href="{% url 'video_contest_form' video_contest_id=video_contest.id %}"
+            {% else %}
+                data-toggle="modal" data-target="#{{ modal.target.id }}" href="#"
+            {% endif %}>
+            我要報名
+        </a>
     </div>
 </div>

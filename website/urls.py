@@ -21,7 +21,7 @@ from website import views as website_views
 from website.views import video_contest as video_contest_views
 
 urlpatterns = [
-    path('', website_views.profile, name='home'),
+    path('', website_views.home, name='home'),
     path('video_contests/<video_contest_id>/info/',
          video_contest_views.info, name='video_contest_info'),
     path('video_contests/<video_contest_id>/announcements/',
@@ -40,7 +40,7 @@ urlpatterns = [
          video_contest_views.thanks, name='video_contest_thanks'),
     path('admin/', admin.site.urls),
     path('login/', auth_views.login, {'template_name': 'login.html'}, name='login'),
-    path('logout/', auth_views.logout, name='logout'),
+    path('logout/', auth_views.logout, {'next_page': 'home'}, name='logout'),
     path('', include('social_django.urls', namespace='social')),
     path('grappelli/', include('grappelli.urls')),
 ]

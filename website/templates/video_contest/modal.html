@@ -1,0 +1,30 @@
+<div class="modal fade" id="{{ modal.target.id }}" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content border-0">
+            <div class="modal-body p-0">
+                <div class="text-center bg-info text-white">
+                    <h5 class="modal-title py-5" id="{{ modal.target.id }}">
+                        {{ modal.title }}
+                    </h5>
+                </div>
+                <div class="col text-center mt-4">
+                    <strong>
+                        {{ modal.body }}
+                    </strong>
+                    <div class="row align-items-center mx-0 mt-4">
+                        <div class="col">
+                            <a class="btn btn-info w-80" href="{{ modal.action.url }}">
+                                {{ modal.action.name }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <a class="text-dark text-center w-100 my-3" href="#" data-dismiss="modal">
+                            下次再說
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
