@@ -46,7 +46,9 @@ def info(request, video_contest_id):
             'body': '要先登入才可報名喔！',
             'action': {
                 'name': '使用 Facebook 註冊／登入',
-                'url': reverse('social:begin', args=('facebook',)),
+                'url': '{url}?next={next}'.format(
+                    url=reverse('social:begin', args=('facebook',)),
+                    next=reverse('video_contest_form', args=(video_contest_id))),
             }
         }
     })
