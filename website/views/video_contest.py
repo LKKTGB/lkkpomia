@@ -91,8 +91,9 @@ def form_post(request, video_contest_id):
         })
 
 
-@login_required
 def form(request, video_contest_id):
+    if not request.user.is_authenticated:
+        return redirect('video_contest_info', video_contest_id=video_contest_id)
     if request.method == 'POST':
         return form_post(request, video_contest_id)
     try:
