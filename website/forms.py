@@ -12,10 +12,12 @@ class VideoContestRegistrationForm(forms.ModelForm):
         model = VideoContestRegistration
         exclude = (
             'submitter',
-            'event',
             'qualified',
             'votes',
         )
+        widgets = {
+            'event': forms.HiddenInput()
+        }
         labels = {
             'contestant_name': _('video_contest_registration_form_contestant_name_label'),
         }

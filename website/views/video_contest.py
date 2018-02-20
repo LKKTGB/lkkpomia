@@ -107,7 +107,7 @@ def form(request, video_contest_id):
         'home': False,
         'user': request.user,
         'video_contest': video_contest,
-        'form': VideoContestRegistrationForm(video_contest),
+        'form': VideoContestRegistrationForm(video_contest, initial={'event': video_contest}),
         'nav_items': nav_items(request, video_contest_id, current='form'),
         'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
     })
