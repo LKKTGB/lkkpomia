@@ -53,7 +53,7 @@
                         </div>
                     </li>
                 {% else %}
-                    <a class="btn btn-outline-dark" role="button" href="{% url 'social:begin' 'facebook' %}">登入／註冊</a>
+                    <a class="btn btn-outline-dark" role="button" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">登入／註冊</a>
                 {% endif %}
             </div>
         </div>
