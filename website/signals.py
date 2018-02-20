@@ -24,6 +24,6 @@ def generate_video_number_after_qualified(sender, instance, **kwargs):
         return
     if instance.video_number:
         return
-    next_number = VideoContestRegistration.objects.all().aggregate(Max('video_number'))['video_number__max'] + 1
-    instance.video_number = next_number
+    last_number = VideoContestRegistration.objects.all().aggregate(Max('video_number'))['video_number__max'] or 0
+    instance.video_number = last_number + 1
     instance.save()
