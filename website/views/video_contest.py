@@ -171,7 +171,9 @@ def video(request, video_contest_id, video_id):
             'body': '要先登入才可投票喔！',
             'action': {
                 'name': '使用 Facebook 註冊／登入',
-                'url': reverse('social:begin', args=('facebook',)),
+                'url': '{url}?next={next}'.format(
+                    url=reverse('social:begin', args=('facebook',)),
+                    next=request.path),
             }
         }
     })
