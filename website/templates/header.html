@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <header class="header
     {% if home %}
         header-home
@@ -11,7 +13,7 @@
             {% endif %}">
             <div class="row mx-0">
                 <a href="{% url 'home' %}">
-                    <img class="header-brand mt-3 mr-3 mb-0" src="https://pbs.twimg.com/profile_images/1871492523/logo_400x400.jpg" alt="">
+                    <img class="header-brand mt-3 mr-3 mb-0" src="{% static 'img/logo.jpg' %}" alt="">
                 </a>
                 <div class="col px-0
                     {% if home %}
