@@ -1,5 +1,6 @@
 from django import forms
 from django.forms.widgets import HiddenInput
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from website.models.video_contest_group import VideoContestGroup
@@ -42,6 +43,20 @@ class VideoContestRegistrationForm(forms.ModelForm):
         self.fields['group'].widget = forms.RadioSelect()
         self.fields['group'].choices = [(g.id, g.name)
                                         for g in VideoContestGroup.objects.filter(video_contest=video_contest)]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        video_contest = cleaned_data.get('event')
+
+        now = timezone.now()
+        if now < video_contest.registration_start_time:
+            raise forms.ValidationError(
+                '%s 開放報名' % video_contest.registration_start_time.strftime('%Y/%m/%d %H:%M')
+            )
+        elif now > video_contest.registration_end_time:
+            raise forms.ValidationError(
+                '已截止報名'
+            )
 
 
 class VideoContestVoteForm(forms.Form):

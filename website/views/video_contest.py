@@ -27,6 +27,38 @@ def nav_items(request, video_contest_id, current):
     return items
 
 
+def get_modal_for_registration(video_contest):
+    now = timezone.now()
+    if now < video_contest.registration_start_time:
+        body = '%s 開放報名' % video_contest.registration_start_time.strftime('%Y/%m/%d %H:%M')
+        actions = [{
+            'name': '我知道了'
+        }]
+    elif now > video_contest.registration_end_time:
+        body = '已截止報名'
+        actions = [{
+            'name': '我知道了'
+        }]
+    else:
+        body = '要先登入才可報名喔！'
+        actions = [{
+            'name': '使用 Facebook 註冊／登入',
+            'url': '{url}?next={next}'.format(
+                    url=reverse('social:begin', args=('facebook',)),
+                    next=reverse('video_contest_form', args=(video_contest.id,))),
+        }, {
+            'name': '下次再說',
+        }]
+    return {
+        'target': {
+            'id': 'validation_before_registration',
+        },
+        'title': '李江却台語文教基金會',
+        'body': body,
+        'actions': actions
+    }
+
+
 def info(request, video_contest_id):
     video_contest = VideoContest.objects.get(id=video_contest_id)
 
@@ -39,21 +71,7 @@ def info(request, video_contest_id):
         #     'placeholder': '搜尋參賽影片'
         # },
         'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
-        'modal': {
-            'target': {
-                'id': 'validation_before_registration',
-            },
-            'title': '李江却台語文教基金會',
-            'body': '要先登入才可報名喔！',
-            'actions': [{
-                'name': '使用 Facebook 註冊／登入',
-                'url': '{url}?next={next}'.format(
-                    url=reverse('social:begin', args=('facebook',)),
-                    next=reverse('video_contest_form', args=(video_contest_id))),
-            }, {
-                'name': '下次再說',
-            }]
-        }
+        'modal': get_modal_for_registration(video_contest)
     })
 
 
