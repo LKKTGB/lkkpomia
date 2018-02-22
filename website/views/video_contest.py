@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils import timezone
 
 from website.forms import VideoContestRegistrationForm, VideoContestVoteForm
 from website.models.video_contest import VideoContest
@@ -40,16 +41,18 @@ def info(request, video_contest_id):
         'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
         'modal': {
             'target': {
-                'id': 'login_for_registration',
+                'id': 'validation_before_registration',
             },
             'title': '李江却台語文教基金會',
             'body': '要先登入才可報名喔！',
-            'action': {
+            'actions': [{
                 'name': '使用 Facebook 註冊／登入',
                 'url': '{url}?next={next}'.format(
                     url=reverse('social:begin', args=('facebook',)),
                     next=reverse('video_contest_form', args=(video_contest_id))),
-            }
+            }, {
+                'name': '下次再說',
+            }]
         }
     })
 
@@ -169,12 +172,14 @@ def video(request, video_contest_id, video_number):
             },
             'title': '李江却台語文教基金會',
             'body': '要先登入才可投票喔！',
-            'action': {
+            'actions': [{
                 'name': '使用 Facebook 註冊／登入',
                 'url': '{url}?next={next}'.format(
                     url=reverse('social:begin', args=('facebook',)),
                     next=request.path),
-            }
+            }, {
+                'name': '下次再說',
+            }]
         }
     })
 
