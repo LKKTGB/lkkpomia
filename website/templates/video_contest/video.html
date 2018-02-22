@@ -24,7 +24,7 @@
         <p class="text-muted">{{ video.group.name }}／共得到 {{ video.votes }} 票</p>
     </div>
     <div class="col">
-        {% if user.is_authenticated %}
+        {% if not modal %}
             <form class="float-right" action="{% url 'video_contest_video_votes' video_contest_id=video_contest.id video_number=video.video_number %}" method='post'>
                 {% csrf_token %}
                 {{ vote_form }}
@@ -45,7 +45,12 @@
                 </button>
             </form>
         {% else %}
-            <button class="float-right btn vote btn-outline-secondary" data-toggle="modal" data-target="#{{ modal.target.id }}">
+            <button class="float-right btn vote
+                {% if not is_voted %}
+                    btn-outline-secondary
+                {% else %}
+                    btn-outline-success
+                {% endif %}" data-toggle="modal" data-target="#{{ modal.target.id }}">
                 {{ 'thumb-up'|svg:'24 24' }}
             </button>
         {% endif %}
