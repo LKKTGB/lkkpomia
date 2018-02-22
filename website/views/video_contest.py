@@ -159,6 +159,45 @@ def get_random_qualified_videos(count):
     return sample(videos, len(videos))
 
 
+def get_modal_for_voting(request, video_contest):
+    now = timezone.now()
+    popup = False
+    if now < video_contest.voting_start_time:
+        popup = True
+        body = '%s\n開放投票' % video_contest.voting_start_time.strftime('%Y/%m/%d %H:%M')
+        actions = [{
+            'name': '我知道了'
+        }]
+    elif now > video_contest.voting_end_time:
+        popup = True
+        body = '已截止投票'
+        actions = [{
+            'name': '我知道了'
+        }]
+    elif not request.user.is_authenticated:
+        popup = True
+        body = '要先登入才可投票喔！'
+        actions = [{
+            'name': '使用 Facebook 註冊／登入',
+            'url': '{url}?next={next}'.format(
+                    url=reverse('social:begin', args=('facebook',)),
+                    next=request.path),
+        }, {
+            'name': '下次再說',
+        }]
+    if popup:
+        return {
+            'target': {
+                'id': 'validation_before_voting',
+            },
+            'title': '李江却台語文教基金會',
+            'body': body,
+            'actions': actions
+        }
+    else:
+        return None
+
+
 def video(request, video_contest_id, video_number):
     video_contest = VideoContest.objects.get(id=video_contest_id)
     registration = VideoContestRegistration.objects.get(event=video_contest, video_number=video_number)
@@ -184,21 +223,7 @@ def video(request, video_contest_id, video_number):
             'video_contest_registration_id': registration.id
         }),
         'nav_items': nav_items(request, video_contest_id, current='video'),
-        'modal': {
-            'target': {
-                'id': 'login_for_voting',
-            },
-            'title': '李江却台語文教基金會',
-            'body': '要先登入才可投票喔！',
-            'actions': [{
-                'name': '使用 Facebook 註冊／登入',
-                'url': '{url}?next={next}'.format(
-                    url=reverse('social:begin', args=('facebook',)),
-                    next=request.path),
-            }, {
-                'name': '下次再說',
-            }]
-        }
+        'modal': get_modal_for_voting(request, video_contest)
     })
 
 

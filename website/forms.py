@@ -3,6 +3,7 @@ from django.forms.widgets import HiddenInput
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+from website.models.video_contest import VideoContest
 from website.models.video_contest_group import VideoContestGroup
 from website.models.video_contest_registration import VideoContestRegistration
 
@@ -67,3 +68,19 @@ class VideoContestVoteForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['method'].widget = HiddenInput()
         self.fields['video_contest_registration_id'].widget = HiddenInput()
+
+    def clean(self):
+        cleaned_data = super().clean()
+        video_contest_registration_id = cleaned_data.get('video_contest_registration_id')
+        video_contset_registration = VideoContestRegistration.objects.get(id=video_contest_registration_id)
+        video_contest = VideoContest.objects.get(id=video_contset_registration.event.id)
+
+        now = timezone.now()
+        if now < video_contest.voting_start_time:
+            raise forms.ValidationError(
+                '%s 開放投票' % video_contest.voting_start_time.strftime('%Y/%m/%d %H:%M')
+            )
+        elif now > video_contest.voting_end_time:
+            raise forms.ValidationError(
+                '已截止投票'
+            )
