@@ -230,12 +230,12 @@ def video(request, video_contest_id, video_number):
 @login_required
 def vote(request, video_contest_id, video_number):
     if request.method != 'POST':
-        return redirect('home')
+        return redirect('video_contest_video', video_contest_id=video_contest_id, video_number=video_number)
 
     vote_form = VideoContestVoteForm(data=request.POST)
 
     if not vote_form.is_valid():
-        return redirect('home')
+        return redirect('video_contest_video', video_contest_id=video_contest_id, video_number=video_number)
 
     method = vote_form.cleaned_data['method']
     video_contest_registration_id = vote_form.cleaned_data['video_contest_registration_id']
