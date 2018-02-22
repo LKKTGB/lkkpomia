@@ -32,6 +32,7 @@ class VideoContestRegistration(Registration):
         return '%s - %s' % (self.event.title, self.video_title)
 
     def validate_unique(self, exclude=None):
+        super().validate_unique(exclude)
         qs = VideoContestRegistration.objects.filter(event=self.event)
         if self.video_number and qs.filter(video_number=self.video_number).exists():
             raise ValidationError(_('video_contest_registration_video_number_validate_unique_error'))
