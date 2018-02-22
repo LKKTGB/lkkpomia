@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+    <link rel="stylesheet" href="{% static 'css/video_contest/form.css' %}">
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' with user=user search=search nav_items=nav_items %}
+{% endblock %}
+
+{% block content %}
+<h1>{{ video_contest.title }} 報名表</h1>
+
+<form class="mb-5" action="{% url 'video_contest_form' video_contest_id=video_contest.id %}" method="POST">
+    {% csrf_token %}
+
+    {% include 'bootstrap4/form.html' with form=form %}
+    <div class="form-check">
+        <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" required>
+            本人同意主辦單位基於宣傳及存證等需要下載、再製或再利用參賽之影片。
+        </label>
+    </div>
+    <div class="form-check">
+        <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" required>
+            本人已瞭解並同意大會規定（大會規定請見活動簡章），若入選評審獎，需配合出席頒獎典禮，方能領取獎勵金，否則視為棄權。
+        </label>
+    </div>
+    <div class="form-check">
+        <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" required>
+            上述資料皆正確無誤。
+        </label>
+    </div>
+    <button type="submit" class="btn btn-outline-dark mt-4">送出報名表</button>
+</form>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'video_contest/info_sidebar.html' with video_contest=video_contest count_qualified=count_qualified %}
+{% endblock %}

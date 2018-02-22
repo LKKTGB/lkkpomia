@@ -1,0 +1,278 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-02-20 16:41+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: website/apps.py
+msgid "app_website"
+msgstr "李江却台語文教基金會"
+
+#: website/forms.py
+msgid "video_contest_registration_form_contestant_name_label"
+msgstr "參賽者姓名（本活動每人以一件作品為限）"
+
+#: website/forms.py
+msgid "video_contest_registration_form_contestant_name_help_text"
+msgstr ""
+"兩人(含)以上之團體，需填寫一人為代表人。例：有影二人組(代表人：胡宇穎)。"
+
+#: website/forms.py
+msgid "video_contest_registration_form_address_help_text"
+msgstr "影片通過審查者，大會將寄送參加禮物一份。"
+
+#: website/forms.py
+msgid "video_contest_registration_form_email_help_text"
+msgstr "請避免 Yahoo 或 PChome 等免費信箱以免收不到比賽相關通知及資訊。"
+
+#: website/forms.py
+msgid "video_contest_registration_form_video_title_help_text"
+msgstr "20 字以內。"
+
+#: website/forms.py
+msgid "video_contest_registration_form_introduction_help_text"
+msgstr "50 字以內。"
+
+#: website/forms.py
+msgid "video_contest_registration_form_youtube_url_help_text"
+msgstr "影片請設為「公開」。"
+
+#: website/forms.py
+msgid "video_contest_registration_form_questions_help_text"
+msgstr "任何問題或提醒可於此提出。"
+
+#: website/forms.py
+msgid "video_contest_registration_form_youtube_url_error_messages_unique"
+msgstr "這個 Youtube 影片已經報名過了！"
+
+#: website/models/announcement.py
+msgid "announcement_title"
+msgstr "標題"
+
+#: website/models/announcement.py
+msgid "announcement_body"
+msgstr "內文"
+
+#: website/models/announcement.py website/models/event.py
+#: website/models/registration.py
+msgid "event"
+msgstr "活動"
+
+#: website/models/announcement.py
+msgid "announcement_create_time"
+msgstr "刊登時間"
+
+#: website/models/announcement.py
+msgid "announcement_update_time"
+msgstr "更新時間"
+
+#: website/models/announcement.py
+msgid "announcement"
+msgstr "活動公告"
+
+#: website/models/announcement.py
+msgid "announcements"
+msgstr "活動公告列表"
+
+#: website/models/event.py
+msgid "event_start_time"
+msgstr "開始時間"
+
+#: website/models/event.py
+msgid "event_end_time"
+msgstr "結束時間"
+
+#: website/models/event.py
+msgid "events"
+msgstr "活動列表"
+
+#: website/models/post.py
+msgid "post_title"
+msgstr "標題"
+
+#: website/models/post.py
+msgid "post_body"
+msgstr "內文"
+
+#: website/models/post.py
+msgid "post_tags"
+msgstr "標籤"
+
+#: website/models/post.py
+msgid "post_tags_help_text"
+msgstr "可以輸入多個標籤，標籤間請用半形逗號 , 隔開。"
+
+#: website/models/post.py
+msgid "post_create_time"
+msgstr "新增時間"
+
+#: website/models/post.py
+msgid "post_update_time"
+msgstr "更新時間"
+
+#: website/models/post.py
+msgid "post"
+msgstr "文章"
+
+#: website/models/post.py
+msgid "posts"
+msgstr "文章列表"
+
+#: website/models/registration.py
+msgid "registration_submitter"
+msgstr "報名者"
+
+#: website/models/registration.py
+msgid "registration_submit_time"
+msgstr "報名時間"
+
+#: website/models/registration.py
+msgid "registration"
+msgstr "報名表"
+
+#: website/models/registration.py
+msgid "registrations"
+msgstr "報名表列表"
+
+#: website/models/salon.py
+msgid "salon_venue"
+msgstr "地點"
+
+#: website/models/salon.py
+msgid "salon_address"
+msgstr "地址"
+
+#: website/models/salon.py
+msgid "salon_door_time"
+msgstr "入場時間"
+
+#: website/models/salon.py
+msgid "salon"
+msgstr "講座"
+
+#: website/models/salon.py
+msgid "salons"
+msgstr "講座列表"
+
+#: website/models/salon_registration.py
+msgid "salon_registration"
+msgstr "講座報名表"
+
+#: website/models/salon_registration.py
+msgid "salon_registrations"
+msgstr "講座報名表列表"
+
+#: website/models/video_contest.py website/models/video_contest_group.py
+#: website/models/video_contest_winner.py
+msgid "video_contest"
+msgstr "影片比賽"
+
+#: website/models/video_contest.py
+msgid "video_contests"
+msgstr "影片比賽列表"
+
+#: website/models/video_contest_group.py
+msgid "video_contest_group_name"
+msgstr "名稱"
+
+#: website/models/video_contest_group.py
+msgid "video_contest_group"
+msgstr "分組"
+
+#: website/models/video_contest_group.py
+msgid "video_contest_groups"
+msgstr "分組列表"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_contestant_name"
+msgstr "參賽者姓名"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_phone_number"
+msgstr "聯絡電話"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_address"
+msgstr "聯絡地址"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_email"
+msgstr "聯絡人 Email"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_video_title"
+msgstr "影片名稱"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_introduction"
+msgstr "影片簡介"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_youtube_url"
+msgstr "Youtube 影片連結"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_group"
+msgstr "參賽組別"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_questions"
+msgstr "其他問題"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_qualified"
+msgstr "審核通過"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_votes"
+msgstr "票數"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_video_number"
+msgstr "影片編號"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration"
+msgstr "影片比賽報名表"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registrations"
+msgstr "影片比賽報名表列表"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_video_number_validate_unique_error"
+msgstr "每個比賽的影片編號不能重複"
+
+#: website/models/video_contest_registration.py
+msgid "video_contest_registration_submitter"
+msgstr "參賽者"
+
+#: website/models/video_contest_winner.py
+msgid "video_contest_winner_registration"
+msgstr "參賽者"
+
+#: website/models/video_contest_winner.py
+msgid "video_contest_winner_prize"
+msgstr "獎項"
+
+#: website/models/video_contest_winner.py
+msgid "video_contest_winner"
+msgstr "影片比賽得獎者"
+
+#: website/models/video_contest_winner.py
+msgid "video_contest_winners"
+msgstr "影片比賽得獎者列表"

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load filters %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+    <link rel="stylesheet" href="{% static 'css/video_contest/video.css' %}">
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' with user=user search=search nav_items=nav_items %}
+{% endblock %}
+
+{% block content %}
+<div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item"
+        src="https://www.youtube.com/embed/{{ video.youtube_id }}"
+        frameborder="0" allowfullscreen></iframe>
+</div>
+<div class="row pt-4 pb-2 my-0">
+    <div class="col-10">
+        <h1 class="text-dark video-title">#{{ video.video_number }} {{ video.video_title }}</h1>
+        <p class="text-muted">{{ video.group.name }}／共得到 {{ video.votes }} 票</p>
+    </div>
+    <div class="col">
+        {% if user.is_authenticated %}
+            <form class="float-right" action="{% url 'video_contest_video_votes' video_contest_id=video_contest.id video_number=video.video_number %}" method='post'>
+                {% csrf_token %}
+                {{ vote_form }}
+
+                <button type="submit" class="btn vote
+                    {% if not is_voted %}
+                        btn-outline-secondary
+                    {% else %}
+                        btn-outline-success
+                    {% endif %}
+                        " data-toggle="tooltip" data-placement="bottom" title="
+                        {% if not is_voted %}
+                            投票
+                        {% else %}
+                            收回
+                        {% endif %}">
+                    {{ 'thumb-up'|svg:'24 24' }}
+                </button>
+            </form>
+        {% else %}
+            <button class="float-right btn vote btn-outline-secondary" data-toggle="modal" data-target="#{{ modal.target.id }}">
+                {{ 'thumb-up'|svg:'24 24' }}
+            </button>
+        {% endif %}
+    </div>
+</div>
+<div class="row video-meta">
+    <div class="col-1 pr-0">
+        <img class="img-fluid rounded-circle" src="{{ video.submitter.profile.avatar_url }}">
+    </div>
+    <div class="col-11">
+        <p class="mb-0">{{ video.contestant_name }}</p>
+        <p class="text-muted">{{ video.submit_time|date:"Y 年 n 月 j 日參賽" }}</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-11 offset-1 video-intro">
+        {{ video.introduction|linebreaks }}
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div class="row">
+    <h2>更多影片</h2>
+</div>
+{% for video in other_videos %}
+    {% url 'video_contest_video' video_contest_id=video_contest.id video_number=video.video_number as video_url %}
+    <div class="row video-aside pb-2">
+        <div class="col-3 col-lg-4 pl-0 pr-2">
+            <a href="{{ video_url }}">
+                <img class="img-fluid" src="{{ video.cover_url }}">
+            </a>
+        </div>
+        <div class="col-9 col-lg-8 p-0 video-meta">
+            <a href="{{ video_url }}">
+                <h3 class="text-dark mt-0 video-title">#{{ video.video_number }} {{ video.video_title }}</h3>
+            </a>
+            <a href="{{ video_url }}">
+                <p class="my-2 text-muted">
+                    {{ video.contestant_name }}
+                </p>
+            </a>
+            <a href="{{ video_url }}">
+                <p class="my-0 text-muted">
+                    {{ video.group.name }}／共得到 {{ video.votes }} 票
+                </p>
+            </a>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}
+
+{% block footer %}
+    {% if modal %}
+        {% include 'video_contest/modal.html' with modal=modal %}
+    {% endif %}
+{% endblock %}

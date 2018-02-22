@@ -1,0 +1,30 @@
+.gallery-nav h2 {
+    font-size: 24px;
+    color: #000000;
+}
+
+.gallery-nav .active h2 {
+    padding-bottom: 2px;
+    border-bottom: 2px solid black;
+}
+
+.video-grid {
+    padding-right: 2px;
+    padding-left: 2px;
+    margin-bottom: 24px;
+}
+
+.video-grid .video-meta {
+    margin-right: 24px;
+}
+
+.video-meta .video-title {
+    font-size: 14px;
+    color: #000000;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.video-meta a {
+    text-decoration: none !important;
+}

@@ -1,0 +1,37 @@
+.content {
+    font-size: 14px;
+}
+
+h1.video-title  {
+    font-size: 18px;
+    margin-bottom: 0px;
+}
+
+aside h2 {
+    font-size: 16px;
+}
+
+h3.video-title {
+    font-size: 14px;
+}
+
+.video-meta a {
+    text-decoration: none !important;
+}
+
+.video-meta {
+    line-height: 0.8;
+}
+
+.vote svg {
+
+    /*padding: 0px;*/
+    margin-top: 6px;
+    /*color: #900;*/
+    fill: currentColor;
+    /*background-color: currentColor;*/
+}
+
+.sidebar p {
+    font-size: 12px;
+}

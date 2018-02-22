@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% load filters %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+    <link rel="stylesheet" href="{% static 'css/video_contest/info.css' %}">
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' with user=user search=search nav_items=nav_items %}
+{% endblock %}
+
+{% block content %}
+<h1>
+    {{ video_contest.title }}
+</h1>
+<div>
+    {{ video_contest.body|safe }}
+</div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'video_contest/info_sidebar.html' with video_contest=video_contest count_qualified=count_qualified %}
+{% endblock %}
+
+{% block footer %}
+    {% if modal %}
+        {% include 'video_contest/modal.html' with modal=modal %}
+    {% endif %}
+{% endblock %}
