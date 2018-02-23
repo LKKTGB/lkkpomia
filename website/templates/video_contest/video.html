@@ -56,17 +56,8 @@
         {% endif %}
     </div>
 </div>
-<div class="row video-meta">
-    <div class="col-1 pr-0">
-        <img class="img-fluid rounded-circle" src="{{ video.submitter.profile.avatar_url }}">
-    </div>
-    <div class="col-11">
-        <p class="mb-0">{{ video.contestant_name }}</p>
-        <p class="text-muted">{{ video.submit_time|date:"Y 年 n 月 j 日參賽" }}</p>
-    </div>
-</div>
 <div class="row">
-    <div class="col-11 offset-1 video-intro">
+    <div class="col ">
         {{ video.introduction|linebreaks }}
     </div>
 </div>

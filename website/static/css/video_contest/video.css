@@ -24,12 +24,8 @@ h3.video-title {
 }
 
 .vote svg {
-
-    /*padding: 0px;*/
     margin-top: 6px;
-    /*color: #900;*/
     fill: currentColor;
-    /*background-color: currentColor;*/
 }
 
 .sidebar p {
