@@ -59,7 +59,9 @@
                         </div>
                     </li>
                 {% else %}
-                    <a class="btn btn-outline-dark" role="button" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">登入／註冊</a>
+                    <button class="btn btn-outline-dark" data-toggle="modal" data-target="#{{ header.modal.target.id }}">
+                        登入／註冊
+                    </button>
                 {% endif %}
             </div>
         </div>
@@ -74,7 +76,7 @@
                 {% if home %}
                     mx-auto
                 {% endif %}">
-                {% for nav_item in nav_items  %}
+                {% for nav_item in header.nav_items  %}
                     {% if nav_item.current %}
                         <li class="nav-item active">
                     {% else %}
@@ -92,3 +94,7 @@
         </div>
     </nav>
 </header>
+
+{% if header.modal %}
+    {% include 'modal.html' with modal=header.modal %}
+{% endif %}
