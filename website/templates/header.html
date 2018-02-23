@@ -13,7 +13,7 @@
             {% endif %}">
             <div class="row mx-0">
                 <a href="{% url 'home' %}">
-                    <img class="header-brand mt-3 mr-3 mb-0" src="{% static 'img/logo.jpg' %}" alt="">
+                    <img class="header-brand mt-3 ml-2 mr-3 mb-0" src="{% static 'img/logo.jpg' %}" alt="">
                 </a>
                 <div class="col px-0
                     {% if home %}
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="col mt-3 px-0">
-            <div class="row
+            <div class="row p-0 m-0
                 {% if home %}
                     justify-content-center
                 {% else %}
@@ -46,7 +46,7 @@
                     </form>
                 {% endif %}
                 {% if user.is_authenticated %}
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown mr-2">
                         <a class="nav-link dropdown-toggle text-dark px-0 py-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                             <img class="rounded-circle float-right avatar" src={{ user.profile.avatar_url }}>
                         </a>
@@ -59,7 +59,9 @@
                         </div>
                     </li>
                 {% else %}
-                    <a class="btn btn-outline-dark" role="button" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">登入／註冊</a>
+                    <button class="btn btn-outline-dark" data-toggle="modal" data-target="#{{ header.modal.target.id }}">
+                        登入／註冊
+                    </button>
                 {% endif %}
             </div>
         </div>
@@ -74,7 +76,7 @@
                 {% if home %}
                     mx-auto
                 {% endif %}">
-                {% for nav_item in nav_items  %}
+                {% for nav_item in header.nav_items  %}
                     {% if nav_item.current %}
                         <li class="nav-item active">
                     {% else %}
@@ -92,3 +94,7 @@
         </div>
     </nav>
 </header>
+
+{% if header.modal %}
+    {% include 'modal.html' with modal=header.modal %}
+{% endif %}

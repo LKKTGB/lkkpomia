@@ -12,7 +12,7 @@ from website.models.video_contest_group import VideoContestGroup
 from website.models.video_contest_registration import VideoContestRegistration
 
 
-def nav_items(request, video_contest_id, current):
+def get_header(request, video_contest_id, current):
     items = []
     for name, view in {
             '活動內容': 'info',
@@ -24,7 +24,24 @@ def nav_items(request, video_contest_id, current):
             'link': reverse('video_contest_%s' % view, kwargs={'video_contest_id': video_contest_id}),
             'current': view == current
         })
-    return items
+    return {
+        'nav_items': items,
+        'modal': {
+            'target': {
+                'id': 'header_modal',
+            },
+            'title': '李江却台語文教基金會',
+            'body': '會員註冊或登入',
+            'actions': [{
+                    'name': '使用 Facebook 註冊／登入',
+                    'url': '{url}?next={next}'.format(
+                        url=reverse('social:begin', args=('facebook',)),
+                        next=request.path),
+            }, {
+                'name': '下次再說',
+            }]
+        }
+    }
 
 
 def get_modal_for_registration(video_contest):
@@ -66,7 +83,7 @@ def info(request, video_contest_id):
         'home': False,
         'user': request.user,
         'video_contest': video_contest,
-        'nav_items': nav_items(request, video_contest_id, current='info'),
+        'header': get_header(request, video_contest_id, current='info'),
         # 'search': {
         #     'placeholder': '搜尋參賽影片'
         # },
@@ -109,7 +126,7 @@ def form_post(request, video_contest_id):
             'home': False,
             'video_contest': video_contest,
             'form': form,
-            'nav_items': nav_items(request, video_contest_id, current='form'),
+            'header': get_header(request, video_contest_id, current='form'),
             'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
         })
 
@@ -129,7 +146,7 @@ def form(request, video_contest_id):
         'user': request.user,
         'video_contest': video_contest,
         'form': VideoContestRegistrationForm(video_contest, initial={'event': video_contest}),
-        'nav_items': nav_items(request, video_contest_id, current='form'),
+        'header': get_header(request, video_contest_id, current='form'),
         'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
     })
 
@@ -148,7 +165,7 @@ def gallery(request, video_contest_id):
         'video_contest': video_contest,
         'groups': groups,
         'registrations': {g.id: VideoContestRegistration.objects.filter(event=video_contest, group=g, qualified=True) for g in groups},
-        'nav_items': nav_items(request, video_contest_id, current='gallery'),
+        'header': get_header(request, video_contest_id, current='gallery'),
     })
 
 
@@ -222,7 +239,7 @@ def video(request, video_contest_id, video_number):
             'method': 'DELETE' if is_voted else 'POST',
             'video_contest_registration_id': registration.id
         }),
-        'nav_items': nav_items(request, video_contest_id, current='video'),
+        'header': get_header(request, video_contest_id, current='video'),
         'modal': get_modal_for_voting(request, video_contest)
     })
 
@@ -255,5 +272,5 @@ def thanks(request, video_contest_id):
         'user': request.user,
         'video_contest_id': video_contest_id,
         'countdown': 10,
-        'nav_items': nav_items(request, video_contest_id, current='thanks'),
+        'header': get_header(request, video_contest_id, current='thanks'),
     })
