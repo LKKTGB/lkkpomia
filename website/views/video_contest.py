@@ -44,7 +44,7 @@ def get_header(request, video_contest_id, current):
     }
 
 
-def get_modal_for_registration(video_contest):
+def get_modal_for_registration(request, video_contest):
     now = timezone.now()
     if now < video_contest.registration_start_time:
         body = '%s 開放報名' % video_contest.registration_start_time.strftime('%Y/%m/%d %H:%M')
@@ -56,7 +56,7 @@ def get_modal_for_registration(video_contest):
         actions = [{
             'name': '我知道了'
         }]
-    else:
+    elif not request.user.is_authenticated:
         body = '要先登入才可報名喔！'
         actions = [{
             'name': '使用 Facebook 註冊／登入',
@@ -66,6 +66,8 @@ def get_modal_for_registration(video_contest):
         }, {
             'name': '下次再說',
         }]
+    else:
+        return None
     return {
         'target': {
             'id': 'validation_before_registration',
@@ -88,7 +90,7 @@ def info(request, video_contest_id):
         #     'placeholder': '搜尋參賽影片'
         # },
         'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
-        'modal': get_modal_for_registration(video_contest)
+        'modal': get_modal_for_registration(request, video_contest)
     })
 
 
