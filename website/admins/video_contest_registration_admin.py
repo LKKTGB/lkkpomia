@@ -17,4 +17,5 @@ class AdminVideoTextInputMixin(AdminVideoMixin):
 
 
 class VideoContestRegistrationAdmin(AdminVideoTextInputMixin, admin.ModelAdmin):
-    pass
+    list_display = ('event', 'group', 'video_number', 'qualified', 'video_title', 'contestant_name', 'votes')
+    list_filter = ('event', 'qualified')
