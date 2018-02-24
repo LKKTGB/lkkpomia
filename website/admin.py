@@ -18,6 +18,7 @@ from website.models.salon import Salon
 from website.models.salon_registration import SalonRegistration
 from website.models.video_contest import VideoContest
 from website.models.video_contest_registration import VideoContestRegistration
+from website.models.user_proxy import UserProxy
 
 admin.site.unregister(Association)
 admin.site.unregister(Group)
@@ -30,6 +31,6 @@ admin.site.register(Event, EventAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Salon, SalonAdmin)
 admin.site.register(SalonRegistration, SalonRegistrationAdmin)
-admin.site.register(User, UserProfileAdmin)
+admin.site.register(UserProxy, UserProfileAdmin)
 admin.site.register(VideoContest, VideoContestAdmin)
 admin.site.register(VideoContestRegistration, VideoContestRegistrationAdmin)
