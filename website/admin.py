@@ -1,5 +1,7 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
+from social_django.models import Association, Nonce, UserSocialAuth
+from taggit.admin import Tag
 
 from website.admins.announcement_admin import AnnouncementAdmin
 from website.admins.event_admin import EventAdmin
@@ -16,13 +18,19 @@ from website.models.salon import Salon
 from website.models.salon_registration import SalonRegistration
 from website.models.video_contest import VideoContest
 from website.models.video_contest_registration import VideoContestRegistration
+from website.models.user_proxy import UserProxy
 
+admin.site.unregister(Association)
+admin.site.unregister(Group)
+admin.site.unregister(Nonce)
+admin.site.unregister(Tag)
 admin.site.unregister(User)
-admin.site.register(Announcement, AnnouncementAdmin)
-admin.site.register(Event, EventAdmin)
-admin.site.register(Post, PostAdmin)
-admin.site.register(Salon, SalonAdmin)
-admin.site.register(SalonRegistration, SalonRegistrationAdmin)
-admin.site.register(User, UserProfileAdmin)
+admin.site.unregister(UserSocialAuth)
+# admin.site.register(Announcement, AnnouncementAdmin)
+# admin.site.register(Event, EventAdmin)
+# admin.site.register(Post, PostAdmin)
+# admin.site.register(Salon, SalonAdmin)
+# admin.site.register(SalonRegistration, SalonRegistrationAdmin)
+admin.site.register(UserProxy, UserProfileAdmin)
 admin.site.register(VideoContest, VideoContestAdmin)
 admin.site.register(VideoContestRegistration, VideoContestRegistrationAdmin)

@@ -18,6 +18,13 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
+@receiver(post_save, sender=User)
+def add_permission_to_superuser(sender, instance, **kwargs):
+    if instance.is_staff != instance.is_superuser:
+        instance.is_staff = instance.is_superuser
+        instance.save()
+
+
 @receiver(post_save, sender=VideoContestRegistration)
 def generate_video_number_after_qualified(sender, instance, **kwargs):
     if not instance.qualified:

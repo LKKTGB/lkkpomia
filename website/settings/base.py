@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'admin_reorder',
     'embed_video',
     'social_django',
     'taggit',
@@ -53,12 +54,23 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'admin_reorder.middleware.ModelAdminReorder',
     'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+)
+
+ADMIN_REORDER = (
+    {'app': 'website', 'label': '影片比賽',
+        'models': (
+            'website.VideoContest',
+            'website.VideoContestRegistration')},
+    {'app': 'website', 'label': '其他',
+        'models': (
+            'website.UserProxy',)},
 )
 
 LOGIN_URL = 'login'
