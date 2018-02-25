@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'admin_reorder',
     'embed_video',
     'social_django',
+    'solo',
     'taggit',
     'widget_tweaks',
     'website.apps.WebsiteConfig',
