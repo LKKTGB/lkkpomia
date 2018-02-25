@@ -71,7 +71,8 @@ ADMIN_REORDER = (
             'website.VideoContestRegistration')},
     {'app': 'website', 'label': '其他',
         'models': (
-            'website.UserProxy',)},
+            'website.UserProxy',
+            'website.PrivacyPolicy',)},
 )
 
 LOGIN_URL = 'login'
