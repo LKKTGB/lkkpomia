@@ -35,6 +35,8 @@ class VideoContestWinnerInline(admin.StackedInline):
 
 
 class VideoContestAdmin(admin.ModelAdmin):
+    list_display = ('title', 'start_time', 'end_time')
+
     inlines = [
         VideoContestGroupInline,
         VideoContestWinnerInline,

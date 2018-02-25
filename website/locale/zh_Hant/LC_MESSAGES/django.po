@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-20 16:41+0800\n"
+"POT-Creation-Date: 2018-02-25 00:37+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: website/admins/user_profile_admin.py
+msgid "Personal info"
+msgstr "個人資訊"
+
+#: website/admins/user_profile_admin.py
+msgid "Permissions"
+msgstr "權限"
 
 #: website/apps.py
 msgid "app_website"
@@ -55,7 +63,7 @@ msgstr "影片請設為「公開」。"
 msgid "video_contest_registration_form_questions_help_text"
 msgstr "任何問題或提醒可於此提出。"
 
-#: website/forms.py
+#: website/forms.py website/models/video_contest_registration.py
 msgid "video_contest_registration_form_youtube_url_error_messages_unique"
 msgstr "這個 Youtube 影片已經報名過了！"
 
@@ -90,11 +98,19 @@ msgstr "活動公告列表"
 
 #: website/models/event.py
 msgid "event_start_time"
-msgstr "開始時間"
+msgstr "活動開始時間"
 
 #: website/models/event.py
 msgid "event_end_time"
-msgstr "結束時間"
+msgstr "活動結束時間"
+
+#: website/models/event.py
+msgid "event_registration_start_time"
+msgstr "報名開始時間"
+
+#: website/models/event.py
+msgid "event_registration_end_time"
+msgstr "報名結束時間"
 
 #: website/models/event.py
 msgid "events"
@@ -131,6 +147,18 @@ msgstr "文章"
 #: website/models/post.py
 msgid "posts"
 msgstr "文章列表"
+
+#: website/models/profile.py
+msgid "profile"
+msgstr "個人檔案"
+
+#: website/models/profile.py
+msgid "profiles"
+msgstr "個人檔案列表"
+
+#: website/models/profile.py
+msgid "avatar"
+msgstr "頭像"
 
 #: website/models/registration.py
 msgid "registration_submitter"
@@ -175,6 +203,30 @@ msgstr "講座報名表"
 #: website/models/salon_registration.py
 msgid "salon_registrations"
 msgstr "講座報名表列表"
+
+#: website/models/user_proxy.py
+msgid "user_proxy"
+msgstr "使用者"
+
+#: website/models/user_proxy.py
+msgid "user_proxies"
+msgstr "使用者列表"
+
+#: website/models/user_proxy.py
+msgid "user_proxy_is_superuser"
+msgstr "管理者"
+
+#: website/models/user_proxy.py
+msgid "user_proxy_is_superuser_help_text"
+msgstr "管理者可登入後台，新增和管理活動。"
+
+#: website/models/video_contest.py
+msgid "video_contest_voting_start_time"
+msgstr "投票開始時間"
+
+#: website/models/video_contest.py
+msgid "video_contest_voting_end_time"
+msgstr "投票結束時間"
 
 #: website/models/video_contest.py website/models/video_contest_group.py
 #: website/models/video_contest_winner.py

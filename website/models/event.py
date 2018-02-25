@@ -7,6 +7,8 @@ from website.models.post import Post
 class Event(Post):
     start_time = models.DateTimeField(_('event_start_time'))
     end_time = models.DateTimeField(_('event_end_time'))
+    registration_start_time = models.DateTimeField(_('event_registration_start_time'))
+    registration_end_time = models.DateTimeField(_('event_registration_end_time'))
 
     class Meta:
         verbose_name = _('event')

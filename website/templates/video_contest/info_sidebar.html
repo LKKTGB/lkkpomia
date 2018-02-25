@@ -23,7 +23,7 @@
         </div>
 
         <a class="btn btn-outline-dark w-100"
-            {% if user.is_authenticated %}
+            {% if not modal %}
                 href="{% url 'video_contest_form' video_contest_id=video_contest.id %}"
             {% else %}
                 data-toggle="modal" data-target="#{{ modal.target.id }}" href="#"

@@ -24,7 +24,7 @@
         <p class="text-muted">{{ video.group.name }}／共得到 {{ video.votes }} 票</p>
     </div>
     <div class="col">
-        {% if user.is_authenticated %}
+        {% if not modal %}
             <form class="float-right" action="{% url 'video_contest_video_votes' video_contest_id=video_contest.id video_number=video.video_number %}" method='post'>
                 {% csrf_token %}
                 {{ vote_form }}
@@ -45,23 +45,19 @@
                 </button>
             </form>
         {% else %}
-            <button class="float-right btn vote btn-outline-secondary" data-toggle="modal" data-target="#{{ modal.target.id }}">
+            <button class="float-right btn vote
+                {% if not is_voted %}
+                    btn-outline-secondary
+                {% else %}
+                    btn-outline-success
+                {% endif %}" data-toggle="modal" data-target="#{{ modal.target.id }}">
                 {{ 'thumb-up'|svg:'24 24' }}
             </button>
         {% endif %}
     </div>
 </div>
-<div class="row video-meta">
-    <div class="col-1 pr-0">
-        <img class="img-fluid rounded-circle" src="{{ video.submitter.profile.avatar_url }}">
-    </div>
-    <div class="col-11">
-        <p class="mb-0">{{ video.contestant_name }}</p>
-        <p class="text-muted">{{ video.submit_time|date:"Y 年 n 月 j 日參賽" }}</p>
-    </div>
-</div>
 <div class="row">
-    <div class="col-11 offset-1 video-intro">
+    <div class="col ">
         {{ video.introduction|linebreaks }}
     </div>
 </div>
@@ -100,6 +96,6 @@
 
 {% block footer %}
     {% if modal %}
-        {% include 'video_contest/modal.html' with modal=modal %}
+        {% include 'modal.html' with modal=modal %}
     {% endif %}
 {% endblock %}

@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from website.models.profile import Profile
+from website.models.user_proxy import UserProxy
 from website.models.video_contest_registration import VideoContestRegistration
 
 
@@ -16,6 +17,13 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+
+@receiver(post_save, sender=UserProxy)
+def add_permission_to_superuser(sender, instance, **kwargs):
+    if instance.is_staff != instance.is_superuser:
+        instance.is_staff = instance.is_superuser
+        instance.save()
 
 
 @receiver(post_save, sender=VideoContestRegistration)
