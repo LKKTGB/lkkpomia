@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'admin_reorder',
     'embed_video',
     'social_django',
+    'solo',
     'taggit',
     'widget_tweaks',
     'website.apps.WebsiteConfig',
@@ -70,7 +71,8 @@ ADMIN_REORDER = (
             'website.VideoContestRegistration')},
     {'app': 'website', 'label': '其他',
         'models': (
-            'website.UserProxy',)},
+            'website.UserProxy',
+            'website.PrivacyPolicy',)},
 )
 
 LOGIN_URL = 'login'

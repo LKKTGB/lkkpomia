@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-25 00:37+0800\n"
+"POT-Creation-Date: 2018-02-26 00:21+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -147,6 +147,18 @@ msgstr "文章"
 #: website/models/post.py
 msgid "posts"
 msgstr "文章列表"
+
+#: website/models/privacy_policy.py
+msgid "privacy_policy_title"
+msgstr "標題"
+
+#: website/models/privacy_policy.py
+msgid "privacy_policy_content"
+msgstr "內容"
+
+#: website/models/privacy_policy.py
+msgid "privacy_policy_verbose_name"
+msgstr "隱私權政策"
 
 #: website/models/profile.py
 msgid "profile"
