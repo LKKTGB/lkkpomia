@@ -39,11 +39,6 @@
                             <a href="{{ video_url }}">
                                 <h3 class="video-title">#{{ registration.video_number }} {{ registration.video_title|truncatechars:40 }}</h3>
                             </a>
-                            <a href="{{ video_url }}">
-                                <small class="text-muted">
-                                    {{ registration.contestant_name }}
-                                </small>
-                            </a>
                         </div>
                     </div>
                 {% endfor %}
