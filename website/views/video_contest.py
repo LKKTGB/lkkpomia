@@ -47,7 +47,7 @@ def get_header(request, video_contest_id, current):
 def get_modal_for_registration(request, video_contest):
     now = timezone.now()
     if now < video_contest.registration_start_time:
-        body = '%s 開放報名' % video_contest.registration_start_time.strftime('%Y/%m/%d %H:%M')
+        body = '%s 開放報名' % timezone.localtime(video_contest.registration_start_time).strftime('%Y/%m/%d %H:%M')
         actions = [{
             'name': '我知道了'
         }]
@@ -182,7 +182,7 @@ def get_modal_for_voting(request, video_contest):
     popup = False
     if now < video_contest.voting_start_time:
         popup = True
-        body = '%s\n開放投票' % video_contest.voting_start_time.strftime('%Y/%m/%d %H:%M')
+        body = '%s\n開放投票' % timezone.localtime(video_contest.voting_start_time).strftime('%Y/%m/%d %H:%M')
         actions = [{
             'name': '我知道了'
         }]
