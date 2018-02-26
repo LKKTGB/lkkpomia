@@ -13,7 +13,8 @@
 {% endblock %}
 
 {% block body %}
-<h1>{{ video_contest.title }}</h1>
+<h1 class="mb-1">{{ video_contest.title }}</h1>
+<p class="text-muted mb-4">點擊影片可看到影片簡介，也能參與投票喔！</p>
 
 <ul class="nav gallery-nav">
     {% for group in groups  %}
