@@ -36,7 +36,7 @@ class VideoContestRegistration(Registration):
         super().validate_unique(exclude)
         qs = VideoContestRegistration.objects.filter(event=self.event)
         # FIXME: raise multiple errors at once
-        if self.video_number and qs.filter(video_number=self.video_number).exists():
+        if self.video_number and qs.filter(video_number=self.video_number).filter(~Q(id=self.id)).exists():
             raise ValidationError(_('video_contest_registration_video_number_validate_unique_error'))
         if qs.filter(youtube_url__contains=self.youtube_id).filter(~Q(id=self.id)).exists():
             raise ValidationError({
