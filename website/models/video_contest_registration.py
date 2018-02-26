@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from embed_video.fields import EmbedVideoField
 
@@ -37,7 +38,7 @@ class VideoContestRegistration(Registration):
         # FIXME: raise multiple errors at once
         if self.video_number and qs.filter(video_number=self.video_number).exists():
             raise ValidationError(_('video_contest_registration_video_number_validate_unique_error'))
-        if qs.filter(youtube_url__contains=self.youtube_id).exists():
+        if qs.filter(youtube_url__contains=self.youtube_id).filter(~Q(id=self.id)).exists():
             raise ValidationError({
                 'youtube_url': _('video_contest_registration_form_youtube_url_error_messages_unique')
             })
