@@ -40,9 +40,9 @@
 
                 <button type="submit" class="btn vote
                     {% if not is_voted %}
-                        btn-outline-secondary
-                    {% else %}
                         btn-outline-success
+                    {% else %}
+                        btn-success
                     {% endif %}
                         " data-toggle="tooltip" data-placement="bottom" title="
                         {% if not is_voted %}
@@ -56,9 +56,9 @@
         {% else %}
             <button class="float-right btn vote
                 {% if not is_voted %}
-                    btn-outline-secondary
-                {% else %}
                     btn-outline-success
+                {% else %}
+                    btn-success
                 {% endif %}" data-toggle="modal" data-target="#{{ modal.target.id }}">
                 {{ 'thumb-up'|svg:'24 24' }}
             </button>
@@ -73,9 +73,11 @@
 {% endblock %}
 
 {% block sidebar %}
-<div class="row">
-    <h2>更多影片</h2>
-</div>
+{% if other_videos %}
+    <div class="row">
+        <h2>更多影片</h2>
+    </div>
+{% endif %}
 {% for video in other_videos %}
     {% url 'video_contest_video' video_contest_id=video_contest.id video_number=video.video_number as video_url %}
     <div class="row video-aside pb-2">

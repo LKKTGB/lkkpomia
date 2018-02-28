@@ -11,18 +11,24 @@ from website.forms import VideoContestRegistrationForm, VideoContestVoteForm
 from website.models.video_contest import VideoContest
 from website.models.video_contest_group import VideoContestGroup
 from website.models.video_contest_registration import VideoContestRegistration
+from website.models.video_contest_winner import VideoContestWinner
 
 
-def get_header(request, video_contest_id, current):
+def get_header(request, video_contest, current):
+    now = timezone.now()
+    headers = {}
+    headers['活動內容'] = 'info'
+    # headers['最新公告']= 'announcements'
+    if now > video_contest.registration_start_time:
+        headers['參賽影片'] = 'gallery'
+        if VideoContestWinner.objects.filter(video_contest=video_contest).exists():
+            headers['得獎影片'] = 'winners'
+
     items = []
-    for name, view in {
-            '活動內容': 'info',
-            # '最新公告': 'announcements',
-            # '得獎影片': 'winners',
-            '參賽影片': 'gallery'}.items():
+    for name, view in headers.items():
         items.append({
             'name': name,
-            'link': reverse('video_contest_%s' % view, kwargs={'video_contest_id': video_contest_id}),
+            'link': reverse('video_contest_%s' % view, kwargs={'video_contest_id': video_contest.id}),
             'current': view == current
         })
     return {
@@ -100,7 +106,7 @@ def info(request, video_contest_id):
         'home': False,
         'user': request.user,
         'video_contest': video_contest,
-        'header': get_header(request, video_contest_id, current='info'),
+        'header': get_header(request, video_contest, current='info'),
         # 'search': {
         #     'placeholder': '搜尋參賽影片'
         # },
@@ -142,7 +148,7 @@ def form_post(request, video_contest_id):
             'home': False,
             'video_contest': video_contest,
             'form': form,
-            'header': get_header(request, video_contest_id, current='form'),
+            'header': get_header(request, video_contest, current='form'),
             'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
         })
 
@@ -162,7 +168,7 @@ def form(request, video_contest_id):
         'user': request.user,
         'video_contest': video_contest,
         'form': VideoContestRegistrationForm(video_contest, initial={'event': video_contest}),
-        'header': get_header(request, video_contest_id, current='form'),
+        'header': get_header(request, video_contest, current='form'),
         'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
     })
 
@@ -197,7 +203,7 @@ def gallery(request, video_contest_id):
         'video_contest': video_contest,
         'groups': groups,
         'registrations': {g.id: VideoContestRegistration.objects.filter(event=video_contest, group=g, qualified=True) for g in groups},
-        'header': get_header(request, video_contest_id, current='gallery'),
+        'header': get_header(request, video_contest, current='gallery'),
     })
 
 
@@ -287,7 +293,7 @@ def video(request, video_contest_id, video_number):
             'method': 'DELETE' if is_voted else 'POST',
             'video_contest_registration_id': registration.id
         }),
-        'header': get_header(request, video_contest_id, current='video'),
+        'header': get_header(request, video_contest, current='video'),
         'modal': get_modal_for_voting(request, video_contest)
     })
 
@@ -315,10 +321,11 @@ def vote(request, video_contest_id, video_number):
 
 
 def thanks(request, video_contest_id):
+    video_contest = VideoContest.objects.get(id=video_contest_id)
     return render(request, 'video_contest/thanks.html', {
         'home': False,
         'user': request.user,
         'video_contest_id': video_contest_id,
         'countdown': 10,
-        'header': get_header(request, video_contest_id, current='thanks'),
+        'header': get_header(request, video_contest, current='thanks'),
     })
