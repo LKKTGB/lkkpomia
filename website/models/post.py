@@ -1,3 +1,4 @@
+from bs4 import BeautifulSoup
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from taggit.managers import TaggableManager
@@ -16,3 +17,15 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def cover_url(self):
+        soup = BeautifulSoup(self.body, 'html.parser')
+        tags = soup.findAll('img')
+        return tags[0]['src'] if tags else None
+
+    @property
+    def summary(self):
+        soup = BeautifulSoup(self.body, 'html.parser')
+        tags = [t for t in soup.findAll('p') if t.text]
+        return tags[0].text if tags else None
