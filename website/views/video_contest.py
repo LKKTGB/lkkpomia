@@ -171,11 +171,27 @@ def winners(request, video_contest_id):
     return redirect('video_contest_info', video_contest_id=1)
 
 
+def get_meta_tags_for_gallery_page(request, video_contest):
+    meta_tags = {
+        'og:url': request.build_absolute_uri(
+            reverse('video_contest_gallery',
+                    args=(video_contest.id, ))),
+        'og:locale': 'zh_Hant',
+        'og:type': 'website',
+        'og:title': '%s 參賽影片' % video_contest.title,
+        'og:description': video_contest.summary or '',
+        'og:image': video_contest.cover_url or request.build_absolute_uri('static/img/logo.jpg'),
+        'fb:app_id': settings.SOCIAL_AUTH_FACEBOOK_KEY,
+    }
+    return meta_tags
+
+
 def gallery(request, video_contest_id):
     video_contest = VideoContest.objects.get(id=video_contest_id)
     groups = VideoContestGroup.objects.filter(video_contest=video_contest).order_by('name')
 
     return render(request, 'video_contest/gallery.html', {
+        'meta_tags': get_meta_tags_for_gallery_page(request, video_contest),
         'home': False,
         'user': request.user,
         'video_contest': video_contest,
