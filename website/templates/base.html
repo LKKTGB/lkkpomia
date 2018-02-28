@@ -14,7 +14,13 @@
     </script>
 
     <meta charset="UTF-8">
-    {% block page_title %}<title>李江却台語文教基金會活動網站</title>{% endblock %}
+    <title>
+        {% if meta_title %}
+            {{ meta_title }}
+        {% else %}
+            李江却台語文教基金會活動網站
+        {% endif %}
+    </title>
 
     {% for property, content in meta_tags.items  %}
         <meta property="{{ property }}" content="{{ content }}">
