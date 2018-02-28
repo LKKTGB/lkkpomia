@@ -11,15 +11,21 @@ from website.forms import VideoContestRegistrationForm, VideoContestVoteForm
 from website.models.video_contest import VideoContest
 from website.models.video_contest_group import VideoContestGroup
 from website.models.video_contest_registration import VideoContestRegistration
+from website.models.video_contest_winner import VideoContestWinner
 
 
 def get_header(request, video_contest, current):
+    now = timezone.now()
+    headers = {}
+    headers['活動內容'] = 'info'
+    # headers['最新公告']= 'announcements'
+    if now > video_contest.registration_start_time:
+        headers['參賽影片'] = 'gallery'
+        if VideoContestWinner.objects.filter(video_contest=video_contest).exists():
+            headers['得獎影片'] = 'winners'
+
     items = []
-    for name, view in {
-            '活動內容': 'info',
-            # '最新公告': 'announcements',
-            # '得獎影片': 'winners',
-            '參賽影片': 'gallery'}.items():
+    for name, view in headers.items():
         items.append({
             'name': name,
             'link': reverse('video_contest_%s' % view, kwargs={'video_contest_id': video_contest.id}),
