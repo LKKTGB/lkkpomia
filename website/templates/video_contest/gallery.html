@@ -30,6 +30,7 @@
     {% for group in groups  %}
         <div class="tab-pane {% if forloop.counter0 == 0 %}active{% endif %}" id="group_{{ group.id }}" role="tabpanel">
             {% if not registrations|hash:group.id %}
+                <!-- FIXME: show message for expired event in gallery page without videos -->
                 <div class="mt-5">
                     <p class="text-center">影片審核中</p>
                     <p class="text-center">歡迎<a href="{% url 'video_contest_form' video_contest_id=video_contest.id %}" class="text-dark"><u>報名</u></a></p>
