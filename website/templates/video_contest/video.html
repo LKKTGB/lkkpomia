@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{% static 'css/video_contest/video.css' %}">
 {% endblock %}
 
+{% url 'video_contest_video' video_contest_id=video_contest.id video_number=video.video_number as video_url %}
+
 {% block header %}
     {% include 'header.html' with user=user search=search nav_items=nav_items %}
 {% endblock %}
@@ -21,7 +23,14 @@
 <div class="row pt-4 pb-2 my-0">
     <div class="col-10">
         <h1 class="text-dark video-title">#{{ video.video_number }} {{ video.video_title }}</h1>
-        <p class="text-muted">{{ video.group.name }}／共得到 {{ video.votes }} 票</p>
+        <div class="row mx-0">
+            <p class="text-muted">{{ video.group.name }}／共得到 {{ video.votes }} 票</p>
+            <div class="fb-share-button mt-2 ml-2" data-href="{{ video_url }}" data-layout="button" data-size="small" data-mobile-iframe="true">
+                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={% autoescape off %}{{ video_url|escape }}{% endautoescape %};src=sdkpreparse" class="fb-xfbml-parse-ignore">
+                    分享
+                </a>
+            </div>
+        </div>
     </div>
     <div class="col">
         {% if not modal %}
