@@ -1,5 +1,6 @@
 from random import sample
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
@@ -78,10 +79,24 @@ def get_modal_for_registration(request, video_contest):
     }
 
 
+def get_meta_tags_for_info_page(request, video_contest):
+    meta_tags = {
+        'og:url': request.build_absolute_uri(reverse('video_contest_info', args=(video_contest.id,))),
+        'og:locale': 'zh_Hant',
+        'og:type': 'website',
+        'og:title': video_contest.title,
+        'og:description': video_contest.summary or '',
+        'og:image': video_contest.cover_url or request.build_absolute_uri('static/img/logo.jpg'),
+        'fb:app_id': settings.SOCIAL_AUTH_FACEBOOK_KEY,
+    }
+    return meta_tags
+
+
 def info(request, video_contest_id):
     video_contest = VideoContest.objects.get(id=video_contest_id)
 
     return render(request, 'video_contest/info.html', {
+        'meta_tags': get_meta_tags_for_info_page(request, video_contest),
         'home': False,
         'user': request.user,
         'video_contest': video_contest,
