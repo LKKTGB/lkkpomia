@@ -73,9 +73,11 @@
 {% endblock %}
 
 {% block sidebar %}
-<div class="row">
-    <h2>更多影片</h2>
-</div>
+{% if other_videos %}
+    <div class="row">
+        <h2>更多影片</h2>
+    </div>
+{% endif %}
 {% for video in other_videos %}
     {% url 'video_contest_video' video_contest_id=video_contest.id video_number=video.video_number as video_url %}
     <div class="row video-aside pb-2">
