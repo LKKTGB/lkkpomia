@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
-    {% include "ga.html" %}
+    {% if ga_tracking_id %}
+        {% include "ga.html" %}
+    {% endif %}
 
     <meta charset="UTF-8">
     <title>
