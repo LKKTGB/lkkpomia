@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content border-0">
             <div class="modal-body p-0">
-                <div class="text-center bg-info text-white">
+                <div class="text-center bg-success text-white">
                     <h5 class="modal-title py-5" id="{{ modal.target.id }}">
                         {{ modal.title }}
                     </h5>
@@ -16,11 +16,11 @@
                     {% for action in modal.actions %}
                         <div class="row justify-content-center px-4 mb-2">
                             {% if action.url %}
-                                <a class="btn btn-info w-100" href="{{ action.url }}">
+                                <a class="btn btn-success w-100" href="{{ action.url }}">
                                     {{ action.name }}
                                 </a>
                             {% else %}
-                                <a class="btn btn-outline-dark w-100" href="#" data-dismiss="modal">
+                                <a class="btn btn-outline-success w-100" href="#" data-dismiss="modal">
                                     {{ action.name }}
                                 </a>
                             {% endif %}
