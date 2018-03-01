@@ -99,7 +99,10 @@ def get_meta_tags_for_info_page(request, video_contest):
 
 
 def info(request, video_contest_id):
-    video_contest = VideoContest.objects.get(id=video_contest_id)
+    try:
+        video_contest = VideoContest.objects.get(id=video_contest_id)
+    except ObjectDoesNotExist:
+        return redirect('home')
 
     return render(request, 'video_contest/info.html', {
         'meta_title': video_contest.title,
@@ -195,7 +198,11 @@ def get_meta_tags_for_gallery_page(request, video_contest):
 
 
 def gallery(request, video_contest_id):
-    video_contest = VideoContest.objects.get(id=video_contest_id)
+    try:
+        video_contest = VideoContest.objects.get(id=video_contest_id)
+    except ObjectDoesNotExist:
+        return redirect('home')
+
     groups = VideoContestGroup.objects.filter(video_contest=video_contest).order_by('name')
 
     return render(request, 'video_contest/gallery.html', {
@@ -272,8 +279,15 @@ def get_meta_tags_for_video_page(request, video_contest, registration):
 
 
 def video(request, video_contest_id, video_number):
-    video_contest = VideoContest.objects.get(id=video_contest_id)
-    registration = VideoContestRegistration.objects.get(event=video_contest, video_number=video_number)
+    try:
+        video_contest = VideoContest.objects.get(id=video_contest_id)
+    except ObjectDoesNotExist:
+        return redirect('home')
+
+    try:
+        registration = VideoContestRegistration.objects.get(event=video_contest, video_number=video_number)
+    except ObjectDoesNotExist:
+        return redirect('home')
 
     is_voted = request.user.is_authenticated and request.user.profile.voted_videos.filter(id=registration.id).exists()
     videos = get_random_qualified_videos(count=10)
@@ -325,7 +339,11 @@ def vote(request, video_contest_id, video_number):
 
 
 def thanks(request, video_contest_id):
-    video_contest = VideoContest.objects.get(id=video_contest_id)
+    try:
+        video_contest = VideoContest.objects.get(id=video_contest_id)
+    except ObjectDoesNotExist:
+        return redirect('home')
+
     return render(request, 'video_contest/thanks.html', {
         'home': False,
         'user': request.user,
