@@ -224,11 +224,10 @@ def gallery(request, video_contest_id):
     })
 
 
-def get_random_qualified_videos(count):
-    total_count = VideoContestRegistration.objects.count()
-    ids = sample(list(range(total_count)), count if count < total_count else total_count)
-    videos = [v for v in VideoContestRegistration.objects.filter(id__in=ids[:count], qualified=True).all()]
-    return sample(videos, len(videos))
+def get_random_qualified_videos(video_contest, max_count):
+    videos = [v for v in VideoContestRegistration.objects.filter(event=video_contest, qualified=True).all()]
+    total_count = len(videos)
+    return sample(videos, max_count if total_count > max_count else total_count)
 
 
 def get_modal_for_voting(request, video_contest):
@@ -298,7 +297,7 @@ def video(request, video_contest_id, video_number):
         return redirect('home')
 
     is_voted = request.user.is_authenticated and request.user.profile.voted_videos.filter(id=registration.id).exists()
-    videos = get_random_qualified_videos(count=10)
+    videos = get_random_qualified_videos(video_contest, max_count=10)
     other_videos = [v for v in videos if v.id != registration.id]
 
     return render(request, 'video_contest/video.html', {
