@@ -32,7 +32,7 @@ msgstr "李江却台語文教基金會"
 
 #: website/forms.py
 msgid "video_contest_registration_form_contestant_name_label"
-msgstr "參賽者姓名（本活動每人以一件作品為限）"
+msgstr "參賽者姓名（每位參賽者，每項主題限投稿一支影片）"
 
 #: website/forms.py
 msgid "video_contest_registration_form_contestant_name_help_text"

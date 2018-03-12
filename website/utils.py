@@ -1,5 +1,18 @@
-from urllib.parse import urlparse, parse_qs
+from functools import wraps
 import re
+
+from django.db import close_old_connections
+from urllib.parse import urlparse, parse_qs
+
+
+def handle_old_connections(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        close_old_connections()
+        result = f(*args, **kwargs)
+        close_old_connections()
+        return result
+    return wrapper
 
 
 def is_valid_youtube_id(youtube_id):

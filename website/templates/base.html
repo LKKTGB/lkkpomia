@@ -3,18 +3,18 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114678735-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-114678735-1');
-    </script>
+    {% if ga_tracking_id %}
+        {% include "ga.html" %}
+    {% endif %}
 
     <meta charset="UTF-8">
-    {% block page_title %}<title>李江却台語文教基金會活動網站</title>{% endblock %}
+    <title>
+        {% if meta_title %}
+            {{ meta_title }}
+        {% else %}
+            李江却台語文教基金會活動網站
+        {% endif %}
+    </title>
 
     {% for property, content in meta_tags.items  %}
         <meta property="{{ property }}" content="{{ content }}">
