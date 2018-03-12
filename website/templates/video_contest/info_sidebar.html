@@ -1,6 +1,17 @@
+{% url 'video_contest_info' video_contest_id=video_contest.id as info_url %}
+
 <div class="card meta">
     <div class="card-body p-2">
-        <h5 class="card-title">活動資訊</h5>
+        <div class="row mx-0 my-2">
+            <div class="col px-0">
+                <h5 class="card-title my-0">活動資訊</h5>
+            </div>
+            <div class="fb-share-button justify-content-end" data-href="{{ info_url }}" data-layout="button" data-size="small" data-mobile-iframe="true">
+                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={% autoescape off %}{{ info_url|escape }}{% endautoescape %};src=sdkpreparse" class="fb-xfbml-parse-ignore">
+                    分享
+                </a>
+            </div>
+        </div>
         <div class="row mx-0 my-2">
             <div class="px-2">
                 {{ 'calendar'|svg:'20 20' }}
@@ -22,7 +33,7 @@
             </div>
         </div>
 
-        <a class="btn btn-outline-dark w-100"
+        <a class="btn btn-success w-100"
             {% if not modal %}
                 href="{% url 'video_contest_form' video_contest_id=video_contest.id %}"
             {% else %}

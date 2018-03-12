@@ -21,8 +21,8 @@
                     {% endif %}">
                     <a href="{% url 'home' %}">
                         <h1 class="header-title text-dark">
-                            {% if page_title %}
-                                {{ page_title }}
+                            {% if header_title %}
+                                {{ header_title }}
                             {% else %}
                                 李江却台語文教基金會
                             {% endif %}
@@ -42,7 +42,7 @@
                 {% if search %}
                     <form class="form-inline">
                         <input class="form-control mx-2 col-8" type="search" placeholder="{{ search.placeholder }}" aria-label="Search">
-                        <button class="btn btn-outline-dark" type="submit">搜尋</button>
+                        <button class="btn btn-outline-success" type="submit">搜尋</button>
                     </form>
                 {% endif %}
                 {% if user.is_authenticated %}
@@ -59,7 +59,7 @@
                         </div>
                     </li>
                 {% else %}
-                    <button class="btn btn-outline-dark" data-toggle="modal" data-target="#{{ header.modal.target.id }}">
+                    <button class="btn btn-outline-success" data-toggle="modal" data-target="#{{ header.modal.target.id }}">
                         登入／註冊
                     </button>
                 {% endif %}

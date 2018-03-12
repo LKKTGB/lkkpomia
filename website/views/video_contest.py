@@ -1,5 +1,6 @@
 from random import sample
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
@@ -10,18 +11,25 @@ from website.forms import VideoContestRegistrationForm, VideoContestVoteForm
 from website.models.video_contest import VideoContest
 from website.models.video_contest_group import VideoContestGroup
 from website.models.video_contest_registration import VideoContestRegistration
+from website.models.video_contest_winner import VideoContestWinner
+from website.utils import handle_old_connections
 
 
-def get_header(request, video_contest_id, current):
+def get_header(request, video_contest, current):
+    now = timezone.now()
+    headers = {}
+    headers['活動內容'] = 'info'
+    # headers['最新公告']= 'announcements'
+    if now > video_contest.registration_start_time:
+        headers['參賽影片'] = 'gallery'
+        if VideoContestWinner.objects.filter(video_contest=video_contest).exists():
+            headers['得獎影片'] = 'winners'
+
     items = []
-    for name, view in {
-            '活動內容': 'info',
-            # '最新公告': 'announcements',
-            # '得獎影片': 'winners',
-            '參賽影片': 'gallery'}.items():
+    for name, view in headers.items():
         items.append({
             'name': name,
-            'link': reverse('video_contest_%s' % view, kwargs={'video_contest_id': video_contest_id}),
+            'link': reverse('video_contest_%s' % view, kwargs={'video_contest_id': video_contest.id}),
             'current': view == current
         })
     return {
@@ -78,14 +86,33 @@ def get_modal_for_registration(request, video_contest):
     }
 
 
+def get_meta_tags_for_info_page(request, video_contest):
+    meta_tags = {
+        'og:url': request.build_absolute_uri(reverse('video_contest_info', args=(video_contest.id,))),
+        'og:locale': 'zh_Hant',
+        'og:type': 'website',
+        'og:title': video_contest.title,
+        'og:description': video_contest.summary or '',
+        'og:image': video_contest.cover_url or request.build_absolute_uri('static/img/logo.jpg'),
+        'fb:app_id': settings.SOCIAL_AUTH_FACEBOOK_KEY,
+    }
+    return meta_tags
+
+
+@handle_old_connections
 def info(request, video_contest_id):
-    video_contest = VideoContest.objects.get(id=video_contest_id)
+    try:
+        video_contest = VideoContest.objects.get(id=video_contest_id)
+    except ObjectDoesNotExist:
+        return redirect('home')
 
     return render(request, 'video_contest/info.html', {
+        'meta_title': video_contest.title,
+        'meta_tags': get_meta_tags_for_info_page(request, video_contest),
         'home': False,
         'user': request.user,
         'video_contest': video_contest,
-        'header': get_header(request, video_contest_id, current='info'),
+        'header': get_header(request, video_contest, current='info'),
         # 'search': {
         #     'placeholder': '搜尋參賽影片'
         # },
@@ -94,11 +121,13 @@ def info(request, video_contest_id):
     })
 
 
+@handle_old_connections
 def announcements(request, video_contest_id):
     return redirect('video_contest_info', video_contest_id=1)
 
 
 @login_required
+@handle_old_connections
 def form_post(request, video_contest_id):
     try:
         video_contest = VideoContest.objects.get(id=video_contest_id)
@@ -127,11 +156,12 @@ def form_post(request, video_contest_id):
             'home': False,
             'video_contest': video_contest,
             'form': form,
-            'header': get_header(request, video_contest_id, current='form'),
+            'header': get_header(request, video_contest, current='form'),
             'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
         })
 
 
+@handle_old_connections
 def form(request, video_contest_id):
     if not request.user.is_authenticated:
         return redirect('video_contest_info', video_contest_id=video_contest_id)
@@ -143,38 +173,62 @@ def form(request, video_contest_id):
         return redirect('home')
 
     return render(request, 'video_contest/form.html', {
+        'meta_title': '%s 報名表' % video_contest.title,
         'home': False,
         'user': request.user,
         'video_contest': video_contest,
         'form': VideoContestRegistrationForm(video_contest, initial={'event': video_contest}),
-        'header': get_header(request, video_contest_id, current='form'),
+        'header': get_header(request, video_contest, current='form'),
         'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
     })
 
 
+@handle_old_connections
 def winners(request, video_contest_id):
     return redirect('video_contest_info', video_contest_id=1)
 
 
+def get_meta_tags_for_gallery_page(request, video_contest):
+    meta_tags = {
+        'og:url': request.build_absolute_uri(
+            reverse('video_contest_gallery',
+                    args=(video_contest.id, ))),
+        'og:locale': 'zh_Hant',
+        'og:type': 'website',
+        'og:title': '%s 參賽影片' % video_contest.title,
+        'og:description': video_contest.summary or '',
+        'og:image': video_contest.cover_url or request.build_absolute_uri('static/img/logo.jpg'),
+        'fb:app_id': settings.SOCIAL_AUTH_FACEBOOK_KEY,
+    }
+    return meta_tags
+
+
+@handle_old_connections
 def gallery(request, video_contest_id):
-    video_contest = VideoContest.objects.get(id=video_contest_id)
+    try:
+        video_contest = VideoContest.objects.get(id=video_contest_id)
+    except ObjectDoesNotExist:
+        return redirect('home')
+
     groups = VideoContestGroup.objects.filter(video_contest=video_contest).order_by('name')
 
     return render(request, 'video_contest/gallery.html', {
+        'meta_title': '%s 參賽影片' % video_contest.title,
+        'meta_tags': get_meta_tags_for_gallery_page(request, video_contest),
         'home': False,
         'user': request.user,
         'video_contest': video_contest,
         'groups': groups,
         'registrations': {g.id: VideoContestRegistration.objects.filter(event=video_contest, group=g, qualified=True) for g in groups},
-        'header': get_header(request, video_contest_id, current='gallery'),
+        'header': get_header(request, video_contest, current='gallery'),
     })
 
 
-def get_random_qualified_videos(count):
-    total_count = VideoContestRegistration.objects.count()
-    ids = sample(list(range(total_count)), count if count < total_count else total_count)
-    videos = [v for v in VideoContestRegistration.objects.filter(id__in=ids[:count], qualified=True).all()]
-    return sample(videos, len(videos))
+def get_random_qualified_videos(video_contest, max_count):
+    # FIXME: improve performance of getting random qualified videos
+    videos = [v for v in VideoContestRegistration.objects.filter(event=video_contest, qualified=True).all()]
+    total_count = len(videos)
+    return sample(videos, max_count if total_count > max_count else total_count)
 
 
 def get_modal_for_voting(request, video_contest):
@@ -216,22 +270,47 @@ def get_modal_for_voting(request, video_contest):
         return None
 
 
+def get_meta_tags_for_video_page(request, video_contest, registration):
+    meta_tags = {
+        'og:url': request.build_absolute_uri(
+            reverse('video_contest_video',
+                    args=(video_contest.id, registration.video_number))),
+        'og:locale': 'zh_Hant',
+        'og:type': 'website',
+        'og:title': registration.video_title,
+        'og:description': registration.introduction or '',
+        'og:image': registration.cover_url,
+        'fb:app_id': settings.SOCIAL_AUTH_FACEBOOK_KEY,
+    }
+    return meta_tags
+
+
+@handle_old_connections
 def video(request, video_contest_id, video_number):
-    video_contest = VideoContest.objects.get(id=video_contest_id)
-    registration = VideoContestRegistration.objects.get(event=video_contest, video_number=video_number)
+    try:
+        video_contest = VideoContest.objects.get(id=video_contest_id)
+    except ObjectDoesNotExist:
+        return redirect('home')
+
+    try:
+        registration = VideoContestRegistration.objects.get(event=video_contest, video_number=video_number)
+    except ObjectDoesNotExist:
+        return redirect('home')
 
     is_voted = request.user.is_authenticated and request.user.profile.voted_videos.filter(id=registration.id).exists()
-    videos = get_random_qualified_videos(count=10)
+    videos = get_random_qualified_videos(video_contest, max_count=10)
     other_videos = [v for v in videos if v.id != registration.id]
 
     return render(request, 'video_contest/video.html', {
+        'meta_title': '%s %s' % (video_contest.title, registration.video_title),
+        'meta_tags': get_meta_tags_for_video_page(request, video_contest, registration),
         'home': False,
         'user': request.user,
         'layout': {
             'content': 'col-lg-8',
             'sidebar': 'col-lg-4',
         },
-        'page_title': video_contest.title,
+        'header_title': video_contest.title,
         'video_contest': video_contest,
         'video': registration,
         'other_videos': other_videos,
@@ -240,12 +319,13 @@ def video(request, video_contest_id, video_number):
             'method': 'DELETE' if is_voted else 'POST',
             'video_contest_registration_id': registration.id
         }),
-        'header': get_header(request, video_contest_id, current='video'),
+        'header': get_header(request, video_contest, current='video'),
         'modal': get_modal_for_voting(request, video_contest)
     })
 
 
 @login_required
+@handle_old_connections
 def vote(request, video_contest_id, video_number):
     if request.method != 'POST':
         return redirect('video_contest_video', video_contest_id=video_contest_id, video_number=video_number)
@@ -267,11 +347,17 @@ def vote(request, video_contest_id, video_number):
     return redirect('video_contest_video', video_contest_id=video_contest_id, video_number=video_number)
 
 
+@handle_old_connections
 def thanks(request, video_contest_id):
+    try:
+        video_contest = VideoContest.objects.get(id=video_contest_id)
+    except ObjectDoesNotExist:
+        return redirect('home')
+
     return render(request, 'video_contest/thanks.html', {
         'home': False,
         'user': request.user,
         'video_contest_id': video_contest_id,
         'countdown': 10,
-        'header': get_header(request, video_contest_id, current='thanks'),
+        'header': get_header(request, video_contest, current='thanks'),
     })
