@@ -225,6 +225,7 @@ def gallery(request, video_contest_id):
 
 
 def get_random_qualified_videos(video_contest, max_count):
+    # FIXME: improve performance of getting random qualified videos
     videos = [v for v in VideoContestRegistration.objects.filter(event=video_contest, qualified=True).all()]
     total_count = len(videos)
     return sample(videos, max_count if total_count > max_count else total_count)
