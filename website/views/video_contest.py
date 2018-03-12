@@ -12,6 +12,7 @@ from website.models.video_contest import VideoContest
 from website.models.video_contest_group import VideoContestGroup
 from website.models.video_contest_registration import VideoContestRegistration
 from website.models.video_contest_winner import VideoContestWinner
+from website.utils import handle_old_connections
 
 
 def get_header(request, video_contest, current):
@@ -98,6 +99,7 @@ def get_meta_tags_for_info_page(request, video_contest):
     return meta_tags
 
 
+@handle_old_connections
 def info(request, video_contest_id):
     try:
         video_contest = VideoContest.objects.get(id=video_contest_id)
@@ -119,11 +121,13 @@ def info(request, video_contest_id):
     })
 
 
+@handle_old_connections
 def announcements(request, video_contest_id):
     return redirect('video_contest_info', video_contest_id=1)
 
 
 @login_required
+@handle_old_connections
 def form_post(request, video_contest_id):
     try:
         video_contest = VideoContest.objects.get(id=video_contest_id)
@@ -157,6 +161,7 @@ def form_post(request, video_contest_id):
         })
 
 
+@handle_old_connections
 def form(request, video_contest_id):
     if not request.user.is_authenticated:
         return redirect('video_contest_info', video_contest_id=video_contest_id)
@@ -178,6 +183,7 @@ def form(request, video_contest_id):
     })
 
 
+@handle_old_connections
 def winners(request, video_contest_id):
     return redirect('video_contest_info', video_contest_id=1)
 
@@ -197,6 +203,7 @@ def get_meta_tags_for_gallery_page(request, video_contest):
     return meta_tags
 
 
+@handle_old_connections
 def gallery(request, video_contest_id):
     try:
         video_contest = VideoContest.objects.get(id=video_contest_id)
@@ -278,6 +285,7 @@ def get_meta_tags_for_video_page(request, video_contest, registration):
     return meta_tags
 
 
+@handle_old_connections
 def video(request, video_contest_id, video_number):
     try:
         video_contest = VideoContest.objects.get(id=video_contest_id)
@@ -317,6 +325,7 @@ def video(request, video_contest_id, video_number):
 
 
 @login_required
+@handle_old_connections
 def vote(request, video_contest_id, video_number):
     if request.method != 'POST':
         return redirect('video_contest_video', video_contest_id=video_contest_id, video_number=video_number)
@@ -338,6 +347,7 @@ def vote(request, video_contest_id, video_number):
     return redirect('video_contest_video', video_contest_id=video_contest_id, video_number=video_number)
 
 
+@handle_old_connections
 def thanks(request, video_contest_id):
     try:
         video_contest = VideoContest.objects.get(id=video_contest_id)
