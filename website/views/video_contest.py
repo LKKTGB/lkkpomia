@@ -219,7 +219,7 @@ def gallery(request, video_contest_id):
         'user': request.user,
         'video_contest': video_contest,
         'groups': groups,
-        'registrations': {g.id: VideoContestRegistration.objects.filter(event=video_contest, group=g, qualified=True) for g in groups},
+        'registrations': {g.id: VideoContestRegistration.objects.filter(event=video_contest, group=g, qualified=True).order_by('-video_number') for g in groups},
         'header': get_header(request, video_contest, current='gallery'),
     })
 
