@@ -53,7 +53,7 @@ msgstr "20 字以內。"
 
 #: website/forms.py
 msgid "video_contest_registration_form_introduction_help_text"
-msgstr "50 字以內。"
+msgstr "儘可能說明影片與主題的關聯性。"
 
 #: website/forms.py
 msgid "video_contest_registration_form_youtube_url_help_text"
