@@ -3,16 +3,11 @@
 {% load filters %}
 
 {% block styles %}
-    <link rel="stylesheet" href="{% static 'css/header.css' %}">
     <link rel="stylesheet" href="{% static 'css/post.css' %}">
     <link rel="stylesheet" href="{% static 'css/video_contest/video.css' %}">
 {% endblock %}
 
 {% url 'video_contest_video' video_contest_id=video_contest.id video_number=video.video_number as video_url %}
-
-{% block header %}
-    {% include 'header.html' with user=user search=search nav_items=nav_items %}
-{% endblock %}
 
 {% block content %}
 <div class="embed-responsive embed-responsive-16by9">
