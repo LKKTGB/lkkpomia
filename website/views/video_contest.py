@@ -13,6 +13,7 @@ from website.models.video_contest_group import VideoContestGroup
 from website.models.video_contest_registration import VideoContestRegistration
 from website.models.video_contest_winner import VideoContestWinner
 from website.utils import handle_old_connections
+from website.views.base import get_login_modal
 
 
 def get_header(request, video_contest, current):
@@ -34,21 +35,7 @@ def get_header(request, video_contest, current):
         })
     return {
         'nav_items': items,
-        'modal': {
-            'target': {
-                'id': 'header_modal',
-            },
-            'title': '李江却台語文教基金會',
-            'body': '會員註冊或登入',
-            'actions': [{
-                    'name': '使用 Facebook 註冊／登入',
-                    'url': '{url}?next={next}'.format(
-                        url=reverse('social:begin', args=('facebook',)),
-                        next=request.path),
-            }, {
-                'name': '下次再說',
-            }]
-        }
+        'modal': get_login_modal(request)
     }
 
 

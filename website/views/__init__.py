@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from website.models.post import Post
+from website.views.base import get_login_modal
 
 
 def get_header(request):
@@ -22,21 +23,7 @@ def get_header(request):
         })
     return {
         'nav_items': nav_items,
-        'modal': {
-            'target': {
-                'id': 'header_modal',
-            },
-            'title': '李江却台語文教基金會',
-            'body': '會員註冊或登入',
-            'actions': [{
-                    'name': '使用 Facebook 註冊／登入',
-                    'url': '{url}?next={next}'.format(
-                        url=reverse('social:begin', args=('facebook',)),
-                        next=request.path),
-            }, {
-                'name': '下次再說',
-            }]
-        }
+        'modal': get_login_modal(request)
     }
 
 
