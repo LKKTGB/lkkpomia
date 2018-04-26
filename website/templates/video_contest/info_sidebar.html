@@ -1,4 +1,4 @@
-{% url 'video_contest_info' video_contest_id=video_contest.id as info_url %}
+{% url 'post' post_id=event.id as event_url %}
 
 <div class="card meta">
     <div class="card-body p-2">
@@ -6,8 +6,8 @@
             <div class="col px-0">
                 <h5 class="card-title my-0">活動資訊</h5>
             </div>
-            <div class="fb-share-button justify-content-end" data-href="{{ info_url }}" data-layout="button" data-size="small" data-mobile-iframe="true">
-                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={% autoescape off %}{{ info_url|escape }}{% endautoescape %};src=sdkpreparse" class="fb-xfbml-parse-ignore">
+            <div class="fb-share-button justify-content-end" data-href="{{ event_url }}" data-layout="button" data-size="small" data-mobile-iframe="true">
+                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={% autoescape off %}{{ event_url|escape }}{% endautoescape %};src=sdkpreparse" class="fb-xfbml-parse-ignore">
                     分享
                 </a>
             </div>
@@ -18,7 +18,7 @@
             </div>
             <div class="col px-2 border border-dark border-top-0 border-bottom-0 border-right-0 float-right">
                 <p class="card-text my-0">
-                    {{ video_contest.start_time|date:'Y/m/d' }} ~ {{ video_contest.end_time|date:'Y/m/d' }}
+                    {{ event.start_time|date:'Y/m/d' }} ~ {{ event.end_time|date:'Y/m/d' }}
                 </p>
             </div>
         </div>
@@ -35,7 +35,7 @@
 
         <a class="btn btn-success w-100"
             {% if not modal %}
-                href="{% url 'video_contest_form' video_contest_id=video_contest.id %}"
+                href="{% url 'video_contest_form' video_contest_id=event.id %}"
             {% else %}
                 data-toggle="modal" data-target="#{{ modal.target.id }}" href="#"
             {% endif %}>
