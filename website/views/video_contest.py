@@ -98,7 +98,7 @@ def info(request, video_contest_id):
         'meta_tags': get_meta_tags_for_info_page(request, video_contest),
         'home': False,
         'user': request.user,
-        'video_contest': video_contest,
+        'post': video_contest,
         'header': get_header(request, video_contest, current='info'),
         # 'search': {
         #     'placeholder': '搜尋參賽影片'
@@ -141,7 +141,7 @@ def form_post(request, video_contest_id):
     else:
         return render(request, 'video_contest/form.html', {
             'home': False,
-            'video_contest': video_contest,
+            'post': video_contest,
             'form': form,
             'header': get_header(request, video_contest, current='form'),
             'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
@@ -163,7 +163,7 @@ def form(request, video_contest_id):
         'meta_title': '%s 報名表' % video_contest.title,
         'home': False,
         'user': request.user,
-        'video_contest': video_contest,
+        'post': video_contest,
         'form': VideoContestRegistrationForm(video_contest, initial={'event': video_contest}),
         'header': get_header(request, video_contest, current='form'),
         'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),

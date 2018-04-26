@@ -1,24 +1,15 @@
-{% extends 'base.html' %}
+{% extends 'post.html' %}
 {% load staticfiles %}
 
 {% load filters %}
 
 {% block styles %}
-    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+    {{ block.super }}
     <link rel="stylesheet" href="{% static 'css/video_contest/info.css' %}">
 {% endblock %}
 
-{% block content %}
-<h1>
-    {{ video_contest.title }}
-</h1>
-<div>
-    {{ video_contest.body|safe }}
-</div>
-{% endblock %}
-
 {% block sidebar %}
-    {% include 'video_contest/info_sidebar.html' with video_contest=video_contest count_qualified=count_qualified modal=modal %}
+    {% include 'video_contest/info_sidebar.html' with video_contest=post count_qualified=count_qualified modal=modal %}
 {% endblock %}
 
 {% block footer %}
