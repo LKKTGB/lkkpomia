@@ -1,21 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'post.html' %}
 {% load widget_tweaks %}
 {% load staticfiles %}
 
 {% block styles %}
-    <link rel="stylesheet" href="{% static 'css/header.css' %}">
-    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+    {{ block.super }}
     <link rel="stylesheet" href="{% static 'css/video_contest/form.css' %}">
 {% endblock %}
 
-{% block header %}
-    {% include 'header.html' with user=user search=search nav_items=nav_items %}
-{% endblock %}
-
 {% block content %}
-<h1>{{ video_contest.title }} 報名表</h1>
+<h1>{{ post.title }} 報名表</h1>
 
-<form class="mb-5" action="{% url 'video_contest_form' video_contest_id=video_contest.id %}" method="POST">
+<form class="mb-5" action="{% url 'video_contest_form' video_contest_id=post.id %}" method="POST">
     {% csrf_token %}
 
     {% include 'bootstrap4/form.html' with form=form %}
@@ -42,5 +37,5 @@
 {% endblock %}
 
 {% block sidebar %}
-    {% include 'video_contest/info_sidebar.html' with video_contest=video_contest count_qualified=count_qualified %}
+    {% include 'event_sidebar.html' with event=post count_qualified=count_qualified %}
 {% endblock %}

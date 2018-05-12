@@ -13,6 +13,8 @@ from website.models.video_contest_group import VideoContestGroup
 from website.models.video_contest_registration import VideoContestRegistration
 from website.models.video_contest_winner import VideoContestWinner
 from website.utils import handle_old_connections
+from website.views.base import get_login_modal
+from website.views.event import get_registration_modal
 
 
 def get_header(request, video_contest, current):
@@ -34,55 +36,7 @@ def get_header(request, video_contest, current):
         })
     return {
         'nav_items': items,
-        'modal': {
-            'target': {
-                'id': 'header_modal',
-            },
-            'title': '李江却台語文教基金會',
-            'body': '會員註冊或登入',
-            'actions': [{
-                    'name': '使用 Facebook 註冊／登入',
-                    'url': '{url}?next={next}'.format(
-                        url=reverse('social:begin', args=('facebook',)),
-                        next=request.path),
-            }, {
-                'name': '下次再說',
-            }]
-        }
-    }
-
-
-def get_modal_for_registration(request, video_contest):
-    now = timezone.now()
-    if now < video_contest.registration_start_time:
-        body = '%s 開放報名' % timezone.localtime(video_contest.registration_start_time).strftime('%Y/%m/%d %H:%M')
-        actions = [{
-            'name': '我知道了'
-        }]
-    elif now > video_contest.registration_end_time:
-        body = '已截止報名'
-        actions = [{
-            'name': '我知道了'
-        }]
-    elif not request.user.is_authenticated:
-        body = '要先登入才可報名喔！'
-        actions = [{
-            'name': '使用 Facebook 註冊／登入',
-            'url': '{url}?next={next}'.format(
-                    url=reverse('social:begin', args=('facebook',)),
-                    next=reverse('video_contest_form', args=(video_contest.id,))),
-        }, {
-            'name': '下次再說',
-        }]
-    else:
-        return None
-    return {
-        'target': {
-            'id': 'validation_before_registration',
-        },
-        'title': '李江却台語文教基金會',
-        'body': body,
-        'actions': actions
+        'modal': get_login_modal(request)
     }
 
 
@@ -106,18 +60,18 @@ def info(request, video_contest_id):
     except ObjectDoesNotExist:
         return redirect('home')
 
-    return render(request, 'video_contest/info.html', {
+    return render(request, 'event.html', {
         'meta_title': video_contest.title,
         'meta_tags': get_meta_tags_for_info_page(request, video_contest),
         'home': False,
         'user': request.user,
-        'video_contest': video_contest,
+        'post': video_contest,
         'header': get_header(request, video_contest, current='info'),
         # 'search': {
         #     'placeholder': '搜尋參賽影片'
         # },
         'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
-        'modal': get_modal_for_registration(request, video_contest)
+        'modal': get_registration_modal(request, video_contest)
     })
 
 
@@ -154,7 +108,7 @@ def form_post(request, video_contest_id):
     else:
         return render(request, 'video_contest/form.html', {
             'home': False,
-            'video_contest': video_contest,
+            'post': video_contest,
             'form': form,
             'header': get_header(request, video_contest, current='form'),
             'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
@@ -176,7 +130,7 @@ def form(request, video_contest_id):
         'meta_title': '%s 報名表' % video_contest.title,
         'home': False,
         'user': request.user,
-        'video_contest': video_contest,
+        'post': video_contest,
         'form': VideoContestRegistrationForm(video_contest, initial={'event': video_contest}),
         'header': get_header(request, video_contest, current='form'),
         'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),

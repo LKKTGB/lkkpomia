@@ -24,6 +24,7 @@ from website.views import policy as policy_views
 urlpatterns = [
     path('', website_views.home, name='home'),
     path('policies/privacy', policy_views.privacy, name='policy_privacy'),
+    path('posts/<post_id>/', website_views.post, name='post'),
     path('video_contests/<video_contest_id>/info/',
          video_contest_views.info, name='video_contest_info'),
     path('video_contests/<video_contest_id>/announcements/',

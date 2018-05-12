@@ -3,13 +3,8 @@
 {% load filters %}
 
 {% block styles %}
-    <link rel="stylesheet" href="{% static 'css/header.css' %}">
     <link rel="stylesheet" href="{% static 'css/post.css' %}">
     <link rel="stylesheet" href="{% static 'css/video_contest/gallery.css' %}">
-{% endblock %}
-
-{% block header %}
-    {% include 'header.html' with user=user search=search nav_items=nav_items %}
 {% endblock %}
 
 {% block body %}

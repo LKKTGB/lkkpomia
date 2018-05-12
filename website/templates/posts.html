@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% load filters %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col posts">
+        {% for post in posts  %}
+            {% url 'post' post_id=post.id as post_url %}
+            <div class="row post">
+                <div class="col-md-9">
+                    <a href="{{ post_url }}" class="post-link">
+                        <h2 class="post-title">{{ post.title }}</h2>
+                    </a>
+
+                    <a href="{{ post_url }}" class="post-link">
+                        <div class="post-body">
+                            {{ post.body|summerize:150|linebreaks }}
+                        </div>
+                    </a>
+                </div>
+                {% if post.cover_url %}
+                    <div class="col-md-3">
+                        <div class="row h-100 justify-content-center align-items-center">
+                            <a href="{{ post_url }}" class="post-link">
+                                <img class="img-fluid align-middle" src="{{ post.cover_url }}">
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+    {% if modal %}
+        {% include 'modal.html' with modal=modal %}
+    {% endif %}
+{% endblock %}

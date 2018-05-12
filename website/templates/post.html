@@ -4,15 +4,14 @@
 {% load filters %}
 
 {% block styles %}
-    <link rel="stylesheet" href="{% static 'css/header.css' %}">
     <link rel="stylesheet" href="{% static 'css/post.css' %}">
 {% endblock %}
 
-{% block body %}
+{% block content %}
 <h1>
-    {{ privacy_policy.title }}
+    {{ post.title }}
 </h1>
 <div>
-    {{ privacy_policy.body|safe }}
+    {{ post.body|safe }}
 </div>
 {% endblock %}
