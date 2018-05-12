@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-26 00:21+0800\n"
+"POT-Creation-Date: 2018-05-12 16:52+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,6 +115,22 @@ msgstr "報名結束時間"
 #: website/models/event.py
 msgid "events"
 msgstr "活動列表"
+
+#: website/models/home_tab.py
+msgid "home_tab_name"
+msgstr "分類名稱"
+
+#: website/models/home_tab.py
+msgid "home_tab_order"
+msgstr "分類排序（數字小的在前面）"
+
+#: website/models/home_tab.py
+msgid "home_tab"
+msgstr "首頁分類"
+
+#: website/models/home_tab.py
+msgid "home_tabs"
+msgstr "首頁分類列表"
 
 #: website/models/post.py
 msgid "post_title"
