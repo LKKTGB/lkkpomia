@@ -20,9 +20,9 @@ from website.models.post import Post
 from website.models.privacy_policy import PrivacyPolicy
 from website.models.salon import Salon
 from website.models.salon_registration import SalonRegistration
+from website.models.user_proxy import UserProxy
 from website.models.video_contest import VideoContest
 from website.models.video_contest_registration import VideoContestRegistration
-from website.models.user_proxy import UserProxy
 
 admin.site.unregister(Association)
 admin.site.unregister(Group)
