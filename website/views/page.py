@@ -1,16 +1,13 @@
 from django.urls import reverse
-from django.views.generic.base import TemplateView
 
 
-class Page(TemplateView):
+class Page:
     '''
     Base view for web pages
     '''
-    template_name = 'page.html'
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        context_data['login_modal'] = {
+    def get_login_modal(self, **kwargs):
+        return {
             'target': {
                 'id': 'header_modal',
             },
@@ -25,4 +22,3 @@ class Page(TemplateView):
                     'name': '下次再說',
             }]
         }
-        return context_data

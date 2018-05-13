@@ -72,6 +72,7 @@ ADMIN_REORDER = (
             'website.VideoContestRegistration')},
     {'app': 'website', 'label': '其他',
         'models': (
+            'website.Headline',
             'website.HomeTab',
             'website.UserProxy',
             'website.PrivacyPolicy',)},
