@@ -5,15 +5,36 @@
 
 {% block styles %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'css/video_contest/info.css' %}">
+    <link rel="stylesheet" href="{% static 'css/event.css' %}">
 {% endblock %}
 
-{% block sidebar %}
-    {% include 'event_sidebar.html' with event=post count_qualified=count_qualified modal=modal %}
-{% endblock %}
-
-{% block footer %}
-    {% if modal %}
-        {% include 'modal.html' with modal=modal %}
-    {% endif %}
+{% block body %}
+<div class="row">
+    <div class="content col-lg-9">
+        <h1>
+            {{ object.title }}
+        </h1>
+        <div>
+            {{ object.body|safe }}
+        </div>
+    </div>
+    <aside class="sidebar col-lg-3">
+        {% url 'post' post_id=object.id as event_url %}
+        <div class="card meta">
+            <div class="card-body p-2">
+                <div class="row mx-0 my-2">
+                    <div class="col px-0">
+                        <h5 class="card-title my-0">活動資訊</h5>
+                    </div>
+                    <div class="fb-share-button justify-content-end" data-href="{{ event_url }}" data-layout="button" data-size="small" data-mobile-iframe="true">
+                        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={% autoescape off %}{{ event_url|escape }}{% endautoescape %};src=sdkpreparse" class="fb-xfbml-parse-ignore">
+                            分享
+                        </a>
+                    </div>
+                </div>
+                {% block sidebar_info %}{% endblock %}
+            </div>
+        </div>
+    </aside>
+</div>
 {% endblock %}

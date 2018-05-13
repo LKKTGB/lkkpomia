@@ -18,13 +18,15 @@ from django.contrib.auth import views as auth_views
 from django.urls import include, path
 
 from website import views as website_views
-from website.views import video_contest as video_contest_views
 from website.views import policy as policy_views
+from website.views import salon as salon_views
+from website.views import video_contest as video_contest_views
 
 urlpatterns = [
     path('', website_views.home, name='home'),
     path('policies/privacy', policy_views.privacy, name='policy_privacy'),
     path('posts/<post_id>/', website_views.post, name='post'),
+    path('posts/<post_id>/attendees', salon_views.register, name='register'),
     path('video_contests/<video_contest_id>/info/',
          video_contest_views.info, name='video_contest_info'),
     path('video_contests/<video_contest_id>/announcements/',

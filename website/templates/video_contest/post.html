@@ -1,4 +1,4 @@
-{% extends 'page.html' %}
+{% extends 'video_contest/page.html' %}
 {% load staticfiles %}
 
 {% load filters %}
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{% static 'css/post.css' %}">
 {% endblock %}
 
-{% block body %}
+{% block content %}
 <h1>
     {{ post.title }}
 </h1>

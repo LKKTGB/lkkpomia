@@ -7,11 +7,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 
+from website import models
 from website.forms import VideoContestRegistrationForm, VideoContestVoteForm
-from website.models.video_contest import VideoContest
-from website.models.video_contest_group import VideoContestGroup
-from website.models.video_contest_registration import VideoContestRegistration
-from website.models.video_contest_winner import VideoContestWinner
 from website.utils import handle_old_connections
 from website.views.base import get_login_modal
 from website.views.event import get_registration_modal
@@ -24,7 +21,7 @@ def get_header(request, video_contest, current):
     # headers['最新公告']= 'announcements'
     if now > video_contest.registration_start_time:
         headers['參賽影片'] = 'gallery'
-        if VideoContestWinner.objects.filter(video_contest=video_contest).exists():
+        if models.VideoContestWinner.objects.filter(video_contest=video_contest).exists():
             headers['得獎影片'] = 'winners'
 
     items = []
@@ -56,11 +53,11 @@ def get_meta_tags_for_info_page(request, video_contest):
 @handle_old_connections
 def info(request, video_contest_id):
     try:
-        video_contest = VideoContest.objects.get(id=video_contest_id)
+        video_contest = models.VideoContest.objects.get(id=video_contest_id)
     except ObjectDoesNotExist:
         return redirect('home')
 
-    return render(request, 'event.html', {
+    return render(request, 'video_contest/info.html', {
         'meta_title': video_contest.title,
         'meta_tags': get_meta_tags_for_info_page(request, video_contest),
         'home': False,
@@ -70,7 +67,7 @@ def info(request, video_contest_id):
         # 'search': {
         #     'placeholder': '搜尋參賽影片'
         # },
-        'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
+        'count_qualified': models.VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
         'modal': get_registration_modal(request, video_contest)
     })
 
@@ -84,13 +81,13 @@ def announcements(request, video_contest_id):
 @handle_old_connections
 def form_post(request, video_contest_id):
     try:
-        video_contest = VideoContest.objects.get(id=video_contest_id)
+        video_contest = models.VideoContest.objects.get(id=video_contest_id)
     except ObjectDoesNotExist:
         return redirect('home')
 
     form = VideoContestRegistrationForm(data=request.POST, video_contest=video_contest)
     if form.is_valid():
-        registration = VideoContestRegistration(
+        registration = models.VideoContestRegistration(
             submitter=request.user,
             event=video_contest,
             contestant_name=form.cleaned_data['contestant_name'],
@@ -111,7 +108,7 @@ def form_post(request, video_contest_id):
             'post': video_contest,
             'form': form,
             'header': get_header(request, video_contest, current='form'),
-            'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
+            'count_qualified': models.VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
         })
 
 
@@ -122,7 +119,7 @@ def form(request, video_contest_id):
     if request.method == 'POST':
         return form_post(request, video_contest_id)
     try:
-        video_contest = VideoContest.objects.get(id=video_contest_id)
+        video_contest = models.VideoContest.objects.get(id=video_contest_id)
     except ObjectDoesNotExist:
         return redirect('home')
 
@@ -133,7 +130,7 @@ def form(request, video_contest_id):
         'post': video_contest,
         'form': VideoContestRegistrationForm(video_contest, initial={'event': video_contest}),
         'header': get_header(request, video_contest, current='form'),
-        'count_qualified': VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
+        'count_qualified': models.VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
     })
 
 
@@ -160,11 +157,11 @@ def get_meta_tags_for_gallery_page(request, video_contest):
 @handle_old_connections
 def gallery(request, video_contest_id):
     try:
-        video_contest = VideoContest.objects.get(id=video_contest_id)
+        video_contest = models.VideoContest.objects.get(id=video_contest_id)
     except ObjectDoesNotExist:
         return redirect('home')
 
-    groups = VideoContestGroup.objects.filter(video_contest=video_contest).order_by('name')
+    groups = models.VideoContestGroup.objects.filter(video_contest=video_contest).order_by('name')
 
     return render(request, 'video_contest/gallery.html', {
         'meta_title': '%s 參賽影片' % video_contest.title,
@@ -173,14 +170,14 @@ def gallery(request, video_contest_id):
         'user': request.user,
         'video_contest': video_contest,
         'groups': groups,
-        'registrations': {g.id: VideoContestRegistration.objects.filter(event=video_contest, group=g, qualified=True).order_by('-video_number') for g in groups},
+        'registrations': {g.id: models.VideoContestRegistration.objects.filter(event=video_contest, group=g, qualified=True).order_by('-video_number') for g in groups},
         'header': get_header(request, video_contest, current='gallery'),
     })
 
 
 def get_random_qualified_videos(video_contest, max_count):
     # FIXME: improve performance of getting random qualified videos
-    videos = [v for v in VideoContestRegistration.objects.filter(event=video_contest, qualified=True).all()]
+    videos = [v for v in models.VideoContestRegistration.objects.filter(event=video_contest, qualified=True).all()]
     total_count = len(videos)
     return sample(videos, max_count if total_count > max_count else total_count)
 
@@ -242,12 +239,12 @@ def get_meta_tags_for_video_page(request, video_contest, registration):
 @handle_old_connections
 def video(request, video_contest_id, video_number):
     try:
-        video_contest = VideoContest.objects.get(id=video_contest_id)
+        video_contest = models.VideoContest.objects.get(id=video_contest_id)
     except ObjectDoesNotExist:
         return redirect('home')
 
     try:
-        registration = VideoContestRegistration.objects.get(event=video_contest, video_number=video_number)
+        registration = models.VideoContestRegistration.objects.get(event=video_contest, video_number=video_number)
     except ObjectDoesNotExist:
         return redirect('home')
 
@@ -295,7 +292,7 @@ def vote(request, video_contest_id, video_number):
         request.user.profile.voted_videos.add(video_contest_registration_id)
     elif method == 'DELETE':
         request.user.profile.voted_videos.remove(video_contest_registration_id)
-    registration = VideoContestRegistration.objects.get(id=video_contest_registration_id)
+    registration = models.VideoContestRegistration.objects.get(id=video_contest_registration_id)
     registration.votes = registration.voters.count()
     registration.save()
     return redirect('video_contest_video', video_contest_id=video_contest_id, video_number=video_number)
@@ -304,7 +301,7 @@ def vote(request, video_contest_id, video_number):
 @handle_old_connections
 def thanks(request, video_contest_id):
     try:
-        video_contest = VideoContest.objects.get(id=video_contest_id)
+        video_contest = models.VideoContest.objects.get(id=video_contest_id)
     except ObjectDoesNotExist:
         return redirect('home')
 
