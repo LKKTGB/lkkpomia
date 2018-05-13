@@ -1,5 +1,6 @@
 from website.models.announcement import Announcement
 from website.models.event import Event
+from website.models.headline import Headline
 from website.models.home_tab import HomeTab
 from website.models.post import Post
 from website.models.privacy_policy import PrivacyPolicy

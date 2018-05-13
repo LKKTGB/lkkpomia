@@ -8,3 +8,6 @@ class PostAdmin(admin.ModelAdmin):
             'js/tinymce/tinymce.min.js',
             'js/tinymce_settings.js',
         ]
+
+    def has_add_permission(self, request):
+        return False

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-12 16:52+0800\n"
+"POT-Creation-Date: 2018-05-14 01:03+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,6 +116,26 @@ msgstr "報名結束時間"
 msgid "events"
 msgstr "活動列表"
 
+#: website/models/headline.py website/models/post.py
+msgid "post"
+msgstr "活動"
+
+#: website/models/headline.py
+msgid "headline_start_time"
+msgstr "開始時間"
+
+#: website/models/headline.py
+msgid "headline_end_time"
+msgstr "結束時間"
+
+#: website/models/headline.py
+msgid "headline"
+msgstr "最新消息"
+
+#: website/models/headline.py
+msgid "headlines"
+msgstr "最新消息列表"
+
 #: website/models/home_tab.py
 msgid "home_tab_name"
 msgstr "分類名稱"
@@ -157,12 +177,8 @@ msgid "post_update_time"
 msgstr "更新時間"
 
 #: website/models/post.py
-msgid "post"
-msgstr "文章"
-
-#: website/models/post.py
 msgid "posts"
-msgstr "文章列表"
+msgstr "活動列表"
 
 #: website/models/privacy_policy.py
 msgid "privacy_policy_title"

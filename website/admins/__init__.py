@@ -1,5 +1,6 @@
 from website.admins.announcement_admin import AnnouncementAdmin
 from website.admins.event_admin import EventAdmin
+from website.admins.headline_admin import HeadlineAdmin
 from website.admins.home_tab import HomeTabAdmin
 from website.admins.post_admin import PostAdmin
 from website.admins.privacy_policy_admin import PrivacyPolicyAdmin
