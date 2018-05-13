@@ -3,16 +3,13 @@ from django.forms.widgets import HiddenInput
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from website.models.salon import Salon
-from website.models.video_contest import VideoContest
-from website.models.video_contest_group import VideoContestGroup
-from website.models.video_contest_registration import VideoContestRegistration
+from website import models
 
 
 class VideoContestRegistrationForm(forms.ModelForm):
 
     class Meta:
-        model = VideoContestRegistration
+        model = models.VideoContestRegistration
         exclude = (
             'submitter',
             'qualified',
@@ -44,7 +41,7 @@ class VideoContestRegistrationForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['group'].widget = forms.RadioSelect()
         self.fields['group'].choices = [(g.id, g.name)
-                                        for g in VideoContestGroup.objects.filter(video_contest=video_contest)]
+                                        for g in models.VideoContestGroup.objects.filter(video_contest=video_contest)]
 
     def clean(self):
         cleaned_data = super().clean()
@@ -73,8 +70,8 @@ class VideoContestVoteForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         video_contest_registration_id = cleaned_data.get('video_contest_registration_id')
-        video_contset_registration = VideoContestRegistration.objects.get(id=video_contest_registration_id)
-        video_contest = VideoContest.objects.get(id=video_contset_registration.event.id)
+        video_contset_registration = models.VideoContestRegistration.objects.get(id=video_contest_registration_id)
+        video_contest = models.VideoContest.objects.get(id=video_contset_registration.event.id)
 
         now = timezone.now()
         if now < video_contest.voting_start_time:
@@ -99,7 +96,7 @@ class SalonRegistrationForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         salon_id = cleaned_data.get('salon_id')
-        salon = Salon.objects.get(id=salon_id)
+        salon = models.Salon.objects.get(id=salon_id)
 
         now = timezone.now()
         if now < salon.registration_start_time:

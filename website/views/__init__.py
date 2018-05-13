@@ -2,8 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from website.models.home_tab import HomeTab
-from website.models.post import Post
+from website import models
 from website.views.event import Event
 from website.views.salon import Salon
 
@@ -19,7 +18,7 @@ def get_header(request):
         'link': reverse('home'),
         'current': current_tab is None
     })
-    for tab in HomeTab.objects.order_by('order').all():
+    for tab in models.HomeTab.objects.order_by('order').all():
         nav_items.append({
             'name': tab.name,
             'link': '%s?tab=%s' % (reverse('home'), tab.name),
@@ -34,9 +33,9 @@ def get_header(request):
 def home(request):
     tab = request.GET.get('tab', None)
     if tab:
-        posts = Post.objects.filter(tags__name__in=[tab])
+        posts = models.Post.objects.filter(tags__name__in=[tab])
     else:
-        posts = Post.objects.all()
+        posts = models.Post.objects.all()
 
     return render(request, 'posts.html', {
         'meta_title': '李江却台語文教基金會',
@@ -49,7 +48,7 @@ def home(request):
 
 def post(request, post_id):
     try:
-        post = Post.objects.get(id=post_id)
+        post = models.Post.objects.get(id=post_id)
     except ObjectDoesNotExist:
         return redirect('home')
     if hasattr(post, 'event'):

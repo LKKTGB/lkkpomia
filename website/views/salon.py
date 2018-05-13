@@ -3,15 +3,14 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
 from django.urls import reverse
 
+from website import models
 from website.forms import SalonRegistrationForm
-from website.models.registration import Registration
-from website.models.salon import Salon as ModelSalon
 from website.views.event import Event
 
 
 class Salon(Event):
     template_name = 'salon.html'
-    model = ModelSalon
+    model = models.Salon
 
     def get_context_data(self, **kwargs):
         self.object = self.get_object()
@@ -37,7 +36,7 @@ def register(request, post_id):
     if request.method != 'POST':
         return redirect('post', post_id=post_id)
     try:
-        ModelSalon.objects.get(id=post_id)
+        models.Salon.objects.get(id=post_id)
     except ObjectDoesNotExist:
         return redirect('home')
 

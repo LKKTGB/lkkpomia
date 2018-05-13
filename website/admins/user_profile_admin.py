@@ -2,11 +2,11 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
 
-from website.models.profile import Profile
+from website import models
 
 
 class ProfileInline(admin.StackedInline):
-    model = Profile
+    model = models.Profile
     can_delete = False
     fk_name = 'user'
 
