@@ -52,10 +52,14 @@
 </div>
 
 {% if request.user.is_authenticated %}
-<form action="" method="post">
+<form action="{% url 'register' post_id=object.id %}" method="post">
     {% csrf_token %}
-    {{ register_form }}
-    <button class="btn btn-success w-100" type="submit">我要報名</button>
+    {{ registration_form }}
+    {% if not is_registered %}
+        <button class="btn btn-success w-100" type="submit">我要報名</button>
+    {% else %}
+        <button class="btn btn-outline-success w-100" type="submit">取消報名</button>
+    {% endif %}
 </form>
 {% else %}
 <a class="btn btn-success w-100" data-toggle="modal" data-target="#{{ registration_modal.target.id }}" href="#">

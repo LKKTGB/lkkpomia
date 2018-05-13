@@ -3,6 +3,7 @@ from django.forms.widgets import HiddenInput
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+from website.models.salon import Salon
 from website.models.video_contest import VideoContest
 from website.models.video_contest_group import VideoContestGroup
 from website.models.video_contest_registration import VideoContestRegistration
@@ -83,4 +84,29 @@ class VideoContestVoteForm(forms.Form):
         elif now > video_contest.voting_end_time:
             raise forms.ValidationError(
                 '已截止投票'
+            )
+
+
+class SalonRegistrationForm(forms.Form):
+    method = forms.ChoiceField(choices=[(m, m) for m in ('POST', 'DELETE')])
+    salon_id = forms.IntegerField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['method'].widget = HiddenInput()
+        self.fields['salon_id'].widget = HiddenInput()
+
+    def clean(self):
+        cleaned_data = super().clean()
+        salon_id = cleaned_data.get('salon_id')
+        salon = Salon.objects.get(id=salon_id)
+
+        now = timezone.now()
+        if now < salon.registration_start_time:
+            raise forms.ValidationError(
+                '%s 開放報名' % salon.registration_start_time.strftime('%Y/%m/%d %H:%M')
+            )
+        elif now > salon.registration_end_time:
+            raise forms.ValidationError(
+                '已截止報名'
             )
