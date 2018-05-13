@@ -4,7 +4,9 @@ from django.urls import reverse
 
 from website.models.home_tab import HomeTab
 from website.models.post import Post
-from website.views import salon as salon_views
+from website.views.event import Event
+from website.views.salon import Salon
+
 from website.views.base import get_login_modal
 
 
@@ -53,4 +55,6 @@ def post(request, post_id):
     if hasattr(post, 'event'):
         if hasattr(post.event, 'videocontest'):
             return redirect('video_contest_info', video_contest_id=post.id)
+        elif hasattr(post.event, 'salon'):
+            return Salon.as_view()(request, pk=post_id)
     return redirect('home')

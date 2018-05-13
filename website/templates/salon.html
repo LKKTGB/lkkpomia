@@ -1,0 +1,71 @@
+{% extends 'event.html' %}
+
+{% block sidebar_info %}
+<div class="row mx-0 my-2">
+    <div class="px-2">
+        {{ 'calendar'|svg:'20 20' }}
+    </div>
+    <div class="col px-2 border border-dark border-top-0 border-bottom-0 border-right-0 float-right">
+        <p class="card-text my-0">
+            {{ object.start_time|date:'Y/m/d' }}
+        </p>
+        <p class="card-text my-0">
+            {{ object.start_time|time }} ~ {{ object.end_time|time }}
+        </p>
+        <p class="card-text my-0">
+            {{ object.door_time|time }} 開放入場
+        </p>
+    </div>
+</div>
+
+<div class="row mx-0 my-2">
+    <div class="px-2">
+        {{ 'map-marker'|svg:'20 20' }}
+    </div>
+    <div class="col px-2 border border-dark border-top-0 border-bottom-0 border-right-0 float-right">
+        <p class="card-text my-0">
+            {{ object.venue }}
+        </p>
+    </div>
+</div>
+
+<div class="row mx-0 my-2">
+    <div class="px-2">
+        {{ 'location'|svg:'20 20' }}
+    </div>
+    <div class="col px-2 border border-dark border-top-0 border-bottom-0 border-right-0 float-right">
+        <p class="card-text my-0">
+            {{ object.address }}
+        </p>
+    </div>
+</div>
+
+<div class="row mx-0 my-2">
+    <div class="px-2">
+        {{ 'people'|svg:'20 20' }}
+    </div>
+    <div class="col px-2 border border-dark border-top-0 border-bottom-0 border-right-0 float-right">
+        <p class="card-text my-0">
+            已有 {{ count_attendees }} 人報名參加
+        </p>
+    </div>
+</div>
+
+{% if request.user.is_authenticated %}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ register_form }}
+    <button class="btn btn-success w-100" type="submit">我要報名</button>
+</form>
+{% else %}
+<a class="btn btn-success w-100" data-toggle="modal" data-target="#{{ registration_modal.target.id }}" href="#">
+    我要報名
+</a>
+{% endif %}
+{% endblock %}
+
+{% block footer %}
+    {% if not request.user.is_authenticated %}
+        {% include 'modal.html' with modal=registration_modal %}
+    {% endif %}
+{% endblock %}

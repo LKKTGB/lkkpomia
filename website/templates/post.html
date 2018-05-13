@@ -1,0 +1,17 @@
+{% extends 'page.html' %}
+{% load staticfiles %}
+
+{% load filters %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+{% endblock %}
+
+{% block body %}
+<h1>
+    {{ post.title }}
+</h1>
+<div>
+    {{ post.body|safe }}
+</div>
+{% endblock %}
