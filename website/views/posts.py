@@ -13,8 +13,8 @@ class Posts(Page, ListView):
 
     allow_empty = True
     ordering = '-start_time'
-    paginate_by = 1
-    paginate_orphans = 0
+    paginate_by = 20
+    paginate_orphans = 30
 
     show_headline = False
 
