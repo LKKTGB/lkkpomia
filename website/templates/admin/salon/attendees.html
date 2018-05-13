@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <style>
+        #someselector {
+            all: initial;
+            * {
+                all: unset;
+            }
+        }
+        table {
+            width: 100%;
+        }
+        thead th {
+            background-color: #ddd
+        }
+        th, td {
+            border-bottom: 1px solid black;
+        }
+        tr > :first-child {
+            border-right: 1px solid black;
+            width: 30%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>「{{ salon.title }}」簽到表</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>簽到</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for attendee in attendees %}
+            <tr>
+                <td align="center">{{ attendee }}</td>
+                <td></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
