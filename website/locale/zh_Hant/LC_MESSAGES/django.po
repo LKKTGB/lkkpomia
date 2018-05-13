@@ -94,7 +94,7 @@ msgstr "活動公告"
 
 #: website/models/announcement.py
 msgid "announcements"
-msgstr "活動公告列表"
+msgstr "活動公告"
 
 #: website/models/event.py
 msgid "event_start_time"
@@ -114,7 +114,7 @@ msgstr "報名結束時間"
 
 #: website/models/event.py
 msgid "events"
-msgstr "活動列表"
+msgstr "活動"
 
 #: website/models/headline.py website/models/post.py
 msgid "post"
@@ -134,7 +134,7 @@ msgstr "最新消息"
 
 #: website/models/headline.py
 msgid "headlines"
-msgstr "最新消息列表"
+msgstr "最新消息"
 
 #: website/models/home_tab.py
 msgid "home_tab_name"
@@ -150,7 +150,7 @@ msgstr "首頁分類"
 
 #: website/models/home_tab.py
 msgid "home_tabs"
-msgstr "首頁分類列表"
+msgstr "首頁分類"
 
 #: website/models/post.py
 msgid "post_title"
@@ -178,7 +178,7 @@ msgstr "更新時間"
 
 #: website/models/post.py
 msgid "posts"
-msgstr "活動列表"
+msgstr "活動"
 
 #: website/models/privacy_policy.py
 msgid "privacy_policy_title"
@@ -198,7 +198,7 @@ msgstr "個人檔案"
 
 #: website/models/profile.py
 msgid "profiles"
-msgstr "個人檔案列表"
+msgstr "個人檔案"
 
 #: website/models/profile.py
 msgid "avatar"
@@ -218,7 +218,7 @@ msgstr "報名表"
 
 #: website/models/registration.py
 msgid "registrations"
-msgstr "報名表列表"
+msgstr "報名表"
 
 #: website/models/salon.py
 msgid "salon_venue"
@@ -238,7 +238,7 @@ msgstr "講座"
 
 #: website/models/salon.py
 msgid "salons"
-msgstr "講座列表"
+msgstr "講座"
 
 #: website/models/salon_registration.py
 msgid "salon_registration"
@@ -246,7 +246,7 @@ msgstr "講座報名表"
 
 #: website/models/salon_registration.py
 msgid "salon_registrations"
-msgstr "講座報名表列表"
+msgstr "講座報名表"
 
 #: website/models/user_proxy.py
 msgid "user_proxy"
@@ -254,7 +254,7 @@ msgstr "使用者"
 
 #: website/models/user_proxy.py
 msgid "user_proxies"
-msgstr "使用者列表"
+msgstr "使用者"
 
 #: website/models/user_proxy.py
 msgid "user_proxy_is_superuser"
@@ -279,7 +279,7 @@ msgstr "影片比賽"
 
 #: website/models/video_contest.py
 msgid "video_contests"
-msgstr "影片比賽列表"
+msgstr "影片比賽"
 
 #: website/models/video_contest_group.py
 msgid "video_contest_group_name"
@@ -291,7 +291,7 @@ msgstr "分組"
 
 #: website/models/video_contest_group.py
 msgid "video_contest_groups"
-msgstr "分組列表"
+msgstr "分組"
 
 #: website/models/video_contest_registration.py
 msgid "video_contest_registration_contestant_name"
@@ -347,7 +347,7 @@ msgstr "影片比賽報名表"
 
 #: website/models/video_contest_registration.py
 msgid "video_contest_registrations"
-msgstr "影片比賽報名表列表"
+msgstr "影片比賽報名表"
 
 #: website/models/video_contest_registration.py
 msgid "video_contest_registration_video_number_validate_unique_error"
@@ -371,4 +371,4 @@ msgstr "影片比賽得獎者"
 
 #: website/models/video_contest_winner.py
 msgid "video_contest_winners"
-msgstr "影片比賽得獎者列表"
+msgstr "影片比賽得獎者"
