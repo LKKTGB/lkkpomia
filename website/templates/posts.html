@@ -1,49 +1,66 @@
-{% extends 'video_contest/page.html' %}
+{% extends 'page.html' %}
 {% load staticfiles %}
 
 {% load filters %}
 
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/header.css' %}">
-    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+    <link rel="stylesheet" href="{% static 'css/posts.css' %}">
 {% endblock %}
 
-{% block content %}
+{% block body %}
+
+{% if show_headline and headline %}
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            {% url 'post' post_id=headline.id as headline_url %}
+            {% if headline.cover_url %}
+                <div class="row">
+                    <div class="col-12 col-lg-7">
+                        <a href="{{ headline_url }}">
+                            <img class="card-img-top" src="{{ headline.cover_url }}">
+                        </a>
+                    </div>
+                    <div class="col-12 col-lg-5 lead">
+                        <a href="{{ headline_url }}">
+                            <h2 class="text-dark display-6">{{ headline.title }}</h2>
+                        </a>
+                        <a href="{{ headline_url }}">
+                            <div class="text-dark">
+                                {{ headline.body|summerize:150|linebreaks }}
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
 
 <div class="row">
-    <div class="col posts">
-        {% for post in posts  %}
-            {% url 'post' post_id=post.id as post_url %}
-            <div class="row post">
-                <div class="col-md-9">
-                    <a href="{{ post_url }}" class="post-link">
-                        <h2 class="post-title">{{ post.title }}</h2>
+    {% for post in object_list  %}
+        {% url 'post' post_id=post.id as post_url %}
+        <div class="col col-sm-12 col-md-6 col-lg-4">
+            <div class="card">
+                {% if post.cover_url %}
+                    <a href="{{ post_url }}">
+                        <img class="card-img-top" src="{{ post.cover_url }}">
+                    </a>
+                {% endif %}
+                <div class="card-body">
+                    <a href="{{ post_url }}">
+                        <h2 class="text-dark">{{ post.title }}</h2>
                     </a>
 
-                    <a href="{{ post_url }}" class="post-link">
-                        <div class="post-body">
-                            {{ post.body|summerize:150|linebreaks }}
+                    <a href="{{ post_url }}">
+                        <div class="text-dark">
+                            {{ post.body|summerize:100|linebreaks }}
                         </div>
                     </a>
                 </div>
-                {% if post.cover_url %}
-                    <div class="col-md-3">
-                        <div class="row h-100 justify-content-center align-items-center">
-                            <a href="{{ post_url }}" class="post-link">
-                                <img class="img-fluid align-middle" src="{{ post.cover_url }}">
-                            </a>
-                        </div>
-                    </div>
-                {% endif %}
             </div>
-        {% endfor %}
-    </div>
+        </div>
+    {% endfor %}
 </div>
 
-{% endblock %}
-
-{% block footer %}
-    {% if modal %}
-        {% include 'modal.html' with modal=modal %}
-    {% endif %}
 {% endblock %}
