@@ -60,7 +60,7 @@ def info(request, video_contest_id):
     except ObjectDoesNotExist:
         return redirect('home')
 
-    return render(request, 'event.html', {
+    return render(request, 'video_contest/info.html', {
         'meta_title': video_contest.title,
         'meta_tags': get_meta_tags_for_info_page(request, video_contest),
         'home': False,
