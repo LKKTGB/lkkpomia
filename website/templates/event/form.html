@@ -4,6 +4,7 @@
 
 {% block styles %}
     {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/event.css' %}">
     <link rel="stylesheet" href="{% static 'css/form.css' %}">
 {% endblock %}
 
@@ -31,7 +32,7 @@
                         {% include 'facebook/share_button.html' with url=event_url %}
                     </div>
                 </div>
-                {% include 'salon/sidebar.html' with object=event %}
+                {% include 'event/sidebar.html' with info=sidebar_info %}
             </div>
         </div>
     </aside>

@@ -3,10 +3,11 @@ from django.views.generic.edit import FormView
 
 from website import models
 from website.forms import SalonRegistrationForm
+from website.views.salon import get_nav_items, get_sidebar_info
 
 
 class SalonRegistrationFormView(FormView):
-    template_name = 'salon/form.html'
+    template_name = 'event/form.html'
     form_class = SalonRegistrationForm
     salon = None
 
@@ -21,6 +22,8 @@ class SalonRegistrationFormView(FormView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         context_data['event'] = self.salon
+        context_data['nav_items'] = get_nav_items(self.salon, self.request)
+        context_data['sidebar_info'] = get_sidebar_info(self.salon)
         return context_data
 
     def get_success_url(self):

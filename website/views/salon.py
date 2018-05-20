@@ -4,11 +4,23 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
 from django.template.defaultfilters import date, time
-from django.urls import reverse
+from django.urls import resolve, reverse
 
 from website import models
 from website.forms import SalonRegistrationForm
 from website.views.event import Event
+
+
+def get_nav_items(salon, request):
+    current_tab = resolve(request.path_info).url_name
+
+    nav_items = []
+    nav_items.append({
+        'name': '活動內容',
+        'link': reverse('post', kwargs={'post_id': salon.id}),
+        'current': current_tab == 'post'
+    })
+    return nav_items
 
 
 def get_sidebar_info(salon):
@@ -31,11 +43,7 @@ class Salon(Event):
     def get_context_data(self, **kwargs):
         self.object = self.get_object()
         context_data = super().get_context_data(**kwargs)
-        context_data['nav_items'] = [{
-            'name': '活動內容',
-            'link': reverse('post', kwargs={'post_id': self.object.id}),
-            'current': True
-        }]
+        context_data['nav_items'] = get_nav_items(self.object, self.request)
         context_data['sidebar_info'] = get_sidebar_info(self.object)
         context_data['registration_modal'] = self.get_registration_modal()
         return context_data
