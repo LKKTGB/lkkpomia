@@ -1,0 +1,12 @@
+.meta {
+    top: 112px;
+    position: sticky;
+}
+
+.meta .btn {
+    display: none;
+}
+
+form {
+    margin-bottom: 40px;
+}

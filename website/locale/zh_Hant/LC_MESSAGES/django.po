@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-20 12:12+0800\n"
+"POT-Creation-Date: 2018-05-20 15:55+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,6 +66,22 @@ msgstr "任何問題或提醒可於此提出。"
 #: website/forms.py website/models/video_contest_registration.py
 msgid "video_contest_registration_form_youtube_url_error_messages_unique"
 msgstr "這個 Youtube 影片已經報名過了！"
+
+#: website/forms.py
+msgid "salon_registration_form_contestant_name_label"
+msgstr "姓名"
+
+#: website/forms.py
+msgid "salon_registration_form_contestant_name_help_text"
+msgstr "活動現場簽到使用。"
+
+#: website/forms.py
+msgid "salon_registration_form_email_help_text"
+msgstr "活動異動通知使用，請避免 Yahoo 或 PChome 等免費信箱。"
+
+#: website/forms.py
+msgid "salon_registration_form_phone_number_help_text"
+msgstr "活動異動通知使用。"
 
 #: website/models/announcement.py
 msgid "announcement_title"

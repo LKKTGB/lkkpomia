@@ -1,0 +1,39 @@
+{% extends 'post.html' %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="content col-lg-9">
+        <h1>{{ event.title }} 報名表</h1>
+
+        <form class="mb-5" action="{% url 'form' post_id=event.id %}" method="POST">
+            {% csrf_token %}
+
+            {% include 'bootstrap4/form.html' with form=form %}
+            <button type="submit" class="btn btn-success mt-4">送出報名表</button>
+        </form>
+    </div>
+    <aside class="sidebar col-lg-3">
+        {% url 'post' post_id=event.id as event_url %}
+        <div class="card meta">
+            <div class="card-body p-2">
+                <div class="row mx-0 my-2">
+                    <div class="col px-0">
+                        <h5 class="card-title my-0">活動資訊</h5>
+                    </div>
+                    <div class="justify-content-end">
+                        {% include 'facebook/share_button.html' with url=event_url %}
+                    </div>
+                </div>
+                {% include 'salon/sidebar.html' with object=event %}
+            </div>
+        </div>
+    </aside>
+</div>
+{% endblock %}
