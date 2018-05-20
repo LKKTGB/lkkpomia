@@ -19,7 +19,6 @@ from django.urls import include, path
 
 from website import views as website_views
 from website.views import policy as policy_views
-from website.views import salon as salon_views
 from website.views import video_contest as video_contest_views
 from website.views import posts as posts_views
 
@@ -28,7 +27,6 @@ urlpatterns = [
     path('policies/privacy', policy_views.privacy, name='policy_privacy'),
     path('posts/', posts_views.Posts.as_view(), name='posts'),
     path('posts/<post_id>/', website_views.post, name='post'),
-    path('posts/<post_id>/attendees', salon_views.register, name='register'),
     path('posts/<post_id>/form', website_views.form, name='form'),
     path('posts/<post_id>/thanks', website_views.thanks, name='thanks'),
     path('video_contests/<video_contest_id>/info/',
