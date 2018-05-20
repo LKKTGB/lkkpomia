@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-14 01:03+0800\n"
+"POT-Creation-Date: 2018-05-20 12:08+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -231,6 +231,14 @@ msgstr "地址"
 #: website/models/salon.py
 msgid "salon_door_time"
 msgstr "入場時間"
+
+#: website/models/salon.py
+msgid "salon_need_email"
+msgstr "報名是否需要提供 E-mail"
+
+#: website/models/salon.py
+msgid "salon_need_phone_number"
+msgstr "報名是否需要提供電話"
 
 #: website/models/salon.py
 msgid "salon"
