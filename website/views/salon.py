@@ -1,6 +1,9 @@
+from collections import OrderedDict
+
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
+from django.template.defaultfilters import date, time
 from django.urls import reverse
 
 from website import models
@@ -8,8 +11,21 @@ from website.forms import SalonRegistrationForm
 from website.views.event import Event
 
 
+def get_sidebar_info(salon):
+    info = OrderedDict()
+    info['calendar'] = [
+        date(salon.start_time, 'Y/m/d'),
+        '%s ~ %s' % (time(salon.start_time), time(salon.end_time)),
+        time(salon.door_time)
+    ]
+    info['map-marker'] = [salon.venue]
+    info['location'] = [salon.address]
+    info['people'] = ['已有 %d 人報名參加' % models.SalonRegistration.objects.filter(event=salon).count()]
+    return info
+
+
 class Salon(Event):
-    template_name = 'salon.html'
+    template_name = 'event.html'
     model = models.Salon
 
     def get_context_data(self, **kwargs):
@@ -20,7 +36,7 @@ class Salon(Event):
             'link': reverse('post', kwargs={'post_id': self.object.id}),
             'current': True
         }]
-        context_data['count_attendees'] = models.SalonRegistration.objects.filter(event=self.object).count()
+        context_data['sidebar_info'] = get_sidebar_info(self.object)
         context_data['registration_modal'] = self.get_registration_modal()
         return context_data
 
