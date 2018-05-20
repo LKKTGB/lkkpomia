@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block footer %}
-    {% if not request.user.is_authenticated %}
+    {% if registration_modal %}
         {% include 'modal.html' with modal=registration_modal %}
     {% endif %}
 {% endblock %}
