@@ -20,3 +20,10 @@ def post(request, post_id):
         elif hasattr(post.event, 'salon'):
             return Salon.as_view()(request, pk=post_id)
     return redirect('home')
+
+
+def thanks(request, post_id):
+    return render(request, 'thanks.html', {
+        'post_id': post_id,
+        'countdown': 10
+    })
