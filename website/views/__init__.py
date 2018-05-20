@@ -2,8 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 
 from website import models
-from website.views.form import SalonRegistrationFormView
-from website.views.salon import Salon
+from website.views.salon import Salon, SalonRegistrationFormView
 from website.views.video_contest import VideoContest
 
 
