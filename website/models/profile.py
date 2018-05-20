@@ -3,7 +3,6 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
-from website.models.salon import Salon
 from website.models.video_contest_registration import VideoContestRegistration
 
 
@@ -11,7 +10,6 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar_url = models.CharField(max_length=100, blank=True)
     voted_videos = models.ManyToManyField(VideoContestRegistration, related_name='voters', blank=True)
-    registered_salons = models.ManyToManyField(Salon, related_name='attendees', blank=True)
 
     class Meta:
         verbose_name = _('profile')

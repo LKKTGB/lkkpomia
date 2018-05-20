@@ -5,6 +5,7 @@ from django.utils.safestring import mark_safe
 
 from website import models
 
+
 class SalonAdmin(admin.ModelAdmin):
     list_display = ('title', 'start_time', 'end_time', 'venue', 'checkin_table')
 
@@ -13,7 +14,6 @@ class SalonAdmin(admin.ModelAdmin):
             'js/tinymce/tinymce.min.js',
             'js/tinymce_settings.js',
         ]
-
 
     def checkin_table(self, obj):
         return mark_safe('<a href="%s">簽到表</a>' % reverse('admin:salon_attendees', kwargs={'object_id': obj.id}))
@@ -28,7 +28,8 @@ class SalonAdmin(admin.ModelAdmin):
 
     def attendees(self, request, object_id):
         salon = models.Salon.objects.get(id=object_id)
+        registrations = models.SalonRegistration.objects.filter(event=salon)
         return TemplateResponse(request, 'admin/salon/attendees.html', {
             'salon': salon,
-            'attendees':[a.user.get_full_name() for a in salon.attendees.all()]
+            'attendees': [r.contestant_name for r in registrations.all()]
         })

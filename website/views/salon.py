@@ -20,14 +20,8 @@ class Salon(Event):
             'link': reverse('post', kwargs={'post_id': self.object.id}),
             'current': True
         }]
-        context_data['count_attendees'] = self.object.attendees.count()
+        context_data['count_attendees'] = models.SalonRegistration.objects.filter(event=self.object).count()
         context_data['registration_modal'] = self.get_registration_modal()
-        context_data['is_registered'] = self.request.user.is_authenticated and self.request.user.profile.registered_salons.filter(
-            id=self.object.id).exists()
-        context_data['registration_form'] = SalonRegistrationForm(initial={
-            'method': 'DELETE' if context_data['is_registered'] else 'POST',
-            'salon_id': self.object.id
-        })
         return context_data
 
 

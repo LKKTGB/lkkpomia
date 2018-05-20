@@ -84,26 +84,42 @@ class VideoContestVoteForm(forms.Form):
             )
 
 
-class SalonRegistrationForm(forms.Form):
-    method = forms.ChoiceField(choices=[(m, m) for m in ('POST', 'DELETE')])
-    salon_id = forms.IntegerField()
+class SalonRegistrationForm(forms.ModelForm):
 
-    def __init__(self, *args, **kwargs):
+    class Meta:
+        model = models.SalonRegistration
+        exclude = (
+            'event',
+            'submitter',
+        )
+        labels = {
+            'contestant_name': _('salon_registration_form_contestant_name_label'),
+        }
+        help_texts = {
+            'contestant_name': _('salon_registration_form_contestant_name_help_text'),
+            'email': _('salon_registration_form_email_help_text'),
+            'phone_number': _('salon_registration_form_phone_number_help_text'),
+        }
+
+    def __init__(self, salon, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['method'].widget = HiddenInput()
-        self.fields['salon_id'].widget = HiddenInput()
+        self.salon = salon
+        self.fields['email'].required = salon.need_email
+        self.fields['phone_number'].required = salon.need_phone_number
+
+        for field_name in ['email', 'phone_number']:
+            if not self.fields[field_name].required:
+                self.fields[field_name].label += '（選填）'
 
     def clean(self):
-        cleaned_data = super().clean()
-        salon_id = cleaned_data.get('salon_id')
-        salon = models.Salon.objects.get(id=salon_id)
+        super().clean()
 
         now = timezone.now()
-        if now < salon.registration_start_time:
+        if now < self.salon.registration_start_time:
             raise forms.ValidationError(
-                '%s 開放報名' % salon.registration_start_time.strftime('%Y/%m/%d %H:%M')
+                '%s 開放報名' % self.salon.registration_start_time.strftime('%Y/%m/%d %H:%M')
             )
-        elif now > salon.registration_end_time:
+        elif now > self.salon.registration_end_time:
             raise forms.ValidationError(
                 '已截止報名'
             )

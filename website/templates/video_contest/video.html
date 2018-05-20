@@ -20,10 +20,8 @@
         <h1 class="text-dark video-title">#{{ video.video_number }} {{ video.video_title }}</h1>
         <div class="row mx-0">
             <p class="text-muted">{{ video.group.name }}／共得到 {{ video.votes }} 票</p>
-            <div class="fb-share-button mt-2 ml-2" data-href="{{ video_url }}" data-layout="button" data-size="small" data-mobile-iframe="true">
-                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={% autoescape off %}{{ video_url|escape }}{% endautoescape %};src=sdkpreparse" class="fb-xfbml-parse-ignore">
-                    分享
-                </a>
+            <div class="mt-2 ml-2">
+                {% include 'facebook/share_button.html' with url=video_url %}
             </div>
         </div>
     </div>
