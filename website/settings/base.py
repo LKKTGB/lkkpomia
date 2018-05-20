@@ -65,9 +65,12 @@ AUTHENTICATION_BACKENDS = (
 )
 
 ADMIN_REORDER = (
-    {'app': 'website', 'label': '活動',
+    {'app': 'website', 'label': '講座',
         'models': (
             'website.Salon',
+            'website.SalonRegistration')},
+    {'app': 'website', 'label': '影片比賽',
+        'models': (
             'website.VideoContest',
             'website.VideoContestRegistration')},
     {'app': 'website', 'label': '其他',
