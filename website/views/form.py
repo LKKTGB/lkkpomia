@@ -25,3 +25,14 @@ class SalonRegistrationFormView(FormView):
 
     def get_success_url(self):
         return reverse('thanks', kwargs={'post_id': self.kwargs['pk']})
+
+    def form_valid(self, form):
+        registration = models.SalonRegistration(
+            submitter=self.request.user,
+            event=self.salon,
+            contestant_name=form.cleaned_data['contestant_name'],
+            phone_number=form.cleaned_data['phone_number'],
+            email=form.cleaned_data['email']
+        )
+        registration.save()
+        return super().form_valid(form)
