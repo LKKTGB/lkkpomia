@@ -33,8 +33,6 @@ urlpatterns = [
          video_contest_views.info, name='video_contest_info'),
     path('video_contests/<video_contest_id>/announcements/',
          video_contest_views.announcements, name='video_contest_announcements'),
-    path('video_contests/<video_contest_id>/form/',
-         video_contest_views.form, name='video_contest_form'),
     path('video_contests/<video_contest_id>/winners/',
          video_contest_views.winners, name='video_contest_winners'),
     path('video_contests/<video_contest_id>/gallery/',

@@ -8,6 +8,7 @@ from django.shortcuts import redirect, render
 from django.template.defaultfilters import date
 from django.urls import reverse
 from django.utils import timezone
+from django.views.generic.edit import FormView
 
 from website import models
 from website.forms import VideoContestRegistrationForm, VideoContestVoteForm
@@ -60,6 +61,55 @@ class VideoContest(Event):
         return context_data
 
 
+class VideoContestRegistrationFormView(FormView):
+    template_name = 'event/form.html'
+    form_class = VideoContestRegistrationForm
+    video_contest = None
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        self.video_contest = models.VideoContest.objects.get(id=self.kwargs['pk'])
+        kwargs.update({
+            'video_contest': self.video_contest,
+        })
+        kwargs['initial'].update({
+            'event': self.video_contest
+        })
+        return kwargs
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        context_data['event'] = self.video_contest
+        context_data['nav_items'] = get_nav_items(self.video_contest, self.request)
+        context_data['sidebar_info'] = get_sidebar_info(self.video_contest)
+        context_data['promises'] = [
+            '本人同意主辦單位基於宣傳及存證等需要下載、再製或再利用參賽之影片。',
+            '本人已瞭解並同意大會規定（大會規定請見活動簡章），若入選評審獎，需配合出席頒獎典禮，方能領取獎勵金，否則視為棄權。',
+            '上述資料皆正確無誤。'
+        ]
+        return context_data
+
+    def get_success_url(self):
+        return reverse('video_contest_thanks', kwargs={'video_contest_id': self.kwargs['pk']})
+
+    def form_valid(self, form):
+        registration = models.VideoContestRegistration(
+            submitter=self.request.user,
+            event=self.video_contest,
+            contestant_name=form.cleaned_data['contestant_name'],
+            phone_number=form.cleaned_data['phone_number'],
+            address=form.cleaned_data['address'],
+            email=form.cleaned_data['email'],
+            video_title=form.cleaned_data['video_title'],
+            introduction=form.cleaned_data['introduction'],
+            youtube_url=form.cleaned_data['youtube_url'],
+            group=form.cleaned_data['group'],
+            questions=form.cleaned_data['questions'],
+        )
+        registration.save()
+        return super().form_valid(form)
+
+
 def info(request, video_contest_id):
     return redirect('post', post_id=video_contest_id)
 
@@ -90,63 +140,6 @@ def get_header(request, video_contest, current):
 @handle_old_connections
 def announcements(request, video_contest_id):
     return redirect('video_contest_info', video_contest_id=1)
-
-
-@login_required
-@handle_old_connections
-def form_post(request, video_contest_id):
-    try:
-        video_contest = models.VideoContest.objects.get(id=video_contest_id)
-    except ObjectDoesNotExist:
-        return redirect('home')
-
-    form = VideoContestRegistrationForm(data=request.POST, video_contest=video_contest)
-    if form.is_valid():
-        registration = models.VideoContestRegistration(
-            submitter=request.user,
-            event=video_contest,
-            contestant_name=form.cleaned_data['contestant_name'],
-            phone_number=form.cleaned_data['phone_number'],
-            address=form.cleaned_data['address'],
-            email=form.cleaned_data['email'],
-            video_title=form.cleaned_data['video_title'],
-            introduction=form.cleaned_data['introduction'],
-            youtube_url=form.cleaned_data['youtube_url'],
-            group=form.cleaned_data['group'],
-            questions=form.cleaned_data['questions'],
-        )
-        registration.save()
-        return redirect('video_contest_thanks', video_contest_id=video_contest_id)
-    else:
-        return render(request, 'video_contest/form.html', {
-            'home': False,
-            'post': video_contest,
-            'form': form,
-            'header': get_header(request, video_contest, current='form'),
-            'count_qualified': models.VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
-        })
-
-
-@handle_old_connections
-def form(request, video_contest_id):
-    if not request.user.is_authenticated:
-        return redirect('video_contest_info', video_contest_id=video_contest_id)
-    if request.method == 'POST':
-        return form_post(request, video_contest_id)
-    try:
-        video_contest = models.VideoContest.objects.get(id=video_contest_id)
-    except ObjectDoesNotExist:
-        return redirect('home')
-
-    return render(request, 'video_contest/form.html', {
-        'meta_title': '%s 報名表' % video_contest.title,
-        'home': False,
-        'user': request.user,
-        'post': video_contest,
-        'form': VideoContestRegistrationForm(video_contest, initial={'event': video_contest}),
-        'header': get_header(request, video_contest, current='form'),
-        'count_qualified': models.VideoContestRegistration.objects.filter(event=video_contest, qualified=True).count(),
-    })
 
 
 @handle_old_connections

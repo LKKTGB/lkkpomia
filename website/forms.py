@@ -39,20 +39,20 @@ class VideoContestRegistrationForm(forms.ModelForm):
 
     def __init__(self, video_contest, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.video_contest = video_contest
         self.fields['group'].widget = forms.RadioSelect()
         self.fields['group'].choices = [(g.id, g.name)
                                         for g in models.VideoContestGroup.objects.filter(video_contest=video_contest)]
 
     def clean(self):
-        cleaned_data = super().clean()
-        video_contest = cleaned_data.get('event')
+        super().clean()
 
         now = timezone.now()
-        if now < video_contest.registration_start_time:
+        if now < self.video_contest.registration_start_time:
             raise forms.ValidationError(
-                '%s 開放報名' % video_contest.registration_start_time.strftime('%Y/%m/%d %H:%M')
+                '%s 開放報名' % self.video_contest.registration_start_time.strftime('%Y/%m/%d %H:%M')
             )
-        elif now > video_contest.registration_end_time:
+        elif now > self.video_contest.registration_end_time:
             raise forms.ValidationError(
                 '已截止報名'
             )
