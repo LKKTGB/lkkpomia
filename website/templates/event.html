@@ -30,9 +30,15 @@
                         {% include 'facebook/share_button.html' with url=event_url %}
                     </div>
                 </div>
-                {% block sidebar_info %}{% endblock %}
+                {% include 'event/sidebar.html' with event=object info=sidebar_info modal=registration_modal %}
             </div>
         </div>
     </aside>
 </div>
+{% endblock %}
+
+{% block footer %}
+    {% if registration_modal %}
+        {% include 'modal.html' with modal=registration_modal %}
+    {% endif %}
 {% endblock %}

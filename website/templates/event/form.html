@@ -4,6 +4,7 @@
 
 {% block styles %}
     {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/event.css' %}">
     <link rel="stylesheet" href="{% static 'css/form.css' %}">
 {% endblock %}
 
@@ -16,6 +17,16 @@
             {% csrf_token %}
 
             {% include 'bootstrap4/form.html' with form=form %}
+
+            {% for promise in promises %}
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" required>
+                    {{ promise }}
+                </label>
+            </div>
+            {% endfor %}
+
             <button type="submit" class="btn btn-success mt-4">送出報名表</button>
         </form>
     </div>
@@ -31,7 +42,7 @@
                         {% include 'facebook/share_button.html' with url=event_url %}
                     </div>
                 </div>
-                {% include 'salon/sidebar.html' with object=event %}
+                {% include 'event/sidebar.html' with info=sidebar_info %}
             </div>
         </div>
     </aside>
