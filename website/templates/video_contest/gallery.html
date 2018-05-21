@@ -34,7 +34,7 @@
     <div class="row">
         {% for registration in registrations %}
             {{ registration.title }}
-            {% url 'video_contest_video' video_contest_id=video_contest.id video_number=registration.video_number as video_url %}
+            {% url 'video' post_id=video_contest.id video_number=registration.video_number as video_url %}
             <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 video-grid">
                 <a href="{{ video_url }}">
                     <img class="img-fluid" src="{{ registration.cover_url }}">

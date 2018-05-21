@@ -30,6 +30,7 @@ urlpatterns = [
     path('posts/<post_id>/form', website_views.form, name='form'),
     path('posts/<post_id>/thanks', website_views.thanks, name='thanks'),
     path('posts/<post_id>/gallery', video_contest_views.Gallery.as_view(), name='gallery'),
+    path('posts/<post_id>/videos/<video_number>', video_contest_views.Video.as_view(), name='video'),
     path('video_contests/<video_contest_id>/info/',
          video_contest_views.info, name='video_contest_info'),
     path('video_contests/<video_contest_id>/announcements/',

@@ -11,12 +11,14 @@ from django.utils import timezone
 from django.views.generic import ListView
 from django.views.generic.edit import FormView
 
+from django.views.generic import DetailView
 from website import models
 from website.forms import VideoContestRegistrationForm, VideoContestVoteForm
 from website.utils import handle_old_connections
 from website.views.base import get_login_modal
 from website.views.event import Event
 from website.views.page import Page
+from website.views.post import Post
 
 from django.urls import resolve
 
@@ -161,6 +163,99 @@ class Gallery(Page, ListView):
         return context_data
 
 
+class Video(Page, DetailView):
+    template_name = 'video_contest/video.html'
+    model = models.VideoContestRegistration
+
+    video_contest = None
+
+    def dispatch(self, request, *args, **kwargs):
+        post_id = kwargs['post_id']
+        self.video_contest = models.VideoContest.objects.get(id=post_id)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self):
+        return models.VideoContestRegistration.objects.get(event=self.video_contest, video_number=self.kwargs['video_number'])
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['login_modal'] = self.get_login_modal()
+        context_data['meta_title']: '%s %s' % (self.video_contest.title, self.object.video_title)
+        context_data['meta_tags'] = self.get_meta_tags()
+        context_data['nav_items'] = get_nav_items(self.video_contest, self.request)
+
+        videos = self.get_random_qualified_videos(max_count=10)
+        is_voted = self.request.user.is_authenticated and self.request.user.profile.voted_videos.filter(
+            id=self.object.id).exists()
+        context_data['other_videos'] = [v for v in videos if v.id != self.object.id]
+        context_data['header_title'] = self.video_contest.title
+        context_data['video_contest'] = self.video_contest
+        context_data['is_voted'] = is_voted
+        context_data['vote_form'] = VideoContestVoteForm(initial={
+            'method': 'DELETE' if is_voted else 'POST',
+            'video_contest_registration_id': self.object.id
+        })
+        context_data['voting_modal'] = self.get_voting_modal()
+        return context_data
+
+    def get_meta_tags(self):
+        meta_tags = {
+            'og:url': self.request.build_absolute_uri(),
+            'og:locale': 'zh_Hant',
+            'og:type': 'website',
+            'og:title': self.object.video_title,
+            'og:description': self.object.introduction or '',
+            'og:image': self.object.cover_url,
+            'fb:app_id': settings.SOCIAL_AUTH_FACEBOOK_KEY,
+        }
+        return meta_tags
+
+    def get_random_qualified_videos(self, max_count):
+        # FIXME: improve performance of getting random qualified videos
+        videos = [v for v in models.VideoContestRegistration.objects.filter(
+            event=self.video_contest, qualified=True).all()]
+        total_count = len(videos)
+        return sample(videos, max_count if total_count > max_count else total_count)
+
+    def get_voting_modal(self):
+        now = timezone.now()
+        popup = False
+        if now < self.video_contest.voting_start_time:
+            popup = True
+            body = '%s\n開放投票' % timezone.localtime(self.video_contest.voting_start_time).strftime('%Y/%m/%d %H:%M')
+            actions = [{
+                'name': '我知道了'
+            }]
+        elif now > self.video_contest.voting_end_time:
+            popup = True
+            body = '已截止投票'
+            actions = [{
+                'name': '我知道了'
+            }]
+        elif not self.request.user.is_authenticated:
+            popup = True
+            body = '要先登入才可投票喔！'
+            actions = [{
+                'name': '使用 Facebook 註冊／登入',
+                'url': '{url}?next={next}'.format(
+                        url=reverse('social:begin', args=('facebook',)),
+                        next=self.request.path),
+            }, {
+                'name': '下次再說',
+            }]
+        if popup:
+            return {
+                'target': {
+                    'id': 'validation_before_voting',
+                },
+                'title': '李江却台語文教基金會',
+                'body': body,
+                'actions': actions
+            }
+        else:
+            return None
+
+
 def info(request, video_contest_id):
     return redirect('post', post_id=video_contest_id)
 
@@ -202,104 +297,8 @@ def gallery(request, video_contest_id):
     return redirect('gallery', post_id=video_contest_id)
 
 
-def get_random_qualified_videos(video_contest, max_count):
-    # FIXME: improve performance of getting random qualified videos
-    videos = [v for v in models.VideoContestRegistration.objects.filter(event=video_contest, qualified=True).all()]
-    total_count = len(videos)
-    return sample(videos, max_count if total_count > max_count else total_count)
-
-
-def get_modal_for_voting(request, video_contest):
-    now = timezone.now()
-    popup = False
-    if now < video_contest.voting_start_time:
-        popup = True
-        body = '%s\n開放投票' % timezone.localtime(video_contest.voting_start_time).strftime('%Y/%m/%d %H:%M')
-        actions = [{
-            'name': '我知道了'
-        }]
-    elif now > video_contest.voting_end_time:
-        popup = True
-        body = '已截止投票'
-        actions = [{
-            'name': '我知道了'
-        }]
-    elif not request.user.is_authenticated:
-        popup = True
-        body = '要先登入才可投票喔！'
-        actions = [{
-            'name': '使用 Facebook 註冊／登入',
-            'url': '{url}?next={next}'.format(
-                    url=reverse('social:begin', args=('facebook',)),
-                    next=request.path),
-        }, {
-            'name': '下次再說',
-        }]
-    if popup:
-        return {
-            'target': {
-                'id': 'validation_before_voting',
-            },
-            'title': '李江却台語文教基金會',
-            'body': body,
-            'actions': actions
-        }
-    else:
-        return None
-
-
-def get_meta_tags_for_video_page(request, video_contest, registration):
-    meta_tags = {
-        'og:url': request.build_absolute_uri(
-            reverse('video_contest_video',
-                    args=(video_contest.id, registration.video_number))),
-        'og:locale': 'zh_Hant',
-        'og:type': 'website',
-        'og:title': registration.video_title,
-        'og:description': registration.introduction or '',
-        'og:image': registration.cover_url,
-        'fb:app_id': settings.SOCIAL_AUTH_FACEBOOK_KEY,
-    }
-    return meta_tags
-
-
-@handle_old_connections
 def video(request, video_contest_id, video_number):
-    try:
-        video_contest = models.VideoContest.objects.get(id=video_contest_id)
-    except ObjectDoesNotExist:
-        return redirect('home')
-
-    try:
-        registration = models.VideoContestRegistration.objects.get(event=video_contest, video_number=video_number)
-    except ObjectDoesNotExist:
-        return redirect('home')
-
-    is_voted = request.user.is_authenticated and request.user.profile.voted_videos.filter(id=registration.id).exists()
-    videos = get_random_qualified_videos(video_contest, max_count=10)
-    other_videos = [v for v in videos if v.id != registration.id]
-
-    return render(request, 'video_contest/video.html', {
-        'meta_title': '%s %s' % (video_contest.title, registration.video_title),
-        'meta_tags': get_meta_tags_for_video_page(request, video_contest, registration),
-        'home': False,
-        'user': request.user,
-        'layout': {
-            'content': 'col-lg-8',
-            'sidebar': 'col-lg-4',
-        },
-        'header_title': video_contest.title,
-        'video_contest': video_contest,
-        'video': registration,
-        'other_videos': other_videos,
-        'is_voted': is_voted,
-        'vote_form': VideoContestVoteForm(initial={
-            'method': 'DELETE' if is_voted else 'POST',
-            'video_contest_registration_id': registration.id
-        }),
-        'header': get_header(request, video_contest, current='video'),
-        'modal': get_modal_for_voting(request, video_contest)
-    })
+    return redirect('video', post_id=video_contest_id, video_number=video_number)
 
 
 @login_required
