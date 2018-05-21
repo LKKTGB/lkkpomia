@@ -8,6 +8,7 @@ from django.shortcuts import redirect, render
 from django.template.defaultfilters import date
 from django.urls import reverse
 from django.utils import timezone
+from django.views.generic import ListView
 from django.views.generic.edit import FormView
 
 from website import models
@@ -15,6 +16,7 @@ from website.forms import VideoContestRegistrationForm, VideoContestVoteForm
 from website.utils import handle_old_connections
 from website.views.base import get_login_modal
 from website.views.event import Event
+from website.views.page import Page
 
 from django.urls import resolve
 
@@ -34,7 +36,7 @@ def get_nav_items(video_contest, request):
     if contest_started:
         nav_items.append({
             'name': '參賽影片',
-            'link': reverse('video_contest_gallery', kwargs={'video_contest_id': video_contest.id}),
+            'link': reverse('gallery', kwargs={'post_id': video_contest.id}),
             'current': current_tab == 'gallery'
         })
     return nav_items
@@ -110,6 +112,55 @@ class VideoContestRegistrationFormView(FormView):
         return super().form_valid(form)
 
 
+class Gallery(Page, ListView):
+    template_name = 'video_contest/gallery.html'
+    model = models.VideoContestRegistration
+
+    allow_empty = True
+    ordering = '-video_number'
+    paginate_by = 20
+    paginate_orphans = 30
+
+    video_contest = None
+    groups = None
+    current_group = None
+
+    def dispatch(self, request, *args, **kwargs):
+        post_id = kwargs['post_id']
+        self.video_contest = models.VideoContest.objects.get(id=post_id)
+        self.groups = models.VideoContestGroup.objects.filter(video_contest=self.video_contest).order_by('name')
+        try:
+            self.current_group = models.VideoContestGroup.objects.get(name=self.request.GET.get('group', None))
+        except ObjectDoesNotExist:
+            return redirect(reverse('gallery', kwargs=kwargs) + '?group=%s' % self.groups[0].name)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return self.model.objects.filter(event=self.video_contest, qualified=True, group=self.current_group)
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        context_data['login_modal'] = self.get_login_modal()
+        context_data['meta_title'] = '李江却台語文教基金會'
+        context_data['meta_tags'] = {
+            'og:url': self.request.build_absolute_uri(),
+            'og:locale': 'zh_Hant',
+            'og:type': 'website',
+            'og:title': '%s 參賽影片' % self.video_contest.title,
+            'og:description': self.video_contest.summary or '',
+            'og:image': self.video_contest.cover_url or self.request.build_absolute_uri('static/img/logo.jpg'),
+            'fb:app_id': settings.SOCIAL_AUTH_FACEBOOK_KEY
+        }
+        context_data['nav_items'] = get_nav_items(self.video_contest, self.request)
+        context_data['video_contest'] = self.video_contest
+        context_data['groups'] = self.groups
+        context_data['current_group'] = self.current_group
+        context_data['registrations'] = models.VideoContestRegistration.objects.filter(
+            event=self.video_contest, group=self.current_group, qualified=True).order_by('-video_number')
+
+        return context_data
+
+
 def info(request, video_contest_id):
     return redirect('post', post_id=video_contest_id)
 
@@ -147,40 +198,8 @@ def winners(request, video_contest_id):
     return redirect('video_contest_info', video_contest_id=1)
 
 
-def get_meta_tags_for_gallery_page(request, video_contest):
-    meta_tags = {
-        'og:url': request.build_absolute_uri(
-            reverse('video_contest_gallery',
-                    args=(video_contest.id, ))),
-        'og:locale': 'zh_Hant',
-        'og:type': 'website',
-        'og:title': '%s 參賽影片' % video_contest.title,
-        'og:description': video_contest.summary or '',
-        'og:image': video_contest.cover_url or request.build_absolute_uri('static/img/logo.jpg'),
-        'fb:app_id': settings.SOCIAL_AUTH_FACEBOOK_KEY,
-    }
-    return meta_tags
-
-
-@handle_old_connections
 def gallery(request, video_contest_id):
-    try:
-        video_contest = models.VideoContest.objects.get(id=video_contest_id)
-    except ObjectDoesNotExist:
-        return redirect('home')
-
-    groups = models.VideoContestGroup.objects.filter(video_contest=video_contest).order_by('name')
-
-    return render(request, 'video_contest/gallery.html', {
-        'meta_title': '%s 參賽影片' % video_contest.title,
-        'meta_tags': get_meta_tags_for_gallery_page(request, video_contest),
-        'home': False,
-        'user': request.user,
-        'video_contest': video_contest,
-        'groups': groups,
-        'registrations': {g.id: models.VideoContestRegistration.objects.filter(event=video_contest, group=g, qualified=True).order_by('-video_number') for g in groups},
-        'header': get_header(request, video_contest, current='gallery'),
-    })
+    return redirect('gallery', post_id=video_contest_id)
 
 
 def get_random_qualified_videos(video_contest, max_count):
