@@ -6,12 +6,12 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 from django.template.defaultfilters import date
-from django.urls import reverse
+from django.urls import resolve, reverse
 from django.utils import timezone
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
-from django.views.generic import DetailView
 from website import models
 from website.forms import VideoContestRegistrationForm, VideoContestVoteForm
 from website.utils import handle_old_connections
@@ -19,8 +19,6 @@ from website.views.base import get_login_modal
 from website.views.event import Event
 from website.views.page import Page
 from website.views.post import Post
-
-from django.urls import resolve
 
 
 def get_nav_items(video_contest, request):
@@ -256,31 +254,20 @@ class Video(Page, DetailView):
             return None
 
 
+class Thanks(Post):
+    template_name = 'video_contest/thanks.html'
+    model = models.VideoContest
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        context_data['nav_items'] = get_nav_items(self.object, self.request)
+        context_data['post_id'] = self.object.id
+        context_data['countdown'] = 10
+        return context_data
+
+
 def info(request, video_contest_id):
     return redirect('post', post_id=video_contest_id)
-
-
-def get_header(request, video_contest, current):
-    now = timezone.now()
-    headers = {}
-    headers['活動內容'] = 'info'
-    # headers['最新公告']= 'announcements'
-    if now > video_contest.registration_start_time:
-        headers['參賽影片'] = 'gallery'
-        if models.VideoContestWinner.objects.filter(video_contest=video_contest).exists():
-            headers['得獎影片'] = 'winners'
-
-    items = []
-    for name, view in headers.items():
-        items.append({
-            'name': name,
-            'link': reverse('video_contest_%s' % view, kwargs={'video_contest_id': video_contest.id}),
-            'current': view == current
-        })
-    return {
-        'nav_items': items,
-        'modal': get_login_modal(request)
-    }
 
 
 @handle_old_connections
@@ -322,19 +309,3 @@ def vote(request, video_contest_id, video_number):
     registration.votes = registration.voters.count()
     registration.save()
     return redirect('video_contest_video', video_contest_id=video_contest_id, video_number=video_number)
-
-
-@handle_old_connections
-def thanks(request, video_contest_id):
-    try:
-        video_contest = models.VideoContest.objects.get(id=video_contest_id)
-    except ObjectDoesNotExist:
-        return redirect('home')
-
-    return render(request, 'video_contest/thanks.html', {
-        'home': False,
-        'user': request.user,
-        'video_contest_id': video_contest_id,
-        'countdown': 10,
-        'header': get_header(request, video_contest, current='thanks'),
-    })

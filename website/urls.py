@@ -43,8 +43,6 @@ urlpatterns = [
          video_contest_views.video, name='video_contest_video'),
     path('video_contests/<video_contest_id>/videos/<video_number>/votes',
          video_contest_views.vote, name='video_contest_video_votes'),
-    path('video_contests/<video_contest_id>/thanks/',
-         video_contest_views.thanks, name='video_contest_thanks'),
     path('admin/', admin.site.urls),
     path('login/', auth_views.login, {'template_name': 'login.html'}, name='login'),
     path('logout/', auth_views.logout, {'next_page': 'home'}, name='logout'),

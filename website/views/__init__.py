@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 
 from website import models
 from website.views.salon import Salon, SalonRegistrationFormView
-from website.views.video_contest import VideoContest, VideoContestRegistrationFormView
+from website.views.video_contest import Thanks, VideoContest, VideoContestRegistrationFormView
 
 
 def post(request, post_id):
@@ -33,7 +33,18 @@ def form(request, post_id):
 
 
 def thanks(request, post_id):
-    return render(request, 'thanks.html', {
-        'post_id': post_id,
-        'countdown': 10
-    })
+    try:
+        post = models.Post.objects.get(id=post_id)
+    except ObjectDoesNotExist:
+        return redirect('home')
+
+    if not hasattr(post, 'event'):
+        return redirect('post', post_id=post_id)
+
+    if hasattr(post.event, 'videocontest'):
+        return Thanks.as_view()(request, pk=post_id)
+    else:
+        return render(request, 'thanks.html', {
+            'post_id': post_id,
+            'countdown': 10
+        })
