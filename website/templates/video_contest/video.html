@@ -30,7 +30,7 @@
             </div>
             <div class="col">
                 {% if not modal %}
-                    <form class="float-right" action="{% url 'video_contest_video_votes' video_contest_id=video_contest.id video_number=object.video_number %}" method='post'>
+                    <form class="float-right" action="{% url 'video_votes' post_id=video_contest.id video_number=object.video_number %}" method='post'>
                         {% csrf_token %}
                         {{ vote_form }}
 

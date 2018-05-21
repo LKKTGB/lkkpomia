@@ -289,15 +289,14 @@ def video(request, video_contest_id, video_number):
 
 
 @login_required
-@handle_old_connections
-def vote(request, video_contest_id, video_number):
+def vote(request, post_id, video_number):
     if request.method != 'POST':
-        return redirect('video_contest_video', video_contest_id=video_contest_id, video_number=video_number)
+        return redirect('video', post_id=post_id, video_number=video_number)
 
     vote_form = VideoContestVoteForm(data=request.POST)
 
     if not vote_form.is_valid():
-        return redirect('video_contest_video', video_contest_id=video_contest_id, video_number=video_number)
+        return redirect('video', post_id=post_id, video_number=video_number)
 
     method = vote_form.cleaned_data['method']
     video_contest_registration_id = vote_form.cleaned_data['video_contest_registration_id']
@@ -308,4 +307,4 @@ def vote(request, video_contest_id, video_number):
     registration = models.VideoContestRegistration.objects.get(id=video_contest_registration_id)
     registration.votes = registration.voters.count()
     registration.save()
-    return redirect('video_contest_video', video_contest_id=video_contest_id, video_number=video_number)
+    return redirect('video', post_id=post_id, video_number=video_number)
