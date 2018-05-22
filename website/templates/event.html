@@ -4,32 +4,36 @@
 {% load filters %}
 
 {% block body %}
-<div class="row">
-    <div class="content col-lg-9">
-        <h1>
-            {{ object.title }}
-        </h1>
-        <div>
-            {{ object.body|safe }}
+
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-8 blog-main">
+            <div class="blog-post">
+                <h2 class="blog-post-title">
+                    {{ object.title }}
+                </h2>
+                {{ object.body|safe }}
+            </div>
         </div>
-    </div>
-    <aside class="sidebar col-lg-3">
-        {% url 'post' post_id=object.id as event_url %}
-        <div class="card meta">
-            <div class="card-body p-2">
+        <aside class="col-md-4 blog-sidebar">
+            {% url 'post' post_id=object.id as event_url %}
+            <div class="p-3 mb-3 bg-light rounded">
                 <div class="row mx-0 my-2">
                     <div class="col px-0">
-                        <h5 class="card-title my-0">活動資訊</h5>
+                        <h4 class="font-italic">
+                            活動資訊
+                        </h4>
                     </div>
                     <div class="justify-content-end">
                         {% include 'facebook/share_button.html' with url=event_url %}
                     </div>
                 </div>
+
                 {% include 'event/sidebar.html' with event=object info=sidebar_info modal=registration_modal %}
             </div>
-        </div>
-    </aside>
-</div>
+        </aside>
+    </div>
+</main>
 {% endblock %}
 
 {% block footer %}
