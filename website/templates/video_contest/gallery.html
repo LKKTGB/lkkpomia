@@ -2,51 +2,62 @@
 {% load staticfiles %}
 {% load filters %}
 
-{% block styles %}
-    {{ block.super }}
-    <link rel="stylesheet" href="{% static 'css/post.css' %}">
-    <link rel="stylesheet" href="{% static 'css/video_contest/gallery.css' %}">
-{% endblock %}
-
 {% block body %}
-<h1 class="mb-1">{{ video_contest.title }}</h1>
-<p class="text-muted mb-4">點擊影片可看到影片簡介，也能參與投票喔！</p>
 
-<ul class="nav gallery-nav">
-    {% url 'gallery' post_id=video_contest.id as gallery_url %}
+<main role="main" class="container">
+    <div class="blog-main">
+        <div class="blog-post">
+            <h2 class="blog-post-title">
+                {{ video_contest.title }}
+            </h2>
+            <p class="blog-post-meta">
+                點擊影片可看到影片簡介，也能參與投票喔！
+            </p>
 
-    {% for group in groups  %}
-    <li class="nav-item">
-        <a class="nav-link {% if group == current_group %}active{% endif %}" href="{{ posts_url }}?group={{ group.name }}">
-            <h2>{{ group.name }}</h2>
-        </a>
-    </li>
-    {% endfor %}
-</ul>
+            <nav class="nav nav-tabs mb-4">
+                {% for group in groups %}
+                <li class="nav-item">
+                    {% if group == current_group %}
+                        <a class="nav-link active" href="{{ posts_url }}?group={{ group.name }}">
+                            {{ group.name }}
+                        </a>
+                    {% else %}
+                        <a class="nav-link text-muted" href="{{ posts_url }}?group={{ group.name }}">
+                            {{ group.name }}
+                        </a>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </nav>
 
-{% if not registrations %}
-    <!-- FIXME: show message for expired event in gallery page without videos -->
-    <div class="mt-5">
-        <p class="text-center">影片審核中</p>
-        <p class="text-center">歡迎<a href="{% url 'video_contest_form' video_contest_id=video_contest.id %}" class="text-dark"><u>報名</u></a></p>
-    </div>
-{% else %}
-    <div class="row">
-        {% for registration in registrations %}
-            {{ registration.title }}
-            {% url 'video' post_id=video_contest.id video_number=registration.video_number as video_url %}
-            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 video-grid">
-                <a href="{{ video_url }}">
-                    <img class="img-fluid" src="{{ registration.cover_url }}">
-                </a>
-                <div class="video-meta">
-                    <a href="{{ video_url }}">
-                        <h3 class="video-title">#{{ registration.video_number }} {{ registration.video_title|truncatechars:40 }}</h3>
-                    </a>
+            {% if not registrations %}
+                <!-- FIXME: show message for expired event in gallery page without videos -->
+                <div class="mt-5">
+                    <p class="text-center">影片審核中</p>
+                    <p class="text-center">歡迎<a href="{% url 'form' post_id=video_contest.id %}" class="text-dark"><u>報名</u></a></p>
                 </div>
-            </div>
-        {% endfor %}
+            {% else %}
+                <div class="row">
+                    {% for registration in registrations %}
+                        {{ registration.title }}
+                        {% url 'video' post_id=video_contest.id video_number=registration.video_number as video_url %}
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                            <a href="{{ video_url }}">
+                                <img class="img-fluid" src="{{ registration.cover_url }}">
+                            </a>
+                            <div>
+                                <a class="text-dark" href="{{ video_url }}">
+                                    <p>
+                                        #{{ registration.video_number }} {{ registration.video_title|truncatechars:40 }}
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
     </div>
-{% endif %}
+</main>
 
 {% endblock %}
