@@ -24,6 +24,7 @@ from website.views.post import Post
 def get_nav_items(video_contest, request):
     now = timezone.now()
     contest_started = now > video_contest.registration_start_time
+    winners_announced = models.VideoContestWinner.objects.filter(video_contest=video_contest).exists()
 
     current_tab = resolve(request.path_info).url_name
 
@@ -38,6 +39,12 @@ def get_nav_items(video_contest, request):
             'name': '參賽影片',
             'link': reverse('gallery', kwargs={'post_id': video_contest.id}),
             'current': current_tab == 'gallery'
+        })
+    if contest_started and winners_announced:
+        nav_items.append({
+            'name': '得獎影片',
+            'link': reverse('winners', kwargs={'post_id': video_contest.id}),
+            'current': current_tab == 'winners'
         })
     return nav_items
 
@@ -159,6 +166,52 @@ class Gallery(Page, ListView):
             event=self.video_contest, group=self.current_group, qualified=True).order_by('-video_number')
 
         return context_data
+
+
+class Winners(Page, ListView):
+    template_name = 'video_contest/winners.html'
+    model = models.VideoContestWinner
+
+    allow_empty = True
+    # ordering = '-video_number'
+    # paginate_by = 20
+    # paginate_orphans = 30
+
+    video_contest = None
+
+    def dispatch(self, request, *args, **kwargs):
+        post_id = kwargs['post_id']
+        self.video_contest = models.VideoContest.objects.get(id=post_id)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return self.model.objects.filter(video_contest=self.video_contest).order_by('order')
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        context_data['login_modal'] = self.get_login_modal()
+        context_data['meta_title'] = '%s 得獎者' % self.video_contest.title
+        context_data['meta_tags'] = {
+            'og:url': self.request.build_absolute_uri(),
+            'og:locale': 'zh_Hant',
+            'og:type': 'website',
+            'og:title': '%s 得獎者' % self.video_contest.title,
+            'og:description': self.video_contest.summary or '',
+            'og:image': self.video_contest.cover_url or self.request.build_absolute_uri('static/img/logo.jpg'),
+            'fb:app_id': settings.SOCIAL_AUTH_FACEBOOK_KEY
+        }
+        context_data['nav_items'] = get_nav_items(self.video_contest, self.request)
+        context_data['video_contest'] = self.video_contest
+        context_data['prizes'] = self.get_prizes()
+        return context_data
+
+    def get_prizes(self):
+        prizes = OrderedDict()
+        for winner in self.object_list:
+            if winner.prize not in prizes:
+                prizes[winner.prize] = []
+            prizes[winner.prize].append(winner)
+        return prizes
 
 
 class Video(Page, DetailView):

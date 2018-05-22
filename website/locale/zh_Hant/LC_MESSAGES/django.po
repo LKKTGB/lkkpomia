@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-20 15:55+0800\n"
+"POT-Creation-Date: 2018-05-22 02:32+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -400,6 +400,10 @@ msgstr "參賽者"
 #: website/models/video_contest_winner.py
 msgid "video_contest_winner_prize"
 msgstr "獎項"
+
+#: website/models/video_contest_winner.py
+msgid "video_contest_winner_order"
+msgstr "排名（小的排前面）"
 
 #: website/models/video_contest_winner.py
 msgid "video_contest_winner"
