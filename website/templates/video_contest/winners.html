@@ -11,13 +11,9 @@
 
 <main role="main" class="container">
     <div class="blog-main">
-        <h2 class="blog-post-title mb-5">
-            {{ video_contest.title }} 得獎者
-        </h2>
-
         <div class="col">
             {% for prize in prizes %}
-                <h3 class="pb-3 mb-4 font-italic border-bottom">
+                <h3 class="pb-3 mb-4 border-bottom">
                     {{ prize }}
                 </h3>
                 <div class="row">

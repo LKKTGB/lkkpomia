@@ -66,6 +66,10 @@ class VideoContest(Event):
     def get_context_data(self, **kwargs):
         self.object = self.get_object()
         context_data = super().get_context_data(**kwargs)
+        context_data['header'] = {
+            'title': self.object.title,
+            'url': reverse('post', kwargs={'post_id': self.object.id})
+        }
         context_data['nav_items'] = get_nav_items(self.object, self.request)
         context_data['sidebar_info'] = get_sidebar_info(self.object)
         context_data['registration_modal'] = self.get_registration_modal()
@@ -91,6 +95,10 @@ class VideoContestRegistrationFormView(FormView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         context_data['event'] = self.video_contest
+        context_data['header'] = {
+            'title': self.video_contest.title,
+            'url': reverse('post', kwargs={'post_id': self.video_contest.id})
+        }
         context_data['nav_items'] = get_nav_items(self.video_contest, self.request)
         context_data['sidebar_info'] = get_sidebar_info(self.video_contest)
         context_data['promises'] = [
@@ -160,6 +168,10 @@ class Gallery(Page, ListView):
             'og:image': self.video_contest.cover_url or self.request.build_absolute_uri('static/img/logo.jpg'),
             'fb:app_id': settings.SOCIAL_AUTH_FACEBOOK_KEY
         }
+        context_data['header'] = {
+            'title': self.video_contest.title,
+            'url': reverse('post', kwargs={'post_id': self.video_contest.id})
+        }
         context_data['nav_items'] = get_nav_items(self.video_contest, self.request)
         context_data['video_contest'] = self.video_contest
         context_data['groups'] = self.groups
@@ -201,6 +213,10 @@ class Winners(Page, ListView):
             'og:description': self.video_contest.summary or '',
             'og:image': self.video_contest.cover_url or self.request.build_absolute_uri('static/img/logo.jpg'),
             'fb:app_id': settings.SOCIAL_AUTH_FACEBOOK_KEY
+        }
+        context_data['header'] = {
+            'title': self.video_contest.title,
+            'url': reverse('post', kwargs={'post_id': self.video_contest.id})
         }
         context_data['nav_items'] = get_nav_items(self.video_contest, self.request)
         context_data['video_contest'] = self.video_contest
