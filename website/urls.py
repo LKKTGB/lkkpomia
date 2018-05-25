@@ -15,17 +15,29 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import include, path
+from django.urls import include, path, reverse
+from django.views.generic.base import RedirectView
 
 from website import views as website_views
 from website.views import policy as policy_views
 from website.views import video_contest as video_contest_views
 from website.views import posts as posts_views
 
+
+class HomeRedirectView(RedirectView):
+
+    permanent = False
+    pattern_name = 'posts/1'
+
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('post', kwargs={'post_id': 1})
+
+
 urlpatterns = [
-    path('', posts_views.Posts.as_view(show_headline=True), name='home'),
+    path('', HomeRedirectView.as_view(), name='home'),
+    # path('', posts_views.Posts.as_view(show_headline=True), name='home'),
     path('policies/privacy', policy_views.privacy, name='policy_privacy'),
-    path('posts/', posts_views.Posts.as_view(), name='posts'),
+    # path('posts/', posts_views.Posts.as_view(), name='posts'),
     path('posts/<post_id>/', website_views.post, name='post'),
     path('posts/<post_id>/form', website_views.form, name='form'),
     path('posts/<post_id>/thanks', website_views.thanks, name='thanks'),
