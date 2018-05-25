@@ -11,11 +11,3 @@
     </p>
 </div>
 {% endfor %}
-
-{% if modal %}
-    <a class="btn btn-outline-dark w-100" data-toggle="modal" data-target="#{{ modal.target.id }}" href="#">
-{% else %}
-    <a class="btn btn-outline-dark w-100" href="{% url 'form' post_id=event.id %}">
-{% endif %}
-    我要報名
-</a>

@@ -25,6 +25,7 @@ def get_nav_items(video_contest, request):
     now = timezone.now()
     contest_started = now > video_contest.registration_start_time
     winners_announced = models.VideoContestWinner.objects.filter(video_contest=video_contest).exists()
+    registration_finished = now > video_contest.registration_end_time
 
     current_tab = resolve(request.path_info).url_name
 
@@ -34,6 +35,12 @@ def get_nav_items(video_contest, request):
         'link': reverse('post', kwargs={'post_id': video_contest.id}),
         'current': current_tab == 'post'
     })
+    if not registration_finished:
+        nav_items.append({
+            'name': '我要報名',
+            'link': reverse('form', kwargs={'post_id': video_contest.id}),
+            'current': current_tab == 'form'
+        })
     if contest_started:
         nav_items.append({
             'name': '參賽影片',
@@ -106,6 +113,7 @@ class VideoContestRegistrationFormView(FormView):
             '本人已瞭解並同意大會規定（大會規定請見活動簡章），若入選評審獎，需配合出席頒獎典禮，方能領取獎勵金，否則視為棄權。',
             '上述資料皆正確無誤。'
         ]
+        context_data['popup'] = self.get_popup()
         return context_data
 
     def get_success_url(self):
@@ -127,6 +135,43 @@ class VideoContestRegistrationFormView(FormView):
         )
         registration.save()
         return super().form_valid(form)
+
+    def get_popup(self):
+        now = timezone.now()
+        if now < self.video_contest.registration_start_time:
+            body = '%s 開放報名' % timezone.localtime(self.video_contest.registration_start_time).strftime('%Y/%m/%d %H:%M')
+            actions = [{
+                'name': '我知道了',
+                'url': reverse('post', args=(self.video_contest.id,))
+            }]
+        elif now > self.video_contest.registration_end_time:
+            body = '已截止報名'
+            actions = [{
+                'name': '我知道了',
+                'url': reverse('post', args=(self.video_contest.id,))
+            }]
+        elif not self.request.user.is_authenticated:
+            body = '要先登入才可報名喔！'
+            actions = [{
+                'name': '使用 Facebook 註冊／登入',
+                'url': '{url}?next={next}'.format(
+                        url=reverse('social:begin', args=('facebook',)),
+                        next=reverse('form', args=(self.video_contest.id,))),
+            }, {
+                'name': '下次再說',
+                'url': reverse('post', args=(self.video_contest.id,))
+            }]
+        else:
+            return None
+        return {
+            'target': {
+                'id': 'form_popup',
+            },
+            'title': '李江却台語文教基金會',
+            'body': body,
+            'actions': actions,
+            'redirect': reverse('post', args=(self.video_contest.id,))
+        }
 
 
 class Gallery(Page, ListView):
