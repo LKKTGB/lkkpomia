@@ -297,6 +297,10 @@ class Video(Page, DetailView):
         context_data['login_modal'] = self.get_login_modal()
         context_data['meta_title']: '%s %s' % (self.video_contest.title, self.object.video_title)
         context_data['meta_tags'] = self.get_meta_tags()
+        context_data['header'] = {
+            'title': self.video_contest.title,
+            'url': reverse('post', kwargs={'post_id': self.video_contest.id})
+        }
         context_data['nav_items'] = get_nav_items(self.video_contest, self.request)
 
         videos = self.get_random_qualified_videos(max_count=10)
