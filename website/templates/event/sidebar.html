@@ -1,23 +1,13 @@
 
-{% for icon, lines in info.items %}
-<div class="row mx-0 my-2">
-    <div class="px-2">
-        {{ icon|svg:'20 20' }}
-    </div>
-    <div class="col px-2 border border-dark border-top-0 border-bottom-0 border-right-0 float-right">
-        {% for line in lines %}
-            <p class="card-text my-0">
-                {{ line }}
-            </p>
-        {% endfor %}
-    </div>
+{% for type, content in info.items %}
+<div class="mx-0 my-2">
+    <p class="mb-0">
+        <strong class="d-inline-block text-dark">
+            {{ type }}
+        </strong>
+    </p>
+    <p class="mb-0">
+        {{ content }}
+    </p>
 </div>
 {% endfor %}
-
-{% if modal %}
-    <a class="btn btn-success w-100" data-toggle="modal" data-target="#{{ modal.target.id }}" href="#">
-{% else %}
-    <a class="btn btn-success w-100" href="{% url 'form' post_id=event.id %}">
-{% endif %}
-    我要報名
-</a>

@@ -23,14 +23,11 @@ def get_nav_items(salon, request):
 
 def get_sidebar_info(salon):
     info = OrderedDict()
-    info['calendar'] = [
-        date(salon.start_time, 'Y/m/d'),
-        '%s ~ %s' % (time(salon.start_time), time(salon.end_time)),
-        time(salon.door_time)
-    ]
-    info['map-marker'] = [salon.venue]
-    info['location'] = [salon.address]
-    info['people'] = ['已有 %d 人報名參加' % models.SalonRegistration.objects.filter(event=salon).count()]
+    info['活動時間'] = '%s %s~%s' % (date(salon.start_time, 'Y/m/d'), time(salon.start_time), time(salon.end_time))
+    info['入場時間'] = time(salon.door_time)
+    info['活動地點'] = salon.venue
+    info['活動地址'] = salon.address
+    info['報名狀況'] = '已有 %d 人報名參加' % models.SalonRegistration.objects.filter(event=salon).count()
     return info
 
 

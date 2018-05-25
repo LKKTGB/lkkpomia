@@ -9,45 +9,44 @@
 
 {% block body %}
 
-<h1 class="display-4 font-italic mb-5">{{ video_contest.title }} 得獎者</h1>
+<main role="main" class="container">
+    <div class="blog-main">
+        <div class="col">
+            {% for prize in prizes %}
+                <h3 class="pb-3 mb-4 border-bottom">
+                    {{ prize }}
+                </h3>
+                <div class="row">
+                {% for winner in prizes|hash:prize %}
 
-<div class="col">
-    {% for prize in prizes %}
-        <h3 class="pb-3 mb-4 font-italic border-bottom">
-            {{ prize }}
-        </h3>
-        <div class="row">
-        {% for winner in prizes|hash:prize %}
+                    {% url 'video' post_id=video_contest.id video_number=winner.registration.video_number as video_url %}
 
-            {% url 'video' post_id=video_contest.id video_number=reg.video_number as video_url %}
-
-            <div class="col-md-6">
-                <div class="card mb-4 box-shadow">
-                    <a class="text-dark" href="{{ video_url }}">
-                        <img class="card-img-top flex-auto" src="{{ winner.registration.cover_url }}" data-holder-rendered="true">
-                    </a>
-                    <div class="card-body d-flex flex-column align-items-start">
-                        <h3 class="mb-0">
+                    <div class="col-md-6">
+                        <div class="card mb-4 box-shadow">
                             <a class="text-dark" href="{{ video_url }}">
-                                #{{ winner.registration.video_number }} {{ winner.registration.video_title }}
+                                <img class="card-img-top flex-auto" src="{{ winner.registration.cover_url }}" data-holder-rendered="true">
                             </a>
-                        </h3>
-                        <div class="mb-1 text-muted">
-                            <a class="text-dark" href="{{ video_url }}">
-                                {{ winner.registration.contestant_name }}
-                            </a>
+                            <div class="card-body d-flex flex-column align-items-start">
+                                <h4>
+                                    <a class="text-dark" href="{{ video_url }}">
+                                        #{{ winner.registration.video_number }} {{ winner.registration.video_title }}
+                                    </a>
+                                </h4>
+                                <div>
+                                    <a class="text-dark" href="{{ video_url }}">
+                                        <p>
+                                            {{ winner.registration.contestant_name }}
+                                        </p>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <p class="card-text mb-auto">
-                            <a class="text-dark" href="{{ video_url }}">
-                                {{ winner.registration.introduction|summerize:150|linebreaks }}
-                            </a>
-                        </p>
                     </div>
+                {% endfor %}
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
         </div>
-    {% endfor %}
-</div>
+    </div>
+</main>
 
 {% endblock %}

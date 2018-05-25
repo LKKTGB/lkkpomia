@@ -14,6 +14,24 @@
   text-decoration: none;
 }
 
+.blog-header-avatar {
+    display: block;
+    width: 38px;
+    height: 38px;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.dropdown {
+  list-style-type: none;
+}
+
+.dropdown-menu {
+    margin-top: 45px;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "Playfair Display", Georgia, "Times New Roman", serif;
 }
@@ -117,6 +135,22 @@ a:hover {
 .blog-post-meta {
   margin-bottom: 1.25rem;
   color: #999;
+}
+.blog-post img {
+  max-width: 100%;
+  height: auto;
+}
+
+/*
+ * Sidebar
+ */
+.blog-sidebar .video-meta {
+    line-height: 1.0;
+}
+
+.blog-sidebar .video-meta-title {
+  line-height: 1.2;
+    font-size: 14px;
 }
 
 /*

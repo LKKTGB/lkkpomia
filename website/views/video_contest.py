@@ -25,6 +25,7 @@ def get_nav_items(video_contest, request):
     now = timezone.now()
     contest_started = now > video_contest.registration_start_time
     winners_announced = models.VideoContestWinner.objects.filter(video_contest=video_contest).exists()
+    registration_finished = now > video_contest.registration_end_time
 
     current_tab = resolve(request.path_info).url_name
 
@@ -34,6 +35,12 @@ def get_nav_items(video_contest, request):
         'link': reverse('post', kwargs={'post_id': video_contest.id}),
         'current': current_tab == 'post'
     })
+    if not registration_finished:
+        nav_items.append({
+            'name': '我要報名',
+            'link': reverse('form', kwargs={'post_id': video_contest.id}),
+            'current': current_tab == 'form'
+        })
     if contest_started:
         nav_items.append({
             'name': '參賽影片',
@@ -51,9 +58,13 @@ def get_nav_items(video_contest, request):
 
 def get_sidebar_info(video_contest):
     info = OrderedDict()
-    info['calendar'] = ['%s ~ %s' % (date(video_contest.start_time, 'Y/m/d'), date(video_contest.end_time, 'Y/m/d'))]
-    info['people'] = ['已有 %d 人報名成功' % models.VideoContestRegistration.objects.filter(
-        event=video_contest, qualified=True).count()]
+    info['活動時間'] = '%s ~ %s' % (date(video_contest.start_time, 'Y/m/d'), date(video_contest.end_time, 'Y/m/d'))
+    info['報名時間'] = '%s ~ %s' % (date(video_contest.registration_start_time, 'Y/m/d H:i'),
+                                date(video_contest.registration_end_time, 'Y/m/d H:i'))
+    info['投票時間'] = '%s ~ %s' % (date(video_contest.voting_start_time, 'Y/m/d H:i'),
+                                date(video_contest.voting_end_time, 'Y/m/d H:i'))
+    info['報名狀況'] = '已有 %d 人報名成功' % models.VideoContestRegistration.objects.filter(
+        event=video_contest, qualified=True).count()
     return info
 
 
@@ -64,6 +75,10 @@ class VideoContest(Event):
     def get_context_data(self, **kwargs):
         self.object = self.get_object()
         context_data = super().get_context_data(**kwargs)
+        context_data['header'] = {
+            'title': self.object.title,
+            'url': reverse('post', kwargs={'post_id': self.object.id})
+        }
         context_data['nav_items'] = get_nav_items(self.object, self.request)
         context_data['sidebar_info'] = get_sidebar_info(self.object)
         context_data['registration_modal'] = self.get_registration_modal()
@@ -89,6 +104,10 @@ class VideoContestRegistrationFormView(FormView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         context_data['event'] = self.video_contest
+        context_data['header'] = {
+            'title': self.video_contest.title,
+            'url': reverse('post', kwargs={'post_id': self.video_contest.id})
+        }
         context_data['nav_items'] = get_nav_items(self.video_contest, self.request)
         context_data['sidebar_info'] = get_sidebar_info(self.video_contest)
         context_data['promises'] = [
@@ -96,6 +115,7 @@ class VideoContestRegistrationFormView(FormView):
             '本人已瞭解並同意大會規定（大會規定請見活動簡章），若入選評審獎，需配合出席頒獎典禮，方能領取獎勵金，否則視為棄權。',
             '上述資料皆正確無誤。'
         ]
+        context_data['popup'] = self.get_popup()
         return context_data
 
     def get_success_url(self):
@@ -118,15 +138,51 @@ class VideoContestRegistrationFormView(FormView):
         registration.save()
         return super().form_valid(form)
 
+    def get_popup(self):
+        now = timezone.now()
+        if now < self.video_contest.registration_start_time:
+            body = '%s 開放報名' % timezone.localtime(self.video_contest.registration_start_time).strftime('%Y/%m/%d %H:%M')
+            actions = [{
+                'name': '我知道了',
+                'url': reverse('post', args=(self.video_contest.id,))
+            }]
+        elif now > self.video_contest.registration_end_time:
+            body = '已截止報名'
+            actions = [{
+                'name': '我知道了',
+                'url': reverse('post', args=(self.video_contest.id,))
+            }]
+        elif not self.request.user.is_authenticated:
+            body = '要先登入才可報名喔！'
+            actions = [{
+                'name': '使用 Facebook 註冊／登入',
+                'url': '{url}?next={next}'.format(
+                        url=reverse('social:begin', args=('facebook',)),
+                        next=reverse('form', args=(self.video_contest.id,))),
+            }, {
+                'name': '下次再說',
+                'url': reverse('post', args=(self.video_contest.id,))
+            }]
+        else:
+            return None
+        return {
+            'target': {
+                'id': 'form_popup',
+            },
+            'title': '李江却台語文教基金會',
+            'body': body,
+            'actions': actions,
+            'redirect': reverse('post', args=(self.video_contest.id,))
+        }
+
 
 class Gallery(Page, ListView):
     template_name = 'video_contest/gallery.html'
     model = models.VideoContestRegistration
 
+    # TODO: Enable paging
     allow_empty = True
     ordering = '-video_number'
-    paginate_by = 20
-    paginate_orphans = 30
 
     video_contest = None
     groups = None
@@ -157,6 +213,10 @@ class Gallery(Page, ListView):
             'og:description': self.video_contest.summary or '',
             'og:image': self.video_contest.cover_url or self.request.build_absolute_uri('static/img/logo.jpg'),
             'fb:app_id': settings.SOCIAL_AUTH_FACEBOOK_KEY
+        }
+        context_data['header'] = {
+            'title': self.video_contest.title,
+            'url': reverse('post', kwargs={'post_id': self.video_contest.id})
         }
         context_data['nav_items'] = get_nav_items(self.video_contest, self.request)
         context_data['video_contest'] = self.video_contest
@@ -199,6 +259,10 @@ class Winners(Page, ListView):
             'og:description': self.video_contest.summary or '',
             'og:image': self.video_contest.cover_url or self.request.build_absolute_uri('static/img/logo.jpg'),
             'fb:app_id': settings.SOCIAL_AUTH_FACEBOOK_KEY
+        }
+        context_data['header'] = {
+            'title': self.video_contest.title,
+            'url': reverse('post', kwargs={'post_id': self.video_contest.id})
         }
         context_data['nav_items'] = get_nav_items(self.video_contest, self.request)
         context_data['video_contest'] = self.video_contest
