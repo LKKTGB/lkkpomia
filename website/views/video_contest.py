@@ -180,10 +180,9 @@ class Gallery(Page, ListView):
     template_name = 'video_contest/gallery.html'
     model = models.VideoContestRegistration
 
+    # TODO: Enable paging
     allow_empty = True
     ordering = '-video_number'
-    paginate_by = 20
-    paginate_orphans = 30
 
     video_contest = None
     groups = None
