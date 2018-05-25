@@ -59,8 +59,10 @@ def get_nav_items(video_contest, request):
 def get_sidebar_info(video_contest):
     info = OrderedDict()
     info['活動時間'] = '%s ~ %s' % (date(video_contest.start_time, 'Y/m/d'), date(video_contest.end_time, 'Y/m/d'))
-    info['投票時間'] = '%s ~ %s' % (date(video_contest.voting_start_time, 'Y/m/d'),
-                                date(video_contest.voting_end_time, 'Y/m/d'))
+    info['報名時間'] = '%s ~ %s' % (date(video_contest.registration_start_time, 'Y/m/d H:i'),
+                                date(video_contest.registration_end_time, 'Y/m/d H:i'))
+    info['投票時間'] = '%s ~ %s' % (date(video_contest.voting_start_time, 'Y/m/d H:i'),
+                                date(video_contest.voting_end_time, 'Y/m/d H:i'))
     info['報名狀況'] = '已有 %d 人報名成功' % models.VideoContestRegistration.objects.filter(
         event=video_contest, qualified=True).count()
     return info
