@@ -1,0 +1,61 @@
+{% extends 'page.html' %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block body %}
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-lg-8 blog-main">
+            <form class="mb-5" action="{% url 'form' post_id=event.id %}" method="POST">
+                {% csrf_token %}
+
+                {% include 'bootstrap4/form.html' with form=form %}
+
+                {% for promise in promises %}
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" required>
+                        {{ promise }}
+                    </label>
+                </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-dark mt-4">送出報名表</button>
+            </form>
+        </div>
+        <aside class="col-lg-4 blog-sidebar">
+            {% url 'post' post_id=event.id as event_url %}
+            <div class="p-3 mb-3 bg-light rounded">
+                <div class="row mx-0 my-2">
+                    <div class="col px-0">
+                        <h4>
+                            活動資訊
+                        </h4>
+                    </div>
+                    <div class="justify-content-end">
+                        {% include 'facebook/share_button.html' with url=event_url %}
+                    </div>
+                </div>
+                {% include 'event/sidebar.html' with event=event info=sidebar_info %}
+            </div>
+        </aside>
+    </div>
+</main>
+{% endblock %}
+
+{% block footer %}
+    {% if popup %}
+        {% include 'modal.html' with modal=popup %}
+    {% endif %}
+{% endblock%}
+
+{% block script %}
+    {% if popup %}
+        $(window).on('load',function(){
+            $('#{{ popup.target.id }}').on("hide.bs.modal", function () {
+                window.location = "{{ popup.redirect }}";
+            });
+            $('#{{ popup.target.id }}').modal('show');
+        });
+    {% endif %}
+{% endblock %}

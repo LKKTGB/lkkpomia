@@ -1,13 +1,11 @@
 from django.contrib import admin
 
 
-class PostAdmin(admin.ModelAdmin):
+class HomeTabAdmin(admin.ModelAdmin):
+    list_display = ('name', 'order')
 
     class Media:
         js = [
             'js/tinymce/tinymce.min.js',
             'js/tinymce_settings.js',
         ]
-
-    def has_add_permission(self, request):
-        return False

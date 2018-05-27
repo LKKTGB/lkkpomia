@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-26 00:21+0800\n"
+"POT-Creation-Date: 2018-05-22 02:32+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,6 +67,22 @@ msgstr "任何問題或提醒可於此提出。"
 msgid "video_contest_registration_form_youtube_url_error_messages_unique"
 msgstr "這個 Youtube 影片已經報名過了！"
 
+#: website/forms.py
+msgid "salon_registration_form_contestant_name_label"
+msgstr "姓名"
+
+#: website/forms.py
+msgid "salon_registration_form_contestant_name_help_text"
+msgstr "活動現場簽到使用。"
+
+#: website/forms.py
+msgid "salon_registration_form_email_help_text"
+msgstr "活動異動通知使用，請避免 Yahoo 或 PChome 等免費信箱。"
+
+#: website/forms.py
+msgid "salon_registration_form_phone_number_help_text"
+msgstr "活動異動通知使用。"
+
 #: website/models/announcement.py
 msgid "announcement_title"
 msgstr "標題"
@@ -94,7 +110,7 @@ msgstr "活動公告"
 
 #: website/models/announcement.py
 msgid "announcements"
-msgstr "活動公告列表"
+msgstr "活動公告"
 
 #: website/models/event.py
 msgid "event_start_time"
@@ -114,7 +130,43 @@ msgstr "報名結束時間"
 
 #: website/models/event.py
 msgid "events"
-msgstr "活動列表"
+msgstr "活動"
+
+#: website/models/headline.py website/models/post.py
+msgid "post"
+msgstr "活動"
+
+#: website/models/headline.py
+msgid "headline_start_time"
+msgstr "開始時間"
+
+#: website/models/headline.py
+msgid "headline_end_time"
+msgstr "結束時間"
+
+#: website/models/headline.py
+msgid "headline"
+msgstr "最新消息"
+
+#: website/models/headline.py
+msgid "headlines"
+msgstr "最新消息"
+
+#: website/models/home_tab.py
+msgid "home_tab_name"
+msgstr "分類名稱"
+
+#: website/models/home_tab.py
+msgid "home_tab_order"
+msgstr "分類排序（數字小的在前面）"
+
+#: website/models/home_tab.py
+msgid "home_tab"
+msgstr "首頁分類"
+
+#: website/models/home_tab.py
+msgid "home_tabs"
+msgstr "首頁分類"
 
 #: website/models/post.py
 msgid "post_title"
@@ -141,12 +193,8 @@ msgid "post_update_time"
 msgstr "更新時間"
 
 #: website/models/post.py
-msgid "post"
-msgstr "文章"
-
-#: website/models/post.py
 msgid "posts"
-msgstr "文章列表"
+msgstr "活動"
 
 #: website/models/privacy_policy.py
 msgid "privacy_policy_title"
@@ -166,7 +214,7 @@ msgstr "個人檔案"
 
 #: website/models/profile.py
 msgid "profiles"
-msgstr "個人檔案列表"
+msgstr "個人檔案"
 
 #: website/models/profile.py
 msgid "avatar"
@@ -186,7 +234,7 @@ msgstr "報名表"
 
 #: website/models/registration.py
 msgid "registrations"
-msgstr "報名表列表"
+msgstr "報名表"
 
 #: website/models/salon.py
 msgid "salon_venue"
@@ -201,12 +249,32 @@ msgid "salon_door_time"
 msgstr "入場時間"
 
 #: website/models/salon.py
+msgid "salon_need_email"
+msgstr "報名是否需要提供 E-mail"
+
+#: website/models/salon.py
+msgid "salon_need_phone_number"
+msgstr "報名是否需要提供電話"
+
+#: website/models/salon.py
 msgid "salon"
 msgstr "講座"
 
 #: website/models/salon.py
 msgid "salons"
-msgstr "講座列表"
+msgstr "講座"
+
+#: website/models/salon_registration.py
+msgid "salon_registration_contestant_name"
+msgstr "與會者姓名"
+
+#: website/models/salon_registration.py
+msgid "salon_registration_phone_number"
+msgstr "聯絡電話"
+
+#: website/models/salon_registration.py
+msgid "salon_registration_email"
+msgstr "聯絡 E-mail"
 
 #: website/models/salon_registration.py
 msgid "salon_registration"
@@ -214,7 +282,7 @@ msgstr "講座報名表"
 
 #: website/models/salon_registration.py
 msgid "salon_registrations"
-msgstr "講座報名表列表"
+msgstr "講座報名表"
 
 #: website/models/user_proxy.py
 msgid "user_proxy"
@@ -222,7 +290,7 @@ msgstr "使用者"
 
 #: website/models/user_proxy.py
 msgid "user_proxies"
-msgstr "使用者列表"
+msgstr "使用者"
 
 #: website/models/user_proxy.py
 msgid "user_proxy_is_superuser"
@@ -247,7 +315,7 @@ msgstr "影片比賽"
 
 #: website/models/video_contest.py
 msgid "video_contests"
-msgstr "影片比賽列表"
+msgstr "影片比賽"
 
 #: website/models/video_contest_group.py
 msgid "video_contest_group_name"
@@ -259,7 +327,7 @@ msgstr "分組"
 
 #: website/models/video_contest_group.py
 msgid "video_contest_groups"
-msgstr "分組列表"
+msgstr "分組"
 
 #: website/models/video_contest_registration.py
 msgid "video_contest_registration_contestant_name"
@@ -315,7 +383,7 @@ msgstr "影片比賽報名表"
 
 #: website/models/video_contest_registration.py
 msgid "video_contest_registrations"
-msgstr "影片比賽報名表列表"
+msgstr "影片比賽報名表"
 
 #: website/models/video_contest_registration.py
 msgid "video_contest_registration_video_number_validate_unique_error"
@@ -334,9 +402,13 @@ msgid "video_contest_winner_prize"
 msgstr "獎項"
 
 #: website/models/video_contest_winner.py
+msgid "video_contest_winner_order"
+msgstr "排名（小的排前面）"
+
+#: website/models/video_contest_winner.py
 msgid "video_contest_winner"
 msgstr "影片比賽得獎者"
 
 #: website/models/video_contest_winner.py
 msgid "video_contest_winners"
-msgstr "影片比賽得獎者列表"
+msgstr "影片比賽得獎者"

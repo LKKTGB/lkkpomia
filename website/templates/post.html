@@ -1,13 +1,13 @@
-{% extends 'post.html' %}
+{% extends 'page.html' %}
 {% load staticfiles %}
 
 {% load filters %}
 
 {% block body %}
 <h1>
-    {{ privacy_policy.title }}
+    {{ post.title }}
 </h1>
 <div>
-    {{ privacy_policy.body|safe }}
+    {{ post.body|safe }}
 </div>
 {% endblock %}

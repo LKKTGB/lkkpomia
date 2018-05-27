@@ -1,0 +1,13 @@
+
+{% for type, content in info.items %}
+<div class="mx-0 my-2">
+    <p class="mb-0">
+        <strong class="d-inline-block text-dark">
+            {{ type }}
+        </strong>
+    </p>
+    <p class="mb-0">
+        {{ content }}
+    </p>
+</div>
+{% endfor %}

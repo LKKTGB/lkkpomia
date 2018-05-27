@@ -1,13 +1,11 @@
 from django.contrib import admin
 from django.urls import resolve
 
-from website.models.video_contest_group import VideoContestGroup
-from website.models.video_contest_registration import VideoContestRegistration
-from website.models.video_contest_winner import VideoContestWinner
+from website import models
 
 
 class VideoContestGroupInline(admin.StackedInline):
-    model = VideoContestGroup
+    model = models.VideoContestGroup
 
     extra = 0
     classes = ('grp-collapse grp-open',)
@@ -15,7 +13,7 @@ class VideoContestGroupInline(admin.StackedInline):
 
 
 class VideoContestWinnerInline(admin.StackedInline):
-    model = VideoContestWinner
+    model = models.VideoContestWinner
 
     extra = 0
     classes = ('grp-collapse grp-open',)
@@ -30,7 +28,7 @@ class VideoContestWinnerInline(admin.StackedInline):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         video_contest = self.get_parent_object_from_request(request)
         if db_field.name == 'registration' and video_contest:
-            kwargs['queryset'] = VideoContestRegistration.objects.filter(event=video_contest.id)
+            kwargs['queryset'] = models.VideoContestRegistration.objects.filter(event=video_contest.id)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 

@@ -10,9 +10,13 @@ class VideoContestWinner(models.Model):
     registration = models.ForeignKey(VideoContestRegistration, on_delete=models.CASCADE,
                                      verbose_name=_('video_contest_winner_registration'))
     prize = models.CharField(_('video_contest_winner_prize'), max_length=100)
+    order = models.PositiveSmallIntegerField(_('video_contest_winner_order'))
 
     class Meta:
         verbose_name = _('video_contest_winner')
         verbose_name_plural = _('video_contest_winners')
 
         unique_together = ('video_contest', 'registration')
+
+    def __str__(self):
+        return '%s - %s' % (self.video_contest.title, self.registration.video_title)

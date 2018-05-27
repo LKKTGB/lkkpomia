@@ -12,6 +12,24 @@ def hash(dictionary, key):
 
 
 @register.filter
+def summerize(article, word_count):
+    soup = BeautifulSoup(article, 'html.parser')
+    paragraphs = [t for t in soup.findAll('p') if t.text.strip()]
+
+    lines = []
+    curr_word_count = 0
+    for p in paragraphs:
+        if curr_word_count + len(p.text) > word_count:
+            lines.append(p.text[:word_count-curr_word_count-len(p.text)]+'⋯⋯')
+            break
+        else:
+            lines.append(p.text)
+            curr_word_count += len(p.text)
+
+    return '\n'.join(lines)
+
+
+@register.filter
 def svg(filename, size):
     paths = finders.find(os.path.join('svg', '%s.svg' % filename), all=True)
     path = paths[0]

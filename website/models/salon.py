@@ -8,6 +8,8 @@ class Salon(Event):
     venue = models.CharField(_('salon_venue'), max_length=100)
     address = models.CharField(_('salon_address'), max_length=100)
     door_time = models.DateTimeField(_('salon_door_time'))
+    need_email = models.BooleanField(_('salon_need_email'), default=False)
+    need_phone_number = models.BooleanField(_('salon_need_phone_number'), default=False)
 
     class Meta:
         verbose_name = _('salon')
