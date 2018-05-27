@@ -2,6 +2,7 @@ from collections import OrderedDict
 
 from django.template.defaultfilters import date, time
 from django.urls import resolve, reverse
+from django.utils import timezone
 from django.views.generic.edit import FormView
 
 from website import models
@@ -10,7 +11,10 @@ from website.views.event import Event
 
 
 def get_nav_items(salon, request):
+    now = timezone.now()
     current_tab = resolve(request.path_info).url_name
+    registration_started = now > salon.registration_start_time
+    registration_finished = now > salon.registration_end_time
 
     nav_items = []
     nav_items.append({
@@ -18,6 +22,12 @@ def get_nav_items(salon, request):
         'link': reverse('post', kwargs={'post_id': salon.id}),
         'current': current_tab == 'post'
     })
+    if registration_started and not registration_finished:
+        nav_items.append({
+            'name': '我要報名',
+            'link': reverse('form', kwargs={'post_id': salon.id}),
+            'current': current_tab == 'form'
+        })
     return nav_items
 
 
