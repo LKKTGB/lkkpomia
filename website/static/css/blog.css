@@ -140,6 +140,12 @@ a:hover {
   max-width: 100%;
   height: auto;
 }
+.blog-post a {
+  color: black;
+  padding-bottom: 1px;
+  border-bottom: 1px solid black;
+  text-decoration: none !important;
+}
 
 /*
  * Sidebar
