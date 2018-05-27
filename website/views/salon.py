@@ -1,6 +1,8 @@
 from collections import OrderedDict
 
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import redirect
 from django.template.defaultfilters import date, time
 from django.urls import resolve, reverse
 from django.utils import timezone
@@ -178,4 +180,24 @@ class SalonForms(Page, ListView):
 
 @login_required
 def delete_form(request, post_id, form_id):
-    pass
+    if request.method != 'POST':
+        return redirect('post', post_id=post_id)
+
+    form = DeleteForm(data=request.POST)
+    if not form.is_valid():
+        return redirect('post', post_id=post_id)
+
+    method = form.cleaned_data['method']
+    if method != 'DELETE':
+        return redirect('post', post_id=post_id)
+
+    try:
+        registration = models.SalonRegistration.objects.filter(event=post_id, submitter=request.user).get(id=form_id)
+        registration.delete()
+    except ObjectDoesNotExist:
+        return redirect('post', post_id=post_id)
+
+    if models.SalonRegistration.objects.filter(event=post_id, submitter=request.user).exists():
+        return redirect('forms', post_id=post_id)
+    else:
+        return redirect('post', post_id=post_id)
