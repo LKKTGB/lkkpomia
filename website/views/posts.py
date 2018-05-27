@@ -21,10 +21,15 @@ class Posts(Page, ListView):
     def get_queryset(self):
         tag = self.request.GET.get('tag', None)
         if tag:
-            return self.model.objects.filter(tags__name__in=(tag,))
+            queryset = self.model.objects.filter(tags__name__in=(tag,))
         else:
-            return self.model.objects.all()
+            queryset = self.model.objects.all()
 
+        if self.show_headline:
+            headline = self.get_headline()
+            if headline:
+                queryset = queryset.exclude(id__in=(headline.id,))
+        return queryset
 
     def get_context_data(self, *args, **kwargs):
         current_tag = self.request.GET.get('tag', None)
