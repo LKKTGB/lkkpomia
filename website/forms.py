@@ -6,6 +6,16 @@ from django.utils.translation import ugettext_lazy as _
 from website import models
 
 
+class DeleteForm(forms.Form):
+
+    method = forms.ChoiceField(choices=[(m, m) for m in ('DELETE',)])
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['method'].initial = 'DELETE'
+        self.fields['method'].widget = HiddenInput()
+
+
 class VideoContestRegistrationForm(forms.ModelForm):
 
     class Meta:
