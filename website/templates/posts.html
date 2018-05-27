@@ -6,52 +6,79 @@
 {% block body %}
 
 {% if show_headline and headline %}
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            {% url 'post' post_id=headline.id as headline_url %}
-            {% if headline.cover_url %}
-                <div class="row">
-                    <div class="col-12 col-lg-7">
-                        <a href="{{ headline_url }}">
-                            <img class="card-img-top" src="{{ headline.cover_url }}">
-                        </a>
-                    </div>
-                    <div class="col-12 col-lg-5 lead">
-                        <a href="{{ headline_url }}">
-                            <h2 class="text-dark display-6">{{ headline.title }}</h2>
-                        </a>
-                        <a href="{{ headline_url }}">
-                            <div class="text-dark">
-                                {{ headline.body|summerize:150|linebreaks }}
-                            </div>
-                        </a>
-                    </div>
-                </div>
+    <div class="jumbotron jumbotron-fluid p-3 p-md-5 text-white rounded bg-dark">
+        {% url 'post' post_id=headline.id as headline_url %}
+        <div class="row">
+            {% if headline.post.cover_url %}
+            <div class="col-12 col-lg-6 order-lg-last mb-3 mb-lg-0">
+                <a href="{{ headline_url }}">
+                    <img class="w-100" src="{{ headline.post.cover_url }}">
+                </a>
+            </div>
             {% endif %}
+            <div class="col-12 col-lg-6">
+                <h1>
+                    <a class="display-4 font-italic text-white" href="{{ headline_url }}">
+                        {{ headline.post.title }}
+                    </a>
+                </h1>
+                <div class="mb-2 text-white">
+                    {{ headline.post.event.start_time|date:'Y 年 m 月 d 日' }}
+                </div>
+                <p class="tlead my-3">
+                    <a class="text-white" href="{{ headline_url }}">
+                        {{ headline.post.summary|linebreaks }}
+                    </a>
+                </p>
+            </div>
         </div>
     </div>
 {% endif %}
 
-<div class="row">
-    {% for post in object_list  %}
-        {% url 'post' post_id=post.id as post_url %}
-        <div class="col col-sm-12 col-md-6 col-lg-4">
-            <div class="card">
-                {% if post.cover_url %}
-                    <a href="{{ post_url }}">
-                        <img class="card-img-top" src="{{ post.cover_url }}">
-                    </a>
-                {% endif %}
-                <div class="card-body">
-                    <a href="{{ post_url }}">
-                        <h2 class="text-dark">{{ post.title }}</h2>
-                    </a>
+<div class="col">
+    {% for event in object_list  %}
+        {% url 'post' post_id=event.id as post_url %}
 
+        <div class="row border box-shadow rounded bg-white mb-4 px-2 py-3">
+            {% if event.cover_url %}
+                <div class="col-12 col-md-4 order-md-last mb-3 mb-lg-0">
                     <a href="{{ post_url }}">
-                        <div class="text-dark">
-                            {{ post.body|summerize:100|linebreaks }}
-                        </div>
+                        <img class="w-100 my-3" src="{{ event.cover_url }}">
                     </a>
+                </div>
+            {% endif %}
+            <div class="col">
+                <h3 class="mb-0">
+                    <a class="text-dark" href="{{ post_url }}">
+                        {{ event.title }}
+                    </a>
+                </h3>
+                <div class="mb-2 text-muted">
+                    {{ event.start_time|date:'Y 年 m 月 d 日' }}
+                </div>
+                <div class="card-text mb-auto">
+                    {{ event.summary|linebreaks }}
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col">
+                        {% for status in event|status %}
+                            <span class="badge badge-success">
+                                {{ status }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                    <div class="col text-right">
+                        <div>
+                            {% for tag in event|tags %}
+                                <small>
+                                    <a class="text-muted border-bottom border-secondary font-italic ml-2" href="{% url 'posts' %}?tag={{ tag.name }}">
+                                        {{ tag.name }}
+                                    </a>
+                                </small>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -59,46 +86,18 @@
 </div>
 
 {% if is_paginated %}
-<nav class="mt-5">
-    <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a href="{{ posts_url }}?page={{ page_obj.previous_page_number }}" class="page-link text-dark">
-                    上一頁
-                </a>
-            </li>
-        {% else %}
-            <li class="page-item disabled">
-                <a href="#" class="page-link">
-                    上一頁
-                </a>
-            </li>
-        {% endif %}
+<nav class="blog-pagination">
+    {% if page_obj.has_previous %}
+        <a class="btn btn-outline-secondary" href="{% url 'posts' %}?page={{ page_obj.previous_page_number }}">
+            上一頁
+        </a>
+    {% endif %}
 
-        {% url 'posts' as posts_url %}
-        {% for p in page_obj.paginator.page_range %}
-            <li class="page-item
-                {% if p == page_obj.number %}
-                    active
-                {% endif %}">
-                <a href="{{ posts_url }}?page={{ p }}" class="page-link text-dark">{{ p }}</a>
-            </li>
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-            <li class="page-item">
-                <a href="{{ posts_url }}?page={{ page_obj.next_page_number }}" class="page-link text-dark">
-                    下一頁
-                </a>
-            </li>
-        {% else %}
-            <li class="page-item disabled">
-                <a href="#" class="page-link">
-                    下一頁
-                </a>
-            </li>
-        {% endif %}
-    </ul>
+    {% if page_obj.has_next %}
+    <a class="btn btn-outline-secondary" href="{% url 'posts' %}?page={{ page_obj.next_page_number }}">
+        下一頁
+    </a>
+    {% endif %}
 </nav>
 {% endif %}
 
