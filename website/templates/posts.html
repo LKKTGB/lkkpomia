@@ -35,26 +35,50 @@
     </div>
 {% endif %}
 
-<div class="row">
+<div class="col">
     {% for post in object_list  %}
         {% url 'post' post_id=post.id as post_url %}
-        <div class="col col-sm-12 col-md-6 col-lg-4">
-            <div class="card">
-                {% if post.cover_url %}
-                    <a href="{{ post_url }}">
-                        <img class="card-img-top" src="{{ post.cover_url }}">
-                    </a>
-                {% endif %}
-                <div class="card-body">
-                    <a href="{{ post_url }}">
-                        <h2 class="text-dark">{{ post.title }}</h2>
-                    </a>
 
+        <div class="row border box-shadow rounded bg-white mb-4 px-2 py-3">
+            {% if post.cover_url %}
+                <div class="col-12 col-md-4 order-md-last mb-3 mb-lg-0">
                     <a href="{{ post_url }}">
-                        <div class="text-dark">
-                            {{ post.body|summerize:100|linebreaks }}
-                        </div>
+                        <img class="w-100 my-3" src="{{ post.cover_url }}">
                     </a>
+                </div>
+            {% endif %}
+            <div class="col">
+                <h3 class="mb-0">
+                    <a class="text-dark" href="{{ post_url }}">
+                        {{ post.title }}
+                    </a>
+                </h3>
+                <div class="mb-2 text-muted">
+                    {{ post.start_time|date:'Y 年 m 月 d 日' }}
+                </div>
+                <div class="card-text mb-auto">
+                    {{ post.body|summerize:100|linebreaks }}
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col">
+                        {% for status in post|status %}
+                            <strong class="d-inline-block mb-2 text-success">
+                                {{ status }}
+                            </strong>
+                        {% endfor %}
+                    </div>
+                    <div class="col text-right">
+                        <div>
+                            {% for tag in post|tags %}
+                                <small>
+                                    <a class="text-muted border-bottom border-secondary font-italic ml-2" href="{% url 'posts' %}?tag={{ tag.name }}">
+                                        {{ tag.name }}
+                                    </a>
+                                </small>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
