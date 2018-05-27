@@ -32,6 +32,13 @@ def get_nav_items(salon, request):
             'link': reverse('form', kwargs={'post_id': salon.id}),
             'current': current_tab == 'form'
         })
+        if not request.user.is_anonymous and \
+                models.SalonRegistration.objects.filter(event=salon.id, submitter=request.user).exists():
+            nav_items.append({
+                'name': '取消報名',
+                'link': reverse('forms', kwargs={'post_id': salon.id}),
+                'current': current_tab == 'forms'
+            })
     return nav_items
 
 
@@ -167,3 +174,8 @@ class SalonForms(Page, ListView):
         context_data['sidebar_info'] = get_sidebar_info(self.salon)
         context_data['delete_form'] = DeleteForm()
         return context_data
+
+
+@login_required
+def delete_form(request, post_id, form_id):
+    pass

@@ -42,6 +42,7 @@ urlpatterns = [
     path('posts/<post_id>/', website_views.post, name='post'),
     path('posts/<post_id>/form', website_views.form, name='form'),
     path('posts/<post_id>/forms/', salon_views.SalonForms.as_view(), name='forms'),
+    path('posts/<post_id>/forms/<form_id>', salon_views.delete_form, name='form_delete'),
     path('posts/<post_id>/thanks', website_views.thanks, name='thanks'),
     path('posts/<post_id>/gallery', video_contest_views.Gallery.as_view(), name='gallery'),
     path('posts/<post_id>/winners', video_contest_views.Winners.as_view(), name='winners'),
