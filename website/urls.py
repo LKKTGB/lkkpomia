@@ -20,8 +20,9 @@ from django.views.generic.base import RedirectView
 
 from website import views as website_views
 from website.views import policy as policy_views
-from website.views import video_contest as video_contest_views
 from website.views import posts as posts_views
+from website.views import salon as salon_views
+from website.views import video_contest as video_contest_views
 
 
 class HomeRedirectView(RedirectView):
@@ -40,6 +41,7 @@ urlpatterns = [
     # path('posts/', posts_views.Posts.as_view(), name='posts'),
     path('posts/<post_id>/', website_views.post, name='post'),
     path('posts/<post_id>/form', website_views.form, name='form'),
+    path('posts/<post_id>/forms/', salon_views.SalonForms.as_view(), name='forms'),
     path('posts/<post_id>/thanks', website_views.thanks, name='thanks'),
     path('posts/<post_id>/gallery', video_contest_views.Gallery.as_view(), name='gallery'),
     path('posts/<post_id>/winners', video_contest_views.Winners.as_view(), name='winners'),

@@ -1,13 +1,17 @@
 from collections import OrderedDict
 
+from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import date, time
 from django.urls import resolve, reverse
 from django.utils import timezone
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView
 from django.views.generic.edit import FormView
 
 from website import models
-from website.forms import SalonRegistrationForm
+from website.forms import DeleteForm, SalonRegistrationForm
 from website.views.event import Event
+from website.views.page import Page
 
 
 def get_nav_items(salon, request):
@@ -135,3 +139,31 @@ class SalonRegistrationFormView(FormView):
             'actions': actions,
             'redirect': reverse('post', args=(self.salon.id,))
         }
+
+
+class SalonForms(Page, ListView):
+    template_name = 'salon/forms.html'
+    model = models.SalonRegistration
+
+    salon = None
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        post_id = kwargs['post_id']
+        self.salon = models.Salon.objects.get(id=post_id)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return self.model.objects.filter(event=self.salon, submitter=self.request.user).order_by('submit_time')
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        context_data['login_modal'] = self.get_login_modal()
+        context_data['header'] = {
+            'title': self.salon.title,
+            'url': reverse('post', kwargs={'post_id': self.salon.id})
+        }
+        context_data['nav_items'] = get_nav_items(self.salon, self.request)
+        context_data['sidebar_info'] = get_sidebar_info(self.salon)
+        context_data['delete_form'] = DeleteForm()
+        return context_data
