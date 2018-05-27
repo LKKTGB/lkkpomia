@@ -82,6 +82,7 @@ class SalonRegistrationFormView(FormView):
         }
         context_data['nav_items'] = get_nav_items(self.salon, self.request)
         context_data['sidebar_info'] = get_sidebar_info(self.salon)
+        context_data['popup'] = self.get_popup()
         return context_data
 
     def get_success_url(self):
@@ -97,3 +98,40 @@ class SalonRegistrationFormView(FormView):
         )
         registration.save()
         return super().form_valid(form)
+
+    def get_popup(self):
+        now = timezone.now()
+        if now < self.salon.registration_start_time:
+            body = '%s 開放報名' % timezone.localtime(self.salon.registration_start_time).strftime('%Y/%m/%d %H:%M')
+            actions = [{
+                'name': '我知道了',
+                'url': reverse('post', args=(self.salon.id,))
+            }]
+        elif now > self.salon.registration_end_time:
+            body = '已截止報名'
+            actions = [{
+                'name': '我知道了',
+                'url': reverse('post', args=(self.salon.id,))
+            }]
+        elif not self.request.user.is_authenticated:
+            body = '要先登入才可報名喔！'
+            actions = [{
+                'name': '使用 Facebook 註冊／登入',
+                'url': '{url}?next={next}'.format(
+                        url=reverse('social:begin', args=('facebook',)),
+                        next=reverse('form', args=(self.salon.id,))),
+            }, {
+                'name': '下次再說',
+                'url': reverse('post', args=(self.salon.id,))
+            }]
+        else:
+            return None
+        return {
+            'target': {
+                'id': 'form_popup',
+            },
+            'title': '李江却台語文教基金會',
+            'body': body,
+            'actions': actions,
+            'redirect': reverse('post', args=(self.salon.id,))
+        }
