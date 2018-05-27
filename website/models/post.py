@@ -31,5 +31,7 @@ class Post(models.Model):
     @property
     def summary(self):
         soup = BeautifulSoup(self.body, 'html.parser')
-        tags = [t for t in soup.findAll('p') if t.text]
-        return tags[0].text if tags else None
+        for br in soup.find_all("br"):
+            br.replace_with("\n")
+        ps = [t for t in soup.findAll('p') if t.text.strip()]
+        return ps[0].text if ps else None

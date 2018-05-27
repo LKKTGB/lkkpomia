@@ -27,7 +27,7 @@
                 </div>
                 <p class="tlead my-3">
                     <a class="text-white" href="{{ headline_url }}">
-                        {{ headline.post.body|summerize:150|linebreaks }}
+                        {{ headline.post.summary|linebreaks }}
                     </a>
                 </p>
             </div>
@@ -57,7 +57,7 @@
                     {{ event.start_time|date:'Y 年 m 月 d 日' }}
                 </div>
                 <div class="card-text mb-auto">
-                    {{ event.body|summerize:100|linebreaks }}
+                    {{ event.summary|linebreaks }}
                 </div>
 
                 <div class="row mt-5">
