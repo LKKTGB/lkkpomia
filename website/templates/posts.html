@@ -86,46 +86,18 @@
 </div>
 
 {% if is_paginated %}
-<nav class="mt-5">
-    <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a href="{{ posts_url }}?page={{ page_obj.previous_page_number }}" class="page-link text-dark">
-                    上一頁
-                </a>
-            </li>
-        {% else %}
-            <li class="page-item disabled">
-                <a href="#" class="page-link">
-                    上一頁
-                </a>
-            </li>
-        {% endif %}
+<nav class="blog-pagination">
+    {% if page_obj.has_previous %}
+        <a class="btn btn-outline-secondary" href="{% url 'posts' %}?page={{ page_obj.previous_page_number }}">
+            上一頁
+        </a>
+    {% endif %}
 
-        {% url 'posts' as posts_url %}
-        {% for p in page_obj.paginator.page_range %}
-            <li class="page-item
-                {% if p == page_obj.number %}
-                    active
-                {% endif %}">
-                <a href="{{ posts_url }}?page={{ p }}" class="page-link text-dark">{{ p }}</a>
-            </li>
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-            <li class="page-item">
-                <a href="{{ posts_url }}?page={{ page_obj.next_page_number }}" class="page-link text-dark">
-                    下一頁
-                </a>
-            </li>
-        {% else %}
-            <li class="page-item disabled">
-                <a href="#" class="page-link">
-                    下一頁
-                </a>
-            </li>
-        {% endif %}
-    </ul>
+    {% if page_obj.has_next %}
+    <a class="btn btn-outline-secondary" href="{% url 'posts' %}?page={{ page_obj.next_page_number }}">
+        下一頁
+    </a>
+    {% endif %}
 </nav>
 {% endif %}
 
