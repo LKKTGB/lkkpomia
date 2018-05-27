@@ -63,6 +63,6 @@ class Posts(Page, ListView):
                 .filter(start_time__lte=now, end_time__gte=now)
                 .latest('start_time')
             )
-            return headline.post
+            return headline
         except ObjectDoesNotExist:
             return None
