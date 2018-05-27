@@ -15,11 +15,9 @@ class Post(models.Model):
         verbose_name = _('post')
         verbose_name_plural = _('posts')
 
-
     @staticmethod
     def autocomplete_search_fields():
         return ('id__iexact', 'title__icontains',)
-
 
     def __str__(self):
         return self.title
