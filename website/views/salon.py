@@ -50,6 +50,10 @@ class Salon(Event):
     def get_context_data(self, **kwargs):
         self.object = self.get_object()
         context_data = super().get_context_data(**kwargs)
+        context_data['header'] = {
+            'title': self.object.title,
+            'url': reverse('post', kwargs={'post_id': self.object.id})
+        }
         context_data['nav_items'] = get_nav_items(self.object, self.request)
         context_data['sidebar_info'] = get_sidebar_info(self.object)
         context_data['registration_modal'] = self.get_registration_modal()
@@ -72,6 +76,10 @@ class SalonRegistrationFormView(FormView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         context_data['event'] = self.salon
+        context_data['header'] = {
+            'title': self.salon.title,
+            'url': reverse('post', kwargs={'post_id': self.salon.id})
+        }
         context_data['nav_items'] = get_nav_items(self.salon, self.request)
         context_data['sidebar_info'] = get_sidebar_info(self.salon)
         return context_data
