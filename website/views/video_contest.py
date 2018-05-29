@@ -33,25 +33,25 @@ def get_nav_items(video_contest, request):
     nav_items.append({
         'name': '活動內容',
         'link': reverse('post', kwargs={'post_id': video_contest.id}),
-        'current': current_tab == 'post'
+        'active': current_tab == 'post'
     })
     if not registration_finished:
         nav_items.append({
             'name': '我要報名',
             'link': reverse('form', kwargs={'post_id': video_contest.id}),
-            'current': current_tab == 'form'
+            'active': current_tab == 'form'
         })
     if contest_started:
         nav_items.append({
             'name': '參賽影片',
             'link': reverse('gallery', kwargs={'post_id': video_contest.id}),
-            'current': current_tab == 'gallery'
+            'active': current_tab == 'gallery'
         })
     if contest_started and winners_announced:
         nav_items.append({
             'name': '得獎影片',
             'link': reverse('winners', kwargs={'post_id': video_contest.id}),
-            'current': current_tab == 'winners'
+            'active': current_tab == 'winners'
         })
     return nav_items
 

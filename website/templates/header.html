@@ -58,7 +58,7 @@
 <div class="nav-scroller py-1 mb-2">
     <nav class="nav d-flex justify-content-center">
         {% for nav_item in nav_items  %}
-            {% if nav_item.current %}
+            {% if nav_item.active %}
                 <a class="p-2 text-dark font-weight-bold" href="{{ nav_item.link }}">
                     {{ nav_item.name }}
                 </a>

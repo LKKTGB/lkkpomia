@@ -26,20 +26,20 @@ def get_nav_items(salon, request):
     nav_items.append({
         'name': '活動內容',
         'link': reverse('post', kwargs={'post_id': salon.id}),
-        'current': current_tab == 'post'
+        'active': current_tab == 'post'
     })
     if registration_started and not registration_finished:
         nav_items.append({
             'name': '我要報名',
             'link': reverse('form', kwargs={'post_id': salon.id}),
-            'current': current_tab == 'form'
+            'active': current_tab == 'form'
         })
         if not request.user.is_anonymous and \
                 models.SalonRegistration.objects.filter(event=salon.id, submitter=request.user).exists():
             nav_items.append({
                 'name': '取消報名',
                 'link': reverse('forms', kwargs={'post_id': salon.id}),
-                'current': current_tab == 'forms'
+                'active': current_tab == 'forms'
             })
     return nav_items
 

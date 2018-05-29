@@ -42,13 +42,13 @@ class Posts(Page, ListView):
         nav_items.append({
             'name': '全部活動',
             'link': reverse('home'),
-            'current': not current_tag and not keyword
+            'active': not current_tag and not keyword
         })
         for tag in models.HomeTab.objects.order_by('order').all():
             nav_items.append({
                 'name': tag.name,
                 'link': '%s?tag=%s' % (reverse('posts'), tag.name),
-                'current': current_tag == tag.name
+                'active': current_tag == tag.name
             })
 
         context_data = super().get_context_data(*args, **kwargs)
