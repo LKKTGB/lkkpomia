@@ -36,6 +36,11 @@
 {% endif %}
 
 <div class="col">
+    {% if keyword %}
+        <p>
+            「{{ keyword }}」搜尋結果：
+        </p>
+    {% endif %}
     {% for event in object_list  %}
         {% url 'post' post_id=event.id as post_url %}
 

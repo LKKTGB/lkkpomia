@@ -20,7 +20,10 @@ class Posts(Page, ListView):
 
     def get_queryset(self):
         tag = self.request.GET.get('tag', None)
-        if tag:
+        keyword = self.request.GET.get('search', None)
+        if keyword:
+            queryset = self.model.objects.filter(title__icontains=keyword)
+        elif tag:
             queryset = self.model.objects.filter(tags__name__in=(tag,))
         else:
             queryset = self.model.objects.all()
@@ -33,12 +36,13 @@ class Posts(Page, ListView):
 
     def get_context_data(self, *args, **kwargs):
         current_tag = self.request.GET.get('tag', None)
+        keyword = self.request.GET.get('search', None)
 
         nav_items = []
         nav_items.append({
             'name': '全部活動',
             'link': reverse('home'),
-            'current': current_tag is None
+            'current': not current_tag and not keyword
         })
         for tag in models.HomeTab.objects.order_by('order').all():
             nav_items.append({
@@ -48,6 +52,11 @@ class Posts(Page, ListView):
             })
 
         context_data = super().get_context_data(*args, **kwargs)
+        context_data['search'] = {
+            'target': reverse('posts'),
+            'placeholder': '搜尋活動'
+        }
+        context_data['keyword'] = keyword
         context_data['headline'] = self.get_headline()
         context_data['login_modal'] = self.get_login_modal()
         context_data['meta_title'] = '李江却台語文教基金會'
