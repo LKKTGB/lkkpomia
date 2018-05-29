@@ -11,21 +11,27 @@
                 點擊影片可看到影片簡介，也能參與投票喔！
             </p>
 
-            <nav class="nav nav-tabs mb-4">
-                {% for group in groups %}
-                <li class="nav-item">
-                    {% if group == current_group %}
-                        <a class="nav-link active" href="{{ posts_url }}?group={{ group.name }}">
-                            {{ group.name }}
-                        </a>
-                    {% else %}
-                        <a class="nav-link text-muted" href="{{ posts_url }}?group={{ group.name }}">
-                            {{ group.name }}
-                        </a>
-                    {% endif %}
-                </li>
-                {% endfor %}
-            </nav>
+            {% if keyword %}
+                <p>
+                    「{{ keyword }}」搜尋結果：
+                </p>
+            {% else %}
+                <nav class="nav nav-tabs mb-4">
+                    {% for group in groups %}
+                    <li class="nav-item">
+                        {% if group == current_group %}
+                            <a class="nav-link active" href="{{ posts_url }}?group={{ group.name }}">
+                                {{ group.name }}
+                            </a>
+                        {% else %}
+                            <a class="nav-link text-muted" href="{{ posts_url }}?group={{ group.name }}">
+                                {{ group.name }}
+                            </a>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </nav>
+            {% endif %}
 
             {% if not object_list %}
                 <!-- FIXME: show message for expired event in gallery page without videos -->
