@@ -33,25 +33,25 @@ def get_nav_items(video_contest, request):
     nav_items.append({
         'name': '活動內容',
         'link': reverse('post', kwargs={'post_id': video_contest.id}),
-        'current': current_tab == 'post'
+        'active': current_tab == 'post'
     })
     if not registration_finished:
         nav_items.append({
             'name': '我要報名',
             'link': reverse('form', kwargs={'post_id': video_contest.id}),
-            'current': current_tab == 'form'
+            'active': current_tab == 'form'
         })
     if contest_started:
         nav_items.append({
             'name': '參賽影片',
             'link': reverse('gallery', kwargs={'post_id': video_contest.id}),
-            'current': current_tab == 'gallery'
+            'active': current_tab == 'gallery'
         })
     if contest_started and winners_announced:
         nav_items.append({
             'name': '得獎影片',
             'link': reverse('winners', kwargs={'post_id': video_contest.id}),
-            'current': current_tab == 'winners'
+            'active': current_tab == 'winners'
         })
     return nav_items
 
@@ -78,6 +78,10 @@ class VideoContest(Event):
         context_data['header'] = {
             'title': self.object.title,
             'url': reverse('post', kwargs={'post_id': self.object.id})
+        }
+        context_data['search'] = {
+            'target': reverse('gallery', kwargs={'post_id': self.object.id}),
+            'placeholder': '搜尋影片'
         }
         context_data['nav_items'] = get_nav_items(self.object, self.request)
         context_data['sidebar_info'] = get_sidebar_info(self.object)
@@ -185,6 +189,7 @@ class Gallery(Page, ListView):
     ordering = '-video_number'
 
     video_contest = None
+    keyword = None
     groups = None
     current_group = None
 
@@ -192,14 +197,21 @@ class Gallery(Page, ListView):
         post_id = kwargs['post_id']
         self.video_contest = models.VideoContest.objects.get(id=post_id)
         self.groups = models.VideoContestGroup.objects.filter(video_contest=self.video_contest).order_by('name')
-        try:
-            self.current_group = models.VideoContestGroup.objects.get(name=self.request.GET.get('group', None))
-        except ObjectDoesNotExist:
-            return redirect(reverse('gallery', kwargs=kwargs) + '?group=%s' % self.groups[0].name)
+
+        self.keyword = self.request.GET.get('search', None)
+        if not self.keyword:
+            # redirect to first group
+            try:
+                self.current_group = models.VideoContestGroup.objects.get(name=self.request.GET.get('group', None))
+            except ObjectDoesNotExist:
+                return redirect(reverse('gallery', kwargs=kwargs) + '?group=%s' % self.groups[0].name)
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return self.model.objects.filter(event=self.video_contest, qualified=True, group=self.current_group)
+        if self.keyword:
+            return self.model.objects.filter(event=self.video_contest, qualified=True, video_title__icontains=self.keyword)
+        else:
+            return self.model.objects.filter(event=self.video_contest, qualified=True, group=self.current_group)
 
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
@@ -218,12 +230,15 @@ class Gallery(Page, ListView):
             'title': self.video_contest.title,
             'url': reverse('post', kwargs={'post_id': self.video_contest.id})
         }
+        context_data['search'] = {
+            'target': reverse('gallery', kwargs={'post_id': self.video_contest.id}),
+            'placeholder': '搜尋影片'
+        }
         context_data['nav_items'] = get_nav_items(self.video_contest, self.request)
         context_data['video_contest'] = self.video_contest
         context_data['groups'] = self.groups
         context_data['current_group'] = self.current_group
-        context_data['registrations'] = models.VideoContestRegistration.objects.filter(
-            event=self.video_contest, group=self.current_group, qualified=True).order_by('-video_number')
+        context_data['keyword'] = self.keyword
 
         return context_data
 
@@ -263,6 +278,10 @@ class Winners(Page, ListView):
         context_data['header'] = {
             'title': self.video_contest.title,
             'url': reverse('post', kwargs={'post_id': self.video_contest.id})
+        }
+        context_data['search'] = {
+            'target': reverse('gallery', kwargs={'post_id': self.video_contest.id}),
+            'placeholder': '搜尋影片'
         }
         context_data['nav_items'] = get_nav_items(self.video_contest, self.request)
         context_data['video_contest'] = self.video_contest
