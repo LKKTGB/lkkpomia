@@ -222,8 +222,6 @@ class Gallery(Page, ListView):
         context_data['video_contest'] = self.video_contest
         context_data['groups'] = self.groups
         context_data['current_group'] = self.current_group
-        context_data['registrations'] = models.VideoContestRegistration.objects.filter(
-            event=self.video_contest, group=self.current_group, qualified=True).order_by('-video_number')
 
         return context_data
 
