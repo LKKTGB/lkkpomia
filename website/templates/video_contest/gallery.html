@@ -50,8 +50,10 @@
                             </a>
                             <div>
                                 <a class="text-dark" href="{{ video_url }}">
-                                    <p>
-                                        #{{ object.video_number }} {{ object.video_title|truncatechars:40 }}
+                                    <p class="video-meta-title mt-1">
+                                        <strong>
+                                            #{{ object.video_number }} {{ object.video_title|truncatechars:40 }}
+                                        </strong>
                                     </p>
                                 </a>
                             </div>
