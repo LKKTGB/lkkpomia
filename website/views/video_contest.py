@@ -320,6 +320,10 @@ class Video(Page, DetailView):
             'title': self.video_contest.title,
             'url': reverse('post', kwargs={'post_id': self.video_contest.id})
         }
+        context_data['search'] = {
+            'target': reverse('gallery', kwargs={'post_id': self.video_contest.id}),
+            'placeholder': '搜尋影片'
+        }
         context_data['nav_items'] = get_nav_items(self.video_contest, self.request)
 
         videos = self.get_random_qualified_videos(max_count=10)
