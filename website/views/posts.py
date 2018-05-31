@@ -20,29 +20,43 @@ class Posts(Page, ListView):
 
     def get_queryset(self):
         tag = self.request.GET.get('tag', None)
-        if tag:
-            return self.model.objects.filter(tags__name__in=(tag,))
+        keyword = self.request.GET.get('search', None)
+        if keyword:
+            queryset = self.model.objects.filter(title__icontains=keyword)
+        elif tag:
+            queryset = self.model.objects.filter(tags__name__in=(tag,))
         else:
-            return self.model.objects.all()
+            queryset = self.model.objects.all()
 
+        if self.show_headline:
+            headline = self.get_headline()
+            if headline:
+                queryset = queryset.exclude(id__in=(headline.id,))
+        return queryset
 
     def get_context_data(self, *args, **kwargs):
         current_tag = self.request.GET.get('tag', None)
+        keyword = self.request.GET.get('search', None)
 
         nav_items = []
         nav_items.append({
             'name': '全部活動',
             'link': reverse('home'),
-            'current': current_tag is None
+            'active': not current_tag and not keyword
         })
         for tag in models.HomeTab.objects.order_by('order').all():
             nav_items.append({
                 'name': tag.name,
                 'link': '%s?tag=%s' % (reverse('posts'), tag.name),
-                'current': current_tag == tag.name
+                'active': current_tag == tag.name
             })
 
         context_data = super().get_context_data(*args, **kwargs)
+        context_data['search'] = {
+            'target': reverse('posts'),
+            'placeholder': '搜尋活動'
+        }
+        context_data['keyword'] = keyword
         context_data['headline'] = self.get_headline()
         context_data['login_modal'] = self.get_login_modal()
         context_data['meta_title'] = '李江却台語文教基金會'
@@ -58,6 +72,6 @@ class Posts(Page, ListView):
                 .filter(start_time__lte=now, end_time__gte=now)
                 .latest('start_time')
             )
-            return headline.post
+            return headline
         except ObjectDoesNotExist:
             return None

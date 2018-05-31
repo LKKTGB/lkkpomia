@@ -31,5 +31,5 @@ class SalonAdmin(admin.ModelAdmin):
         registrations = models.SalonRegistration.objects.filter(event=salon)
         return TemplateResponse(request, 'admin/salon/attendees.html', {
             'salon': salon,
-            'attendees': [r.contestant_name for r in registrations.all()]
+            'registrations': registrations
         })

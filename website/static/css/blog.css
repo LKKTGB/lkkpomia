@@ -7,7 +7,7 @@
 
 .blog-header-logo {
   font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-  font-size: 2.25rem;
+  font-size: 2.10rem;
 }
 
 .blog-header-logo:hover {
@@ -33,7 +33,11 @@
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-family: "Helvetica Neue", "Microsoft JhengHei", Helvetica, Arial, sans-serif;
+}
+
+body, html {
+  font-family: "Microsoft JhengHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 a:hover {
@@ -154,7 +158,7 @@ a:hover {
     line-height: 1.0;
 }
 
-.blog-sidebar .video-meta-title {
+.video-meta-title {
   line-height: 1.2;
     font-size: 14px;
 }

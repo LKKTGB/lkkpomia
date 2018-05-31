@@ -14,7 +14,7 @@
                         src="https://www.youtube.com/embed/{{ object.youtube_id }}"
                         frameborder="0" allowfullscreen></iframe>
                 </div>
-                <h2 class="blog-post-title">
+                <h2>
                     #{{ object.video_number }} {{ object.video_title }}
                 </h2>
                 <div class="row align-items-center mb-4">
@@ -75,13 +75,6 @@
                                 <strong class="text-dark">
                                     #{{ video.video_number }} {{ video.video_title|truncatechars:60 }}
                                 </strong>
-                            </p>
-                        </a>
-                        <a href="{{ video_url }}">
-                            <p class="video-meta mb-0">
-                                <small class="text-muted">
-                                    {{ video.contestant_name }}
-                                </small>
                             </p>
                         </a>
                         <a href="{{ video_url }}">

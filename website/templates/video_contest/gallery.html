@@ -11,23 +11,29 @@
                 點擊影片可看到影片簡介，也能參與投票喔！
             </p>
 
-            <nav class="nav nav-tabs mb-4">
-                {% for group in groups %}
-                <li class="nav-item">
-                    {% if group == current_group %}
-                        <a class="nav-link active" href="{{ posts_url }}?group={{ group.name }}">
-                            {{ group.name }}
-                        </a>
-                    {% else %}
-                        <a class="nav-link text-muted" href="{{ posts_url }}?group={{ group.name }}">
-                            {{ group.name }}
-                        </a>
-                    {% endif %}
-                </li>
-                {% endfor %}
-            </nav>
+            {% if keyword %}
+                <p>
+                    「{{ keyword }}」搜尋結果：
+                </p>
+            {% else %}
+                <nav class="nav nav-tabs mb-4">
+                    {% for group in groups %}
+                    <li class="nav-item">
+                        {% if group == current_group %}
+                            <a class="nav-link active" href="{{ posts_url }}?group={{ group.name }}">
+                                {{ group.name }}
+                            </a>
+                        {% else %}
+                            <a class="nav-link text-muted" href="{{ posts_url }}?group={{ group.name }}">
+                                {{ group.name }}
+                            </a>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </nav>
+            {% endif %}
 
-            {% if not registrations %}
+            {% if not object_list %}
                 <!-- FIXME: show message for expired event in gallery page without videos -->
                 <div class="mt-5">
                     <p class="text-center">影片審核中</p>
@@ -35,17 +41,19 @@
                 </div>
             {% else %}
                 <div class="row">
-                    {% for registration in registrations %}
-                        {{ registration.title }}
-                        {% url 'video' post_id=video_contest.id video_number=registration.video_number as video_url %}
+                    {% for object in object_list %}
+                        {{ object.title }}
+                        {% url 'video' post_id=video_contest.id video_number=object.video_number as video_url %}
                         <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                             <a href="{{ video_url }}">
-                                <img class="img-fluid" src="{{ registration.cover_url }}">
+                                <img class="img-fluid" src="{{ object.cover_url }}">
                             </a>
                             <div>
                                 <a class="text-dark" href="{{ video_url }}">
-                                    <p>
-                                        #{{ registration.video_number }} {{ registration.video_title|truncatechars:40 }}
+                                    <p class="video-meta-title mt-1">
+                                        <strong>
+                                            #{{ object.video_number }} {{ object.video_title|truncatechars:40 }}
+                                        </strong>
                                     </p>
                                 </a>
                             </div>

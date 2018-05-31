@@ -25,19 +25,21 @@
 </head>
 
 <body>
-    <h1>「{{ salon.title }}」簽到表</h1>
+    <h1>{{ salon.title }} 報名資料</h1>
     <table>
         <thead>
             <tr>
                 <th>姓名</th>
-                <th>簽到</th>
+                <th>電話</th>
+                <th>信箱</th>
             </tr>
         </thead>
         <tbody>
-        {% for attendee in attendees %}
+        {% for reg in registrations %}
             <tr>
-                <td align="center">{{ attendee }}</td>
-                <td></td>
+                <td align="center">{{ reg.contestant_name }}</td>
+                <td align="center">{{ reg.phone_number }}</td>
+                <td align="center">{{ reg.email }}</td>
             </tr>
         {% endfor %}
         </tbody>

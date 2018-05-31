@@ -1,32 +1,35 @@
 {% load staticfiles %}
 
 <header class="blog-header py-3">
-    <div class="row flex-nowrap justify-content-between align-items-center">
-        <div class="col-3">
+    <div class="row d-flex flow-row justify-content-between align-items-center">
+        <div class="d-none d-md-inline-flex col-md-4 col-lg-3">
             <a href="{% url 'home' %}">
                 <img src="{% static 'img/logo.sm.png' %}">
             </a>
         </div>
-        <div class="col-6 text-center">
-            {% if header %}
-                <a class="text-dark" href="{{ header.url }}">
-                    <h1 class="blog-header-logo mb-0">
+        <div class="col-12 col-md-4 col-lg-6 text-center">
+            <h1 class="blog-header-logo mb-0 d-flex justify-content-center align-items-center">
+                <a class="d-inline-flex d-md-none" href="{% url 'home' %}">
+                    <img src="{% static 'img/logo.sm.png' %}">
+                </a>
+                {% if header %}
+                    <a class="text-dark" href="{{ header.url }}">
                         {{ header.title }}
-                    </h1>
-                </a>
-            {% else %}
-                <a class="text-dark" href="{% url 'home' %}">
-                    <h1 class="blog-header-logo mb-0">
+                    </a>
+                {% else %}
+                    <a class="text-dark" href="{% url 'home' %}">
                         李江却台語文教基金會
-                    </h1>
-                </a>
-            {% endif %}
+                    </a>
+                {% endif %}
+            </h1>
         </div>
-        <div class="col-3 d-flex justify-content-end align-items-center">
+        <div class="col col-md-4 col-lg-3 mt-2 mt-lg-0 d-flex justify-content-between justify-content-lg-end align-items-center">
             {% if search %}
-                <form class="form-inline">
-                    <input class="form-control mx-2 col-8" type="search" placeholder="{{ search.placeholder }}" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">搜尋</button>
+                <form class="form-inline" action="{{ search.target }}" method="get" accept-charset="utf-8">
+                    <input class="w-75 form-control form-control-sm" type="search" name="search" placeholder="{{ search.placeholder }}">
+                    <button class="btn btn-sm btn-link text-muted p-0 border-0 mt-1 ml-1" type="submit">
+                        <svg class="m-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-3"><circle cx="10.5" cy="10.5" r="7.5"></circle><line x1="21" y1="21" x2="15.8" y2="15.8"></line></svg>
+                    </button>
                 </form>
             {% endif %}
 
@@ -48,7 +51,6 @@
                     登入／註冊
                 </button>
             {% endif %}
-            </div>
         </div>
     </div>
 </header>
@@ -56,7 +58,7 @@
 <div class="nav-scroller py-1 mb-2">
     <nav class="nav d-flex justify-content-center">
         {% for nav_item in nav_items  %}
-            {% if nav_item.current %}
+            {% if nav_item.active %}
                 <a class="p-2 text-dark font-weight-bold" href="{{ nav_item.link }}">
                     {{ nav_item.name }}
                 </a>
