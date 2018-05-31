@@ -404,6 +404,10 @@ class Thanks(Post):
 
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
+        context_data['header'] = {
+            'title': self.object.title,
+            'url': reverse('post', kwargs={'post_id': self.object.id})
+        }
         context_data['nav_items'] = get_nav_items(self.object, self.request)
         context_data['post_id'] = self.object.id
         context_data['countdown'] = 10
