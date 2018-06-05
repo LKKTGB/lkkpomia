@@ -35,10 +35,10 @@ class HomeRedirectView(RedirectView):
 
 
 urlpatterns = [
-    path('', HomeRedirectView.as_view(), name='home'),
-    # path('', posts_views.Posts.as_view(show_headline=True), name='home'),
+    # path('', HomeRedirectView.as_view(), name='home'),
+    path('', posts_views.Posts.as_view(show_headline=True), name='home'),
     path('policies/privacy', policy_views.privacy, name='policy_privacy'),
-    # path('posts/', posts_views.Posts.as_view(), name='posts'),
+    path('posts/', posts_views.Posts.as_view(show_headline=False), name='posts'),
     path('posts/<post_id>/', website_views.post, name='post'),
     path('posts/<post_id>/form', website_views.form, name='form'),
     path('posts/<post_id>/forms/', salon_views.SalonForms.as_view(), name='forms'),
