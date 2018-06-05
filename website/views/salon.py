@@ -52,7 +52,6 @@ def get_sidebar_info(salon):
     info['活動地址'] = salon.address
     info['報名時間'] = '%s ~ %s' % (date(salon.registration_start_time, 'Y/m/d H:i'),
                                 date(salon.registration_end_time, 'Y/m/d H:i'))
-    info['報名狀況'] = '已有 %d 人報名參加' % models.SalonRegistration.objects.filter(event=salon).count()
     return info
 
 
