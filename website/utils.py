@@ -1,8 +1,10 @@
 from functools import wraps
 import re
 
+from django.conf import settings
 from django.db import close_old_connections
 from urllib.parse import urlparse, parse_qs
+import arrow
 
 
 def handle_old_connections(f):
@@ -45,3 +47,7 @@ def get_youtube_id_from_url(url):
     # validate youtube_id
     if youtube_id and is_valid_youtube_id(youtube_id):
         return youtube_id
+
+
+def format_time(datetime, fmt):
+    return arrow.Arrow.fromdatetime(datetime).to(settings.TIME_ZONE).format(fmt)

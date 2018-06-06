@@ -3,7 +3,6 @@ from collections import OrderedDict
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
-from django.template.defaultfilters import date, time
 from django.urls import resolve, reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
@@ -12,6 +11,7 @@ from django.views.generic.edit import FormView
 
 from website import models
 from website.forms import DeleteForm, SalonRegistrationForm
+from website.utils import format_time
 from website.views.event import Event
 from website.views.page import Page
 
@@ -46,12 +46,12 @@ def get_nav_items(salon, request):
 
 def get_sidebar_info(salon):
     info = OrderedDict()
-    info['活動時間'] = '%s %s~%s' % (date(salon.start_time, 'Y/m/d'), time(salon.start_time), time(salon.end_time))
-    info['入場時間'] = time(salon.door_time)
+    info['活動時間'] = '%s ~ %s' % (format_time(salon.start_time, 'YYYY/MM/DD HH:mm'), format_time(salon.end_time, 'HH:mm'))
+    info['入場時間'] = format_time(salon.door_time, 'HH:mm')
     info['活動地點'] = salon.venue
     info['活動地址'] = salon.address
-    info['報名時間'] = '%s ~ %s' % (date(salon.registration_start_time, 'Y/m/d H:i'),
-                                date(salon.registration_end_time, 'Y/m/d H:i'))
+    info['報名時間'] = '%s ~ %s' % (format_time(salon.registration_start_time, 'YYYY/MM/DD HH:mm'),
+                                format_time(salon.registration_end_time, 'YYYY/MM/DD HH:mm'))
     return info
 
 

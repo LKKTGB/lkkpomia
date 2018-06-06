@@ -5,7 +5,6 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
-from django.template.defaultfilters import date
 from django.urls import resolve, reverse
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
@@ -14,6 +13,7 @@ from django.views.generic.edit import FormView
 
 from website import models
 from website.forms import VideoContestRegistrationForm, VideoContestVoteForm
+from website.utils import format_time
 from website.utils import handle_old_connections
 from website.views.base import get_login_modal
 from website.views.event import Event
@@ -58,11 +58,12 @@ def get_nav_items(video_contest, request):
 
 def get_sidebar_info(video_contest):
     info = OrderedDict()
-    info['活動時間'] = '%s ~ %s' % (date(video_contest.start_time, 'Y/m/d'), date(video_contest.end_time, 'Y/m/d'))
-    info['報名時間'] = '%s ~ %s' % (date(video_contest.registration_start_time, 'Y/m/d H:i'),
-                                date(video_contest.registration_end_time, 'Y/m/d H:i'))
-    info['投票時間'] = '%s ~ %s' % (date(video_contest.voting_start_time, 'Y/m/d H:i'),
-                                date(video_contest.voting_end_time, 'Y/m/d H:i'))
+    info['活動時間'] = '%s ~ %s' % (format_time(video_contest.start_time, 'YYYY/MM/DD'),
+                                format_time(video_contest.end_time, 'YYYY/MM/DD'))
+    info['報名時間'] = '%s ~ %s' % (format_time(video_contest.registration_start_time, 'YYYY/MM/DD HH:mm'),
+                                format_time(video_contest.registration_end_time, 'YYYY/MM/DD HH:mm'))
+    info['投票時間'] = '%s ~ %s' % (format_time(video_contest.voting_start_time, 'YYYY/MM/DD HH:mm'),
+                                format_time(video_contest.voting_end_time, 'YYYY/MM/DD HH:mm'))
     return info
 
 
