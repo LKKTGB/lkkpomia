@@ -19,14 +19,15 @@ class Posts(Page, ListView):
     show_headline = False
 
     def get_queryset(self):
+        queryset = super().get_queryset()
         tag = self.request.GET.get('tag', None)
         keyword = self.request.GET.get('search', None)
         if keyword:
-            queryset = self.model.objects.filter(title__icontains=keyword)
+            queryset = queryset.filter(title__icontains=keyword)
         elif tag:
-            queryset = self.model.objects.filter(tags__name__in=(tag,))
+            queryset = queryset.filter(tags__name__in=(tag,))
         else:
-            queryset = self.model.objects.all()
+            queryset = queryset.all()
 
         if self.show_headline:
             headline = self.get_headline()
