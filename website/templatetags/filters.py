@@ -42,6 +42,15 @@ def status(event):
 
 
 @register.filter
+def is_registration_open(event):
+    now = timezone.now()
+    if now > event.registration_start_time and now < event.registration_end_time:
+        return True
+    else:
+        return False
+
+
+@register.filter
 def tags(event):
     if hasattr(event, 'salon'):
         return event.salon.tags.all()
