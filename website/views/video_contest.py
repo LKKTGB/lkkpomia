@@ -25,7 +25,6 @@ def get_nav_items(video_contest, request):
     now = timezone.now()
     contest_started = now > video_contest.registration_start_time
     winners_announced = models.VideoContestWinner.objects.filter(video_contest=video_contest).exists()
-    registration_finished = now > video_contest.registration_end_time
 
     current_tab = resolve(request.path_info).url_name
 
@@ -35,12 +34,6 @@ def get_nav_items(video_contest, request):
         'link': reverse('post', kwargs={'post_id': video_contest.id}),
         'active': current_tab == 'post'
     })
-    if not registration_finished:
-        nav_items.append({
-            'name': '我要報名',
-            'link': reverse('form', kwargs={'post_id': video_contest.id}),
-            'active': current_tab == 'form'
-        })
     if contest_started:
         nav_items.append({
             'name': '參賽影片',
@@ -70,6 +63,16 @@ def get_sidebar_info(video_contest):
         'body': '%s ~ %s' % (format_time(video_contest.voting_start_time, 'YYYY/MM/DD HH:mm'),
                              format_time(video_contest.voting_end_time, 'YYYY/MM/DD HH:mm'))
     }]
+
+    now = timezone.now()
+    started = now > video_contest.registration_start_time
+    finished = now > video_contest.registration_end_time
+    if started and not finished:
+        info.append({
+            'title': '點我報名',
+            'link': reverse('form', kwargs={'post_id': video_contest.id}),
+            'type': 'button'
+        })
     return info
 
 

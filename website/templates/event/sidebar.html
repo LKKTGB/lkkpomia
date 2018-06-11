@@ -1,13 +1,19 @@
 
 {% for content in sidebar_info %}
-<div class="mx-0 my-2">
-    <p class="mb-0">
-        <strong class="d-inline-block text-dark">
-            {{ content.title }}
-        </strong>
-    </p>
-    <p class="mb-0">
-        {{ content.body }}
-    </p>
-</div>
+{% if content.type == "button" %}
+    <a class="btn btn-outline-dark w-100 my-1" href="{{ content.link }}">
+        {{ content.title }}
+    </a>
+{% else %}
+    <div class="mx-0 my-2">
+        <p class="mb-0">
+            <strong class="d-inline-block text-dark">
+                {{ content.title }}
+            </strong>
+        </p>
+        <p class="mb-0">
+            {{ content.body }}
+        </p>
+    </div>
+{% endif %}
 {% endfor %}
