@@ -47,6 +47,12 @@ def get_sidebar_info(salon, request):
                              format_time(salon.registration_end_time, 'YYYY/MM/DD HH:mm'))
     }]
 
+    if salon.capacity > 0:
+        info.append({
+            'title': '報名狀況',
+            'body': '%d／%d' % (models.SalonRegistration.objects.filter(event=salon).count(), salon.capacity)
+        })
+
     now = timezone.now()
     started = now > salon.registration_start_time
     finished = now > salon.registration_end_time
