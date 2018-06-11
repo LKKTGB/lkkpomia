@@ -143,8 +143,7 @@ class SalonRegistrationFormView(FormView):
                 'name': '我知道了',
                 'url': reverse('post', args=(self.salon.id,))
             }]
-        elif self.salon.capacity > 0 and \
-                models.SalonRegistration.objects.filter(event=self.salon).count() >= self.salon.capacity:
+        elif self.salon.full_capacity():
             body = '名額已滿'
             actions = [{
                 'name': '我知道了',
