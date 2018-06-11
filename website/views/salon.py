@@ -47,6 +47,12 @@ def get_sidebar_info(salon, request):
                              format_time(salon.registration_end_time, 'YYYY/MM/DD HH:mm'))
     }]
 
+    if salon.capacity > 0:
+        info.append({
+            'title': '報名狀況',
+            'body': '%d／%d' % (models.SalonRegistration.objects.filter(event=salon).count(), salon.capacity)
+        })
+
     now = timezone.now()
     started = now > salon.registration_start_time
     finished = now > salon.registration_end_time
@@ -133,6 +139,12 @@ class SalonRegistrationFormView(FormView):
             }]
         elif now > self.salon.registration_end_time:
             body = '已截止報名'
+            actions = [{
+                'name': '我知道了',
+                'url': reverse('post', args=(self.salon.id,))
+            }]
+        elif self.salon.full_capacity():
+            body = '名額已滿'
             actions = [{
                 'name': '我知道了',
                 'url': reverse('post', args=(self.salon.id,))
