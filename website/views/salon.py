@@ -3,7 +3,6 @@ from collections import OrderedDict
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
-from django.template.defaultfilters import date, time
 from django.urls import resolve, reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
@@ -12,15 +11,13 @@ from django.views.generic.edit import FormView
 
 from website import models
 from website.forms import DeleteForm, SalonRegistrationForm
+from website.utils import format_time
 from website.views.event import Event
 from website.views.page import Page
 
 
 def get_nav_items(salon, request):
-    now = timezone.now()
     current_tab = resolve(request.path_info).url_name
-    registration_started = now > salon.registration_start_time
-    registration_finished = now > salon.registration_end_time
 
     nav_items = []
     nav_items.append({
@@ -28,31 +25,45 @@ def get_nav_items(salon, request):
         'link': reverse('post', kwargs={'post_id': salon.id}),
         'active': current_tab == 'post'
     })
-    if registration_started and not registration_finished:
-        nav_items.append({
-            'name': '我要報名',
-            'link': reverse('form', kwargs={'post_id': salon.id}),
-            'active': current_tab == 'form'
-        })
-        if not request.user.is_anonymous and \
-                models.SalonRegistration.objects.filter(event=salon.id, submitter=request.user).exists():
-            nav_items.append({
-                'name': '取消報名',
-                'link': reverse('forms', kwargs={'post_id': salon.id}),
-                'active': current_tab == 'forms'
-            })
     return nav_items
 
 
-def get_sidebar_info(salon):
-    info = OrderedDict()
-    info['活動時間'] = '%s %s~%s' % (date(salon.start_time, 'Y/m/d'), time(salon.start_time), time(salon.end_time))
-    info['入場時間'] = time(salon.door_time)
-    info['活動地點'] = salon.venue
-    info['活動地址'] = salon.address
-    info['報名時間'] = '%s ~ %s' % (date(salon.registration_start_time, 'Y/m/d H:i'),
-                                date(salon.registration_end_time, 'Y/m/d H:i'))
-    info['報名狀況'] = '已有 %d 人報名參加' % models.SalonRegistration.objects.filter(event=salon).count()
+def get_sidebar_info(salon, request):
+    info = [{
+        'title': '活動時間',
+        'body': '%s ~ %s' % (format_time(salon.start_time, 'YYYY/MM/DD HH:mm'), format_time(salon.end_time, 'HH:mm'))
+    }, {
+        'title': '入場時間',
+        'body': format_time(salon.door_time, 'HH:mm')
+    }, {
+        'title': '活動地點',
+        'body': salon.venue
+    }, {
+        'title': '活動地址',
+        'body': salon.address
+    }, {
+        'title': '報名時間',
+        'body': '%s ~ %s' % (format_time(salon.registration_start_time, 'YYYY/MM/DD HH:mm'),
+                             format_time(salon.registration_end_time, 'YYYY/MM/DD HH:mm'))
+    }]
+
+    now = timezone.now()
+    started = now > salon.registration_start_time
+    finished = now > salon.registration_end_time
+    if started and not finished:
+        info.append({
+            'title': '點我報名',
+            'link': reverse('form', kwargs={'post_id': salon.id}),
+            'type': 'button'
+        })
+        if not request.user.is_anonymous and \
+                models.SalonRegistration.objects.filter(event=salon.id, submitter=request.user).exists():
+            info.append({
+                'title': '取消報名',
+                'link': reverse('forms', kwargs={'post_id': salon.id}),
+                'type': 'button'
+            })
+
     return info
 
 
@@ -68,7 +79,7 @@ class Salon(Event):
             'url': reverse('post', kwargs={'post_id': self.object.id})
         }
         context_data['nav_items'] = get_nav_items(self.object, self.request)
-        context_data['sidebar_info'] = get_sidebar_info(self.object)
+        context_data['sidebar_info'] = get_sidebar_info(self.object, self.request)
         context_data['registration_modal'] = self.get_registration_modal()
         return context_data
 
@@ -94,7 +105,7 @@ class SalonRegistrationFormView(FormView):
             'url': reverse('post', kwargs={'post_id': self.salon.id})
         }
         context_data['nav_items'] = get_nav_items(self.salon, self.request)
-        context_data['sidebar_info'] = get_sidebar_info(self.salon)
+        context_data['sidebar_info'] = get_sidebar_info(self.salon, self.request)
         context_data['popup'] = self.get_popup()
         return context_data
 
@@ -173,7 +184,7 @@ class SalonForms(Page, ListView):
             'url': reverse('post', kwargs={'post_id': self.salon.id})
         }
         context_data['nav_items'] = get_nav_items(self.salon, self.request)
-        context_data['sidebar_info'] = get_sidebar_info(self.salon)
+        context_data['sidebar_info'] = get_sidebar_info(self.salon, self.request)
         context_data['delete_form'] = DeleteForm()
         return context_data
 

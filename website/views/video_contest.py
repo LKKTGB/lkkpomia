@@ -5,7 +5,6 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
-from django.template.defaultfilters import date
 from django.urls import resolve, reverse
 from django.utils import timezone
 from django.views.generic import DetailView, ListView
@@ -14,6 +13,7 @@ from django.views.generic.edit import FormView
 
 from website import models
 from website.forms import VideoContestRegistrationForm, VideoContestVoteForm
+from website.utils import format_time
 from website.utils import handle_old_connections
 from website.views.base import get_login_modal
 from website.views.event import Event
@@ -25,7 +25,6 @@ def get_nav_items(video_contest, request):
     now = timezone.now()
     contest_started = now > video_contest.registration_start_time
     winners_announced = models.VideoContestWinner.objects.filter(video_contest=video_contest).exists()
-    registration_finished = now > video_contest.registration_end_time
 
     current_tab = resolve(request.path_info).url_name
 
@@ -35,12 +34,6 @@ def get_nav_items(video_contest, request):
         'link': reverse('post', kwargs={'post_id': video_contest.id}),
         'active': current_tab == 'post'
     })
-    if not registration_finished:
-        nav_items.append({
-            'name': '我要報名',
-            'link': reverse('form', kwargs={'post_id': video_contest.id}),
-            'active': current_tab == 'form'
-        })
     if contest_started:
         nav_items.append({
             'name': '參賽影片',
@@ -57,14 +50,29 @@ def get_nav_items(video_contest, request):
 
 
 def get_sidebar_info(video_contest):
-    info = OrderedDict()
-    info['活動時間'] = '%s ~ %s' % (date(video_contest.start_time, 'Y/m/d'), date(video_contest.end_time, 'Y/m/d'))
-    info['報名時間'] = '%s ~ %s' % (date(video_contest.registration_start_time, 'Y/m/d H:i'),
-                                date(video_contest.registration_end_time, 'Y/m/d H:i'))
-    info['投票時間'] = '%s ~ %s' % (date(video_contest.voting_start_time, 'Y/m/d H:i'),
-                                date(video_contest.voting_end_time, 'Y/m/d H:i'))
-    info['報名狀況'] = '已有 %d 人報名成功' % models.VideoContestRegistration.objects.filter(
-        event=video_contest, qualified=True).count()
+    info = [{
+        'title': '活動時間',
+        'body': '%s ~ %s' % (format_time(video_contest.start_time, 'YYYY/MM/DD'),
+                             format_time(video_contest.end_time, 'YYYY/MM/DD'))
+    }, {
+        'title': '報名時間',
+        'body': '%s ~ %s' % (format_time(video_contest.registration_start_time, 'YYYY/MM/DD HH:mm'),
+                             format_time(video_contest.registration_end_time, 'YYYY/MM/DD HH:mm'))
+    }, {
+        'title': '投票時間',
+        'body': '%s ~ %s' % (format_time(video_contest.voting_start_time, 'YYYY/MM/DD HH:mm'),
+                             format_time(video_contest.voting_end_time, 'YYYY/MM/DD HH:mm'))
+    }]
+
+    now = timezone.now()
+    started = now > video_contest.registration_start_time
+    finished = now > video_contest.registration_end_time
+    if started and not finished:
+        info.append({
+            'title': '點我報名',
+            'link': reverse('form', kwargs={'post_id': video_contest.id}),
+            'type': 'button'
+        })
     return info
 
 
