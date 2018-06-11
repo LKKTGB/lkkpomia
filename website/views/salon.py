@@ -45,13 +45,23 @@ def get_nav_items(salon, request):
 
 
 def get_sidebar_info(salon):
-    info = OrderedDict()
-    info['活動時間'] = '%s ~ %s' % (format_time(salon.start_time, 'YYYY/MM/DD HH:mm'), format_time(salon.end_time, 'HH:mm'))
-    info['入場時間'] = format_time(salon.door_time, 'HH:mm')
-    info['活動地點'] = salon.venue
-    info['活動地址'] = salon.address
-    info['報名時間'] = '%s ~ %s' % (format_time(salon.registration_start_time, 'YYYY/MM/DD HH:mm'),
-                                format_time(salon.registration_end_time, 'YYYY/MM/DD HH:mm'))
+    info = [{
+        'title': '活動時間',
+        'body': '%s ~ %s' % (format_time(salon.start_time, 'YYYY/MM/DD HH:mm'), format_time(salon.end_time, 'HH:mm'))
+    }, {
+        'title': '入場時間',
+        'body': format_time(salon.door_time, 'HH:mm')
+    }, {
+        'title': '活動地點',
+        'body': salon.venue
+    }, {
+        'title': '活動地址',
+        'body': salon.address
+    }, {
+        'title': '報名時間',
+        'body': '%s ~ %s' % (format_time(salon.registration_start_time, 'YYYY/MM/DD HH:mm'),
+                             format_time(salon.registration_end_time, 'YYYY/MM/DD HH:mm'))
+    }]
     return info
 
 

@@ -1,13 +1,13 @@
 
-{% for type, content in info.items %}
+{% for content in sidebar_info %}
 <div class="mx-0 my-2">
     <p class="mb-0">
         <strong class="d-inline-block text-dark">
-            {{ type }}
+            {{ content.title }}
         </strong>
     </p>
     <p class="mb-0">
-        {{ content }}
+        {{ content.body }}
     </p>
 </div>
 {% endfor %}

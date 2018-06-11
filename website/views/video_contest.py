@@ -57,13 +57,19 @@ def get_nav_items(video_contest, request):
 
 
 def get_sidebar_info(video_contest):
-    info = OrderedDict()
-    info['活動時間'] = '%s ~ %s' % (format_time(video_contest.start_time, 'YYYY/MM/DD'),
-                                format_time(video_contest.end_time, 'YYYY/MM/DD'))
-    info['報名時間'] = '%s ~ %s' % (format_time(video_contest.registration_start_time, 'YYYY/MM/DD HH:mm'),
-                                format_time(video_contest.registration_end_time, 'YYYY/MM/DD HH:mm'))
-    info['投票時間'] = '%s ~ %s' % (format_time(video_contest.voting_start_time, 'YYYY/MM/DD HH:mm'),
-                                format_time(video_contest.voting_end_time, 'YYYY/MM/DD HH:mm'))
+    info = [{
+        'title': '活動時間',
+        'body': '%s ~ %s' % (format_time(video_contest.start_time, 'YYYY/MM/DD'),
+                             format_time(video_contest.end_time, 'YYYY/MM/DD'))
+    }, {
+        'title': '報名時間',
+        'body': '%s ~ %s' % (format_time(video_contest.registration_start_time, 'YYYY/MM/DD HH:mm'),
+                             format_time(video_contest.registration_end_time, 'YYYY/MM/DD HH:mm'))
+    }, {
+        'title': '投票時間',
+        'body': '%s ~ %s' % (format_time(video_contest.voting_start_time, 'YYYY/MM/DD HH:mm'),
+                             format_time(video_contest.voting_end_time, 'YYYY/MM/DD HH:mm'))
+    }]
     return info
 
 
