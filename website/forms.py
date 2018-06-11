@@ -133,3 +133,7 @@ class SalonRegistrationForm(forms.ModelForm):
             raise forms.ValidationError(
                 '已截止報名'
             )
+        elif models.SalonRegistration.objects.filter(event=self.salon).count() >= self.salon.capacity:
+            raise forms.ValidationError(
+                '名額已滿'
+            )
