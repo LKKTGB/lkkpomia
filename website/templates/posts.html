@@ -65,23 +65,24 @@
                             <a class="btn btn-sm btn-outline-dark" href="{% url 'form' post_id=event.id %}">點我報名</a>
                         </div>
                     {% endif %}
-
-                    <div class="row">
-                        <div class="col">
-                            {% for status in event|status %}
-                                <span class="badge badge-success">
-                                    {{ status }}
-                                </span>
-                            {% endfor %}
-                        </div>
-                        <div class="col text-right">
-                            {% for tag in event|tags %}
-                                <small>
-                                    <a class="text-muted border-bottom border-secondary font-italic ml-2" href="{% url 'posts' %}?tag={{ tag.name }}">
-                                        {{ tag.name }}
-                                    </a>
-                                </small>
-                            {% endfor %}
+                    <div class="card-footer bg-transparent p-0 pt-2">
+                        <div class="row">
+                            <div class="col">
+                                {% for status in event|status %}
+                                    <span class="badge badge-success">
+                                        {{ status }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                            <div class="col text-right">
+                                {% for tag in event|tags %}
+                                    <small>
+                                        <a class="text-muted border-bottom border-secondary font-italic ml-2" href="{% url 'posts' %}?tag={{ tag.name }}">
+                                            {{ tag.name }}
+                                        </a>
+                                    </small>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
