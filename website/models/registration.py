@@ -17,3 +17,7 @@ class Registration(models.Model):
 
     def __str__(self):
         return '%s - %s' % (self.event.title, self.submitter.username)
+
+    def submitter_full_name(self):
+        return self.submitter.get_full_name()
+    submitter_full_name.short_description = _('registration_submitter_full_name')

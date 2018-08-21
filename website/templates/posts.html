@@ -7,7 +7,7 @@
 
 {% if show_headline and headline %}
     <div class="jumbotron jumbotron-fluid p-3 p-md-5 text-white rounded bg-dark">
-        {% url 'post' post_id=headline.id as headline_url %}
+        {% url 'post' post_id=headline.post.id as headline_url %}
         <div class="row">
             {% if headline.post.cover_url %}
             <div class="col-12 col-lg-6 order-lg-last mb-3 mb-lg-0">
@@ -35,53 +35,54 @@
     </div>
 {% endif %}
 
-<div class="col">
-    {% if keyword %}
-        <p>
-            「{{ keyword }}」搜尋結果：
-        </p>
-    {% endif %}
+{% if keyword %}
+    <p>
+        「{{ keyword }}」搜尋結果：
+    </p>
+{% endif %}
+<div class="row">
     {% for event in object_list  %}
         {% url 'post' post_id=event.id as post_url %}
-
-        <div class="row border box-shadow rounded bg-white mb-4 px-2 py-3">
-            {% if event.cover_url %}
-                <div class="col-12 col-md-4 order-md-last mb-3 mb-lg-0">
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="card box-shadow mb-4">
+                {% if event.cover_url %}
                     <a href="{{ post_url }}">
-                        <img class="w-100 my-3" src="{{ event.cover_url }}">
+                        <img class="card-img-top" src="{{ event.cover_url }}">
                     </a>
-                </div>
-            {% endif %}
-            <div class="col">
-                <h3 class="mb-0">
-                    <a class="text-dark" href="{{ post_url }}">
-                        {{ event.title }}
-                    </a>
-                </h3>
-                <div class="mb-2 text-muted">
-                    {{ event.start_time|date:'Y 年 m 月 d 日' }}
-                </div>
-                <div class="card-text mb-auto">
-                    {{ event.summary|linebreaks }}
-                </div>
-
-                <div class="row mt-5">
-                    <div class="col">
-                        {% for status in event|status %}
-                            <span class="badge badge-success">
-                                {{ status }}
-                            </span>
-                        {% endfor %}
+                {% endif %}
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <a class="text-dark" href="{{ post_url }}">
+                            {{ event.title }}
+                        </a>
+                    </h3>
+                    <div class="card-subtitle mb-2 text-muted">
+                        {{ event.start_time|date:'Y 年 m 月 d 日' }}
                     </div>
-                    <div class="col text-right">
-                        <div>
-                            {% for tag in event|tags %}
-                                <small>
-                                    <a class="text-muted border-bottom border-secondary font-italic ml-2" href="{% url 'posts' %}?tag={{ tag.name }}">
-                                        {{ tag.name }}
-                                    </a>
-                                </small>
-                            {% endfor %}
+
+                    {% if event|is_registration_open %}
+                        <div class="my-3">
+                            <a class="btn btn-sm btn-outline-dark" href="{% url 'form' post_id=event.id %}">點我報名</a>
+                        </div>
+                    {% endif %}
+                    <div class="card-footer bg-transparent p-0 pt-2">
+                        <div class="row">
+                            <div class="col">
+                                {% for status in event|status %}
+                                    <span class="badge badge-success">
+                                        {{ status }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                            <div class="col text-right">
+                                {% for tag in event|tags %}
+                                    <small>
+                                        <a class="text-muted border-bottom border-secondary font-italic ml-2" href="{% url 'posts' %}?tag={{ tag.name }}">
+                                            {{ tag.name }}
+                                        </a>
+                                    </small>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
