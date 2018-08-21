@@ -7,7 +7,7 @@
 
 {% if show_headline and headline %}
     <div class="jumbotron jumbotron-fluid p-3 p-md-5 text-white rounded bg-dark">
-        {% url 'post' post_id=headline.id as headline_url %}
+        {% url 'post' post_id=headline.post.id as headline_url %}
         <div class="row">
             {% if headline.post.cover_url %}
             <div class="col-12 col-lg-6 order-lg-last mb-3 mb-lg-0">
