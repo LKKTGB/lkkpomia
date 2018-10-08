@@ -6,6 +6,10 @@ DEBUG = False
 
 GA_TRACKING_ID = 'UA-114678735-1'
 
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
 ALLOWED_HOSTS = [
     'lkkpomia.tgb.org.tw',
     'lkk-website-production.herokuapp.com',
