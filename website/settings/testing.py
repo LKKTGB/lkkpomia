@@ -2,7 +2,9 @@ import dj_database_url
 
 from website.settings.base import *
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'lkkpomia-testing.azurewebsites.net',
+]
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)

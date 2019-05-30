@@ -13,6 +13,7 @@ CSRF_COOKIE_SECURE = True
 ALLOWED_HOSTS = [
     'lkkpomia.tgb.org.tw',
     'lkk-website-production.herokuapp.com',
+    'lkkpomia-production.azurewebsites.net',
 ]
 
 # WhiteNoise
