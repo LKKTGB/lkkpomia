@@ -5,6 +5,11 @@ import dj_database_url
 
 from website.settings.base import *
 
+# security
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
 ALLOWED_HOSTS = [
     'lkkpomia-testing.azurewebsites.net',
 ]
