@@ -6,13 +6,15 @@ DEBUG = False
 
 GA_TRACKING_ID = 'UA-114678735-1'
 
-SECURE_SSL_REDIRECT = True
+# security
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 
 ALLOWED_HOSTS = [
     'lkkpomia.tgb.org.tw',
     'lkk-website-production.herokuapp.com',
+    'lkkpomia-production.azurewebsites.net',
 ]
 
 # WhiteNoise
