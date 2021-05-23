@@ -1,5 +1,5 @@
 service ?= lkkpomia
-env ?= testing
+env ?= stage
 
 azure/deploy:
 	git archive -o $(service).zip HEAD && \

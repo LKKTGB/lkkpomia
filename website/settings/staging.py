@@ -1,13 +1,6 @@
-import dj_database_url
+import os
 
-from website.settings.base import *
+from website.settings.production import *
 
-ALLOWED_HOSTS = ['*']
-
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+DEBUG = True if "DEBUG" in os.environ else False
+ALLOWED_HOSTS = ["lkkpomia-stage.azurewebsites.net"]
