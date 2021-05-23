@@ -162,7 +162,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
-LANGUAGE_CODE = 'zh-Hant'
+LANGUAGE_CODE = 'zh-hant'
 
 TIME_ZONE = 'Asia/Taipei'
 
@@ -177,3 +177,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
