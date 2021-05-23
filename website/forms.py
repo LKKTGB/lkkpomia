@@ -139,6 +139,10 @@ class SalonRegistrationForm(forms.ModelForm):
             raise forms.ValidationError(
                 '超過活動名額，只能再報名 %s 人' % (self.salon.capacity - self.salon.attendance())
             )
+        if self.cleaned_data['attendance'] > 1 and not self.cleaned_data['other_attendees_info']:
+            raise forms.ValidationError(
+                '請填入其他出席者姓名'
+            )
 
         now = timezone.now()
         if now < self.salon.registration_start_time:
