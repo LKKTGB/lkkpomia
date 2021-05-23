@@ -32,6 +32,8 @@
                 <th>姓名</th>
                 <th>電話</th>
                 <th>信箱</th>
+                <th>總出席人數</th>
+                <th>其他出席者姓名</th>
             </tr>
         </thead>
         <tbody>
@@ -40,6 +42,8 @@
                 <td align="center">{{ reg.contestant_name }}</td>
                 <td align="center">{{ reg.phone_number }}</td>
                 <td align="center">{{ reg.email }}</td>
+                <td align="center">{{ reg.attendance }}</td>
+                <td align="center">{{ reg.other_attendees_info }}</td>
             </tr>
         {% endfor %}
         </tbody>
