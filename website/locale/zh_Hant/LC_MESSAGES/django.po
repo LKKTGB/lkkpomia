@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-12 22:00+0800\n"
+"POT-Creation-Date: 2021-05-23 17:29+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -265,6 +265,10 @@ msgid "salon_need_phone_number"
 msgstr "報名是否需要提供電話"
 
 #: website/models/salon.py
+msgid "max_attendance_per_registration"
+msgstr "每張報名表最多出席人數"
+
+#: website/models/salon.py
 msgid "salon"
 msgstr "講座"
 
@@ -283,6 +287,14 @@ msgstr "聯絡電話"
 #: website/models/salon_registration.py
 msgid "salon_registration_email"
 msgstr "聯絡 E-mail"
+
+#: website/models/salon_registration.py
+msgid "salon_registration_attendance"
+msgstr "總出席人數"
+
+#: website/models/salon_registration.py
+msgid "salon_registration_other_attendees_info"
+msgstr "其他出席者姓名"
 
 #: website/models/salon_registration.py
 msgid "salon_registration"
