@@ -131,6 +131,11 @@ class SalonRegistrationForm(forms.ModelForm):
     def clean(self):
         super().clean()
 
+        if self.cleaned_data['attendance'] > self.salon.max_attendance_per_registration:
+            raise forms.ValidationError(
+                '總出席人數最多 %s 人' % self.salon.max_attendance_per_registration
+            )
+
         now = timezone.now()
         if now < self.salon.registration_start_time:
             raise forms.ValidationError(
