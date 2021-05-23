@@ -135,6 +135,10 @@ class SalonRegistrationForm(forms.ModelForm):
             raise forms.ValidationError(
                 '總出席人數最多 %s 人' % self.salon.max_attendance_per_registration
             )
+        if self.salon.capacity > 0 and self.cleaned_data['attendance'] + self.salon.attendance() > self.salon.capacity:
+            raise forms.ValidationError(
+                '超過活動名額，只能再報名 %s 人' % (self.salon.capacity - self.salon.attendance())
+            )
 
         now = timezone.now()
         if now < self.salon.registration_start_time:
