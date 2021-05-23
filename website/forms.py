@@ -121,6 +121,13 @@ class SalonRegistrationForm(forms.ModelForm):
             if not self.fields[field_name].required:
                 self.fields[field_name].label += '（選填）'
 
+        if salon.max_attendance_per_registration == 1:
+            self.fields['attendance'].widget = HiddenInput()
+            self.fields['other_attendees_info'].widget = HiddenInput()
+        else:
+            self.fields['attendance'].label += '（最多 %s 人）' % salon.max_attendance_per_registration
+            self.fields['other_attendees_info'].label += '（若總出席人數超過 1 人則必填）'
+
     def clean(self):
         super().clean()
 
