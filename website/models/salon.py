@@ -22,7 +22,7 @@ class Salon(Event):
 
     def attendance(self):
         return SalonRegistration.objects.filter(
-            event=self).aggregate(attendance=Sum('attendance'))['attendance']
+            event=self).aggregate(attendance=Sum('attendance'))['attendance'] or 0
 
     def full_capacity(self):
         if self.capacity == 0:
