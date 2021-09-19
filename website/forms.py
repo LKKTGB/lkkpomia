@@ -121,8 +121,28 @@ class SalonRegistrationForm(forms.ModelForm):
             if not self.fields[field_name].required:
                 self.fields[field_name].label += '（選填）'
 
+        if salon.max_attendance_per_registration == 1:
+            self.fields['attendance'].widget = HiddenInput()
+            self.fields['other_attendees_info'].widget = HiddenInput()
+        else:
+            self.fields['attendance'].label += '（最多 %s 人）' % salon.max_attendance_per_registration
+            self.fields['other_attendees_info'].label += '（若總出席人數超過 1 人則必填）'
+
     def clean(self):
         super().clean()
+
+        if self.cleaned_data['attendance'] > self.salon.max_attendance_per_registration:
+            raise forms.ValidationError(
+                '總出席人數最多 %s 人' % self.salon.max_attendance_per_registration
+            )
+        if self.salon.capacity > 0 and self.cleaned_data['attendance'] + self.salon.attendance() > self.salon.capacity:
+            raise forms.ValidationError(
+                '超過活動名額，只能再報名 %s 人' % (self.salon.capacity - self.salon.attendance())
+            )
+        if self.cleaned_data['attendance'] > 1 and not self.cleaned_data['other_attendees_info']:
+            raise forms.ValidationError(
+                '請填入其他出席者姓名'
+            )
 
         now = timezone.now()
         if now < self.salon.registration_start_time:

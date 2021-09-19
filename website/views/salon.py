@@ -50,7 +50,7 @@ def get_sidebar_info(salon, request):
     if salon.capacity > 0:
         info.append({
             'title': '報名狀況',
-            'body': '%d／%d' % (models.SalonRegistration.objects.filter(event=salon).count(), salon.capacity)
+            'body': '%d／%d' % (salon.attendance(), salon.capacity)
         })
 
     now = timezone.now()
@@ -124,7 +124,9 @@ class SalonRegistrationFormView(FormView):
             event=self.salon,
             contestant_name=form.cleaned_data['contestant_name'],
             phone_number=form.cleaned_data['phone_number'],
-            email=form.cleaned_data['email']
+            email=form.cleaned_data['email'],
+            attendance=form.cleaned_data['attendance'],
+            other_attendees_info=form.cleaned_data['other_attendees_info']
         )
         registration.save()
         return super().form_valid(form)

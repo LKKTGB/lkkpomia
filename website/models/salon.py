@@ -1,8 +1,10 @@
+from django.core.validators import MinValueValidator
 from django.db import models
+from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 
 from website.models.event import Event
-from website.models.registration import Registration
+from website.models.salon_registration import SalonRegistration
 
 
 class Salon(Event):
@@ -12,12 +14,17 @@ class Salon(Event):
     capacity = models.PositiveSmallIntegerField(_('salon_capacity'), default=0)
     need_email = models.BooleanField(_('salon_need_email'), default=False)
     need_phone_number = models.BooleanField(_('salon_need_phone_number'), default=False)
+    max_attendance_per_registration = models.PositiveSmallIntegerField(_('max_attendance_per_registration'), default=1, validators=[MinValueValidator(limit_value=1)])
 
     class Meta:
         verbose_name = _('salon')
         verbose_name_plural = _('salons')
 
+    def attendance(self):
+        return SalonRegistration.objects.filter(
+            event=self).aggregate(attendance=Sum('attendance'))['attendance'] or 0
+
     def full_capacity(self):
         if self.capacity == 0:
             return False
-        return Registration.objects.filter(event=self).count() >= self.capacity
+        return self.attendance() >= self.capacity
