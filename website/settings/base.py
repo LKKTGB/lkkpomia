@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'social_django',
     'solo',
     'taggit',
+    'tinymce',
     'widget_tweaks',
     'website.apps.WebsiteConfig',
 ]
@@ -179,3 +180,27 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+# TinyMCE
+TINYMCE_DEFAULT_CONFIG = {
+    "selector": "textarea",
+    "language": "zh_TW",
+    "height": 500,
+    "menubar": False,
+    "plugins": "lists,link,image,media,paste,wordcount",
+    "toolbar": "formatselect bold italic | numlist bullist | alignleft aligncenter | link image media",
+    # formatselect
+    "block_formats": "內文=p;大標題=h3;小標題=h4",
+    # link
+    "link_title": False,
+    # media
+    "media_alt_source": False,
+    "media_poster": False,
+    "media_dimensions": False,
+    # paste
+    "paste_as_text": True,
+    "content_css": [
+        "//fonts.googleapis.com/css?family=Lato:300,300i,400,400i",
+        "//www.tinymce.com/css/codepen.min.css",
+    ],
+}

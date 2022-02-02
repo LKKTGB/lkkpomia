@@ -9,12 +9,6 @@ from website import models
 class SalonAdmin(admin.ModelAdmin):
     list_display = ('title', 'start_time', 'end_time', 'venue', 'checkin_table')
 
-    class Media:
-        js = [
-            'js/tinymce/tinymce.min.js',
-            'js/tinymce_settings.js',
-        ]
-
     def checkin_table(self, obj):
         return mark_safe('<a href="%s">簽到表</a>' % reverse('admin:salon_attendees', kwargs={'object_id': obj.id}))
     checkin_table.short_description = '簽到表'

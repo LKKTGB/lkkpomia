@@ -39,9 +39,3 @@ class VideoContestAdmin(admin.ModelAdmin):
         VideoContestGroupInline,
         VideoContestWinnerInline,
     ]
-
-    class Media:
-        js = [
-            'js/tinymce/tinymce.min.js',
-            'js/tinymce_settings.js',
-        ]
