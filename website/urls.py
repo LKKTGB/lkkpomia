@@ -19,6 +19,7 @@ from django.urls import include, path, reverse
 from django.views.generic.base import RedirectView
 
 from website import views as website_views
+from website.views import forms as forms_views
 from website.views import policy as policy_views
 from website.views import posts as posts_views
 from website.views import salon as salon_views
@@ -37,6 +38,7 @@ class HomeRedirectView(RedirectView):
 urlpatterns = [
     # path('', HomeRedirectView.as_view(), name='home'),
     path('', posts_views.Posts.as_view(show_headline=True), name='home'),
+    path("form/account_deletion", forms_views.account_deletion, name="account_deletion"),
     path('policies/privacy', policy_views.privacy, name='policy_privacy'),
     path('posts/', posts_views.Posts.as_view(show_headline=False), name='posts'),
     path('posts/<post_id>/', website_views.post, name='post'),
