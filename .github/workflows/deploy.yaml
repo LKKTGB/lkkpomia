@@ -31,9 +31,9 @@ jobs:
         if: contains(github.ref, 'refs/tags/')
         run: make azure/deploy env=prod
 
-      - name: Deploy to stage for Branch main or PR
+      - name: Deploy to prod for Branch main or PR
         if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
-        run: make azure/deploy env=stage
+        run: make azure/deploy env=prod
 
       - name: Logout
         run: az logout
