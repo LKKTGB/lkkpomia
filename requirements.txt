@@ -7,7 +7,7 @@ django-modeladmin-reorder==0.3.1
 django-solo==1.1.5
 django-taggit==1.4.0
 django-widgets-improved==1.5.0
-django-tinymce==3.4.0
+django-tinymce==4.1.0
 Django==3.2.23
 gunicorn==20.1.0
 psycopg2==2.9.9
