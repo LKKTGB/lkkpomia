@@ -11,5 +11,5 @@ django-tinymce==3.4.0
 Django==3.2.23
 gunicorn==20.1.0
 psycopg2==2.9.9
-social-auth-app-django==4.0.0
+social-auth-app-django==5.4.1
 whitenoise==5.2.0
